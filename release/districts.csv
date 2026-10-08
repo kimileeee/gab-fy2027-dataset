@@ -1,0 +1,255 @@
+﻿district_id,name,district_no,psgc_code,region_code
+abra-lone,Abra Lone,0,1400100000,14
+agusan-del-norte-lone,Agusan del Norte Lone,0,1600200000,16
+agusan-del-sur-1,Agusan del Sur 1,1,1600300000,16
+agusan-del-sur-2,Agusan del Sur 2,2,1600300000,16
+aklan-1,Aklan 1,1,0600400000,06
+aklan-2,Aklan 2,2,0600400000,06
+albay-1,Albay 1,1,0500500000,05
+albay-2,Albay 2,2,0500500000,05
+albay-3,Albay 3,3,0500500000,05
+antipolo-1,Antipolo 1,1,0405802000,04
+antipolo-2,Antipolo 2,2,0405802000,04
+antique-lone,Antique Lone,0,0600600000,06
+apayao-lone,Apayao Lone,0,1408100000,14
+aurora-lone,Aurora Lone,0,0307700000,03
+bacolod-lone,Bacolod Lone,0,1830200000,18
+baguio-lone,Baguio Lone,0,1430300000,14
+basilan-lone,Basilan Lone,0,1900700000,19
+bataan-1,Bataan 1,1,0300800000,03
+bataan-2,Bataan 2,2,0300800000,03
+bataan-3,Bataan 3,3,0300800000,03
+batanes-lone,Batanes Lone,0,0200900000,02
+batangas-1,Batangas 1,1,0401000000,04
+batangas-2,Batangas 2,2,0401000000,04
+batangas-3,Batangas 3,3,0401000000,04
+batangas-4,Batangas 4,4,0401000000,04
+batangas-5,Batangas 5,5,0401000000,04
+batangas-6,Batangas 6,6,0401000000,04
+benguet-lone,Benguet Lone,0,1401100000,14
+biliran-lone,Biliran Lone,0,0807800000,08
+binan-lone,Biñan Lone,0,0403403000,04
+bohol-1,Bohol 1,1,0701200000,07
+bohol-2,Bohol 2,2,0701200000,07
+bohol-3,Bohol 3,3,0701200000,07
+bukidnon-1,Bukidnon 1,1,1001300000,10
+bukidnon-2,Bukidnon 2,2,1001300000,10
+bukidnon-3,Bukidnon 3,3,1001300000,10
+bukidnon-4,Bukidnon 4,4,1001300000,10
+bulacan-1,Bulacan 1,1,0301400000,03
+bulacan-2,Bulacan 2,2,0301400000,03
+bulacan-3,Bulacan 3,3,0301400000,03
+bulacan-4,Bulacan 4,4,0301400000,03
+bulacan-5,Bulacan 5,5,0301400000,03
+bulacan-6,Bulacan 6,6,0301400000,03
+butuan-lone,Butuan Lone,0,1630400000,16
+cagayan-1,Cagayan 1,1,0201500000,02
+cagayan-2,Cagayan 2,2,0201500000,02
+cagayan-3,Cagayan 3,3,0201500000,02
+cagayan-de-oro-1,Cagayan de Oro 1,1,1030500000,10
+cagayan-de-oro-2,Cagayan de Oro 2,2,1030500000,10
+calamba-lone,Calamba Lone,0,0403405000,04
+caloocan-1,Caloocan 1,1,1380100000,13
+caloocan-2,Caloocan 2,2,1380100000,13
+caloocan-3,Caloocan 3,3,1380100000,13
+camarines-norte-1,Camarines Norte 1,1,0501600000,05
+camarines-norte-2,Camarines Norte 2,2,0501600000,05
+camarines-sur-1,Camarines Sur 1,1,0501700000,05
+camarines-sur-2,Camarines Sur 2,2,0501700000,05
+camarines-sur-3,Camarines Sur 3,3,0501700000,05
+camarines-sur-4,Camarines Sur 4,4,0501700000,05
+camarines-sur-5,Camarines Sur 5,5,0501700000,05
+camiguin-lone,Camiguin Lone,0,1001800000,10
+capiz-1,Capiz 1,1,0601900000,06
+capiz-2,Capiz 2,2,0601900000,06
+catanduanes-lone,Catanduanes Lone,0,0502000000,05
+cavite-1,Cavite 1,1,0402100000,04
+cavite-2,Cavite 2,2,0402100000,04
+cavite-3,Cavite 3,3,0402100000,04
+cavite-4,Cavite 4,4,0402100000,04
+cavite-5,Cavite 5,5,0402100000,04
+cavite-6,Cavite 6,6,0402100000,04
+cavite-7,Cavite 7,7,0402100000,04
+cavite-8,Cavite 8,8,0402100000,04
+cebu-1,Cebu 1,1,0702200000,07
+cebu-2,Cebu 2,2,0702200000,07
+cebu-3,Cebu 3,3,0702200000,07
+cebu-4,Cebu 4,4,0702200000,07
+cebu-5,Cebu 5,5,0702200000,07
+cebu-6,Cebu 6,6,0702200000,07
+cebu-7,Cebu 7,7,0702200000,07
+cebu-city-1,Cebu City 1,1,0730600000,07
+cebu-city-2,Cebu City 2,2,0730600000,07
+cotabato-1,Cotabato 1,1,1204700000,12
+cotabato-2,Cotabato 2,2,1204700000,12
+cotabato-3,Cotabato 3,3,1204700000,12
+davao-city-1,Davao City 1,1,1130700000,11
+davao-city-2,Davao City 2,2,1130700000,11
+davao-city-3,Davao City 3,3,1130700000,11
+davao-de-oro-1,Davao de Oro 1,1,1108200000,11
+davao-de-oro-2,Davao de Oro 2,2,1108200000,11
+davao-del-norte-1,Davao del Norte 1,1,1102300000,11
+davao-del-norte-2,Davao del Norte 2,2,1102300000,11
+davao-del-sur-lone,Davao del Sur Lone,0,1102400000,11
+davao-occidental-lone,Davao Occidental Lone,0,1108600000,11
+davao-oriental-1,Davao Oriental 1,1,1102500000,11
+davao-oriental-2,Davao Oriental 2,2,1102500000,11
+dinagat-islands-lone,Dinagat Islands Lone,0,1608500000,16
+eastern-samar-lone,Eastern Samar Lone,0,0802600000,08
+general-santos-lone,General Santos Lone,0,1230800000,12
+guimaras-lone,Guimaras Lone,0,0607900000,06
+ifugao-lone,Ifugao Lone,0,1402700000,14
+iligan-lone,Iligan Lone,0,1030900000,10
+ilocos-norte-1,Ilocos Norte 1,1,0102800000,01
+ilocos-norte-2,Ilocos Norte 2,2,0102800000,01
+ilocos-sur-1,Ilocos Sur 1,1,0102900000,01
+ilocos-sur-2,Ilocos Sur 2,2,0102900000,01
+iloilo-1,Iloilo 1,1,0603000000,06
+iloilo-2,Iloilo 2,2,0603000000,06
+iloilo-3,Iloilo 3,3,0603000000,06
+iloilo-4,Iloilo 4,4,0603000000,06
+iloilo-5,Iloilo 5,5,0603000000,06
+iloilo-city-lone,Iloilo City Lone,0,0631000000,06
+isabela-1,Isabela 1,1,0203100000,02
+isabela-2,Isabela 2,2,0203100000,02
+isabela-3,Isabela 3,3,0203100000,02
+isabela-4,Isabela 4,4,0203100000,02
+isabela-5,Isabela 5,5,0203100000,02
+isabela-6,Isabela 6,6,0203100000,02
+kalinga-lone,Kalinga Lone,0,1403200000,14
+la-union-1,La Union 1,1,0103300000,01
+la-union-2,La Union 2,2,0103300000,01
+laguna-1,Laguna 1,1,0403400000,04
+laguna-2,Laguna 2,2,0403400000,04
+laguna-3,Laguna 3,3,0403400000,04
+laguna-4,Laguna 4,4,0403400000,04
+lanao-del-norte-1,Lanao del Norte 1,1,1003500000,10
+lanao-del-norte-2,Lanao del Norte 2,2,1003500000,10
+lanao-del-sur-1,Lanao del Sur 1,1,1903600000,19
+lanao-del-sur-2,Lanao del Sur 2,2,1903600000,19
+lapu-lapu-city-lone,Lapu-Lapu City Lone,0,0731100000,07
+las-pinas-lone,Las Piñas Lone,0,1380200000,13
+leyte-1,Leyte 1,1,0803700000,08
+leyte-2,Leyte 2,2,0803700000,08
+leyte-3,Leyte 3,3,0803700000,08
+leyte-4,Leyte 4,4,0803700000,08
+leyte-5,Leyte 5,5,0803700000,08
+maguindanao-del-norte-lone,Maguindanao del Norte Lone,0,1908700000,19
+maguindanao-del-sur-lone,Maguindanao del Sur Lone,0,1908800000,19
+makati-1,Makati 1,1,1380300000,13
+makati-2,Makati 2,2,1380300000,13
+malabon-lone,Malabon Lone,0,1380400000,13
+mandaluyong-lone,Mandaluyong Lone,0,1380500000,13
+mandaue-lone,Mandaue Lone,0,0731300000,07
+manila-1,Manila 1,1,1380600000,13
+manila-2,Manila 2,2,1380600000,13
+manila-3,Manila 3,3,1380600000,13
+manila-4,Manila 4,4,1380600000,13
+manila-5,Manila 5,5,1380600000,13
+manila-6,Manila 6,6,1380600000,13
+marikina-1,Marikina 1,1,1380700000,13
+marikina-2,Marikina 2,2,1380700000,13
+marinduque-lone,Marinduque Lone,0,1704000000,17
+masbate-1,Masbate 1,1,0504100000,05
+masbate-2,Masbate 2,2,0504100000,05
+masbate-3,Masbate 3,3,0504100000,05
+misamis-occidental-1,Misamis Occidental 1,1,1004200000,10
+misamis-occidental-2,Misamis Occidental 2,2,1004200000,10
+misamis-oriental-1,Misamis Oriental 1,1,1004300000,10
+misamis-oriental-2,Misamis Oriental 2,2,1004300000,10
+mountain-province-lone,Mountain Province Lone,0,1404400000,14
+muntinlupa-lone,Muntinlupa Lone,0,1380800000,13
+navotas-lone,Navotas Lone,0,1380900000,13
+negros-occidental-1,Negros Occidental 1,1,1804500000,18
+negros-occidental-2,Negros Occidental 2,2,1804500000,18
+negros-occidental-3,Negros Occidental 3,3,1804500000,18
+negros-occidental-4,Negros Occidental 4,4,1804500000,18
+negros-occidental-5,Negros Occidental 5,5,1804500000,18
+negros-occidental-6,Negros Occidental 6,6,1804500000,18
+negros-oriental-1,Negros Oriental 1,1,1804600000,18
+negros-oriental-2,Negros Oriental 2,2,1804600000,18
+negros-oriental-3,Negros Oriental 3,3,1804600000,18
+northern-samar-1,Northern Samar 1,1,0804800000,08
+northern-samar-2,Northern Samar 2,2,0804800000,08
+nueva-ecija-1,Nueva Ecija 1,1,0304900000,03
+nueva-ecija-2,Nueva Ecija 2,2,0304900000,03
+nueva-ecija-3,Nueva Ecija 3,3,0304900000,03
+nueva-ecija-4,Nueva Ecija 4,4,0304900000,03
+nueva-vizcaya-lone,Nueva Vizcaya Lone,0,0205000000,02
+occidental-mindoro-lone,Occidental Mindoro Lone,0,1705100000,17
+oriental-mindoro-1,Oriental Mindoro 1,1,1705200000,17
+oriental-mindoro-2,Oriental Mindoro 2,2,1705200000,17
+palawan-1,Palawan 1,1,1705300000,17
+palawan-2,Palawan 2,2,1705300000,17
+palawan-3,Palawan 3,3,1705300000,17
+pampanga-1,Pampanga 1,1,0305400000,03
+pampanga-2,Pampanga 2,2,0305400000,03
+pampanga-3,Pampanga 3,3,0305400000,03
+pampanga-4,Pampanga 4,4,0305400000,03
+pangasinan-1,Pangasinan 1,1,0105500000,01
+pangasinan-2,Pangasinan 2,2,0105500000,01
+pangasinan-3,Pangasinan 3,3,0105500000,01
+pangasinan-4,Pangasinan 4,4,0105500000,01
+pangasinan-5,Pangasinan 5,5,0105500000,01
+pangasinan-6,Pangasinan 6,6,0105500000,01
+paranaque-1,Parañaque 1,1,1381000000,13
+paranaque-2,Parañaque 2,2,1381000000,13
+pasay-lone,Pasay Lone,0,1381100000,13
+pasig-lone,Pasig Lone,0,1381200000,13
+quezon-1,Quezon 1,1,0405600000,04
+quezon-2,Quezon 2,2,0405600000,04
+quezon-3,Quezon 3,3,0405600000,04
+quezon-4,Quezon 4,4,0405600000,04
+quezon-city-1,Quezon City 1,1,1381300000,13
+quezon-city-2,Quezon City 2,2,1381300000,13
+quezon-city-3,Quezon City 3,3,1381300000,13
+quezon-city-4,Quezon City 4,4,1381300000,13
+quezon-city-5,Quezon City 5,5,1381300000,13
+quezon-city-6,Quezon City 6,6,1381300000,13
+quirino-lone,Quirino Lone,0,0205700000,02
+rizal-1,Rizal 1,1,0405800000,04
+rizal-2,Rizal 2,2,0405800000,04
+rizal-3,Rizal 3,3,0405800000,04
+rizal-4,Rizal 4,4,0405800000,04
+romblon-lone,Romblon Lone,0,1705900000,17
+samar-1,Samar 1,1,0806000000,08
+samar-2,Samar 2,2,0806000000,08
+san-jose-del-monte-lone,San Jose del Monte Lone,0,0301420000,03
+san-juan-lone,San Juan Lone,0,1381400000,13
+santa-rosa-lone,Santa Rosa Lone,0,0403428000,04
+sarangani-lone,Sarangani Lone,0,1208000000,12
+siquijor-lone,Siquijor Lone,0,1806100000,18
+sorsogon-1,Sorsogon 1,1,0506200000,05
+sorsogon-2,Sorsogon 2,2,0506200000,05
+south-cotabato-1,South Cotabato 1,1,1206300000,12
+south-cotabato-2,South Cotabato 2,2,1206300000,12
+south-cotabato-3,South Cotabato 3,3,1206300000,12
+southern-leyte-1,Southern Leyte 1,1,0806400000,08
+southern-leyte-2,Southern Leyte 2,2,0806400000,08
+sultan-kudarat-1,Sultan Kudarat 1,1,1206500000,12
+sultan-kudarat-2,Sultan Kudarat 2,2,1206500000,12
+sulu-1,Sulu 1,1,0906600000,09
+sulu-2,Sulu 2,2,0906600000,09
+surigao-del-norte-1,Surigao del Norte 1,1,1606700000,16
+surigao-del-norte-2,Surigao del Norte 2,2,1606700000,16
+surigao-del-sur-1,Surigao del Sur 1,1,1606800000,16
+surigao-del-sur-2,Surigao del Sur 2,2,1606800000,16
+taguigpateros-1,Taguig–Pateros 1,1,,
+taguigpateros-2,Taguig–Pateros 2,2,,
+tarlac-1,Tarlac 1,1,0306900000,03
+tarlac-2,Tarlac 2,2,0306900000,03
+tarlac-3,Tarlac 3,3,0306900000,03
+tawi-tawi-lone,Tawi-Tawi Lone,0,1907000000,19
+valenzuela-1,Valenzuela 1,1,1381600000,13
+valenzuela-2,Valenzuela 2,2,1381600000,13
+zambales-1,Zambales 1,1,0307100000,03
+zambales-2,Zambales 2,2,0307100000,03
+zamboanga-city-1,Zamboanga City 1,1,0931700000,09
+zamboanga-city-2,Zamboanga City 2,2,0931700000,09
+zamboanga-del-norte-1,Zamboanga del Norte 1,1,0907200000,09
+zamboanga-del-norte-2,Zamboanga del Norte 2,2,0907200000,09
+zamboanga-del-norte-3,Zamboanga del Norte 3,3,0907200000,09
+zamboanga-del-sur-1,Zamboanga del Sur 1,1,0907300000,09
+zamboanga-del-sur-2,Zamboanga del Sur 2,2,0907300000,09
+zamboanga-sibugay-1,Zamboanga Sibugay 1,1,0908300000,09
+zamboanga-sibugay-2,Zamboanga Sibugay 2,2,0908300000,09

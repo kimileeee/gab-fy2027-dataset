@@ -1,0 +1,1576 @@
+{
+  "profile": "tabular-data-package",
+  "name": "gab-fy2027",
+  "version": "0.1.0",
+  "created": "2026-10-09",
+  "title": "Philippine FY2027 General Appropriations Bill (House, HB 10858) as flat tables",
+  "description": "Every appropriation the House bill prints, as filed and on 3rd reading, as flat joinable tables with UACS codes (compatible with BetterGov's NEP/GAA datasets), PSGC places, printed totals for verification, and itemized drill-downs.",
+  "licenses": [
+    {
+      "name": "CC0-1.0",
+      "title": "Creative Commons Zero v1.0 Universal",
+      "path": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  ],
+  "sources": [
+    {
+      "title": "House of Representatives, Committee Report No. 638 on House Bill No. 10858 (FY2027 General Appropriations Bill): copy A as filed, copy B 3rd reading; CR00638.pdf, SHA-256 3242a248d1436be5d15c2bd81628c1c9691e0b796fc4a58552d063f18177b6b0"
+    },
+    {
+      "title": "BetterGov.ph, NEP 2027 (bettergovph/nep-2027, CC0): agency, program and operating-unit codes",
+      "path": "https://huggingface.co/datasets/bettergovph/nep-2027"
+    },
+    {
+      "title": "Philippine Statistics Authority, PSGC 2nd Quarter 2026 publication datafile",
+      "path": "https://psa.gov.ph/classification/psgc"
+    }
+  ],
+  "resources": [
+    {
+      "name": "appropriations",
+      "title": "Appropriations (fact table)",
+      "description": "One row per appropriation line x stage: the printed amount rows with nothing printed beneath them (leaves). Leaves sum to every printed total (see declared_totals.csv). Never sum this table together with drilldown_items.",
+      "path": "appropriations.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "appropriation_id",
+            "type": "string",
+            "description": "Stable id of one appropriation line, the same in every stage: hash of UACS agency + the printed hierarchy (normalised) + label + occurrence. Join key across stages and to appropriations_compared."
+          },
+          {
+            "name": "stage",
+            "type": "string",
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+          },
+          {
+            "name": "fiscal_year",
+            "type": "integer",
+            "description": "Fiscal year of the appropriation (2027)."
+          },
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+          },
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+          },
+          {
+            "name": "dept_printed",
+            "type": "string",
+            "description": "Department name as printed in the bill (the department this row is printed under in this stage)."
+          },
+          {
+            "name": "agency_printed",
+            "type": "string",
+            "description": "Agency name as printed in the bill's Table of Contents."
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "description": "Top tier of the agency's program table: General Administration and Support, Support to Operations, Operations, Locally-Funded Projects, Foreign-Assisted Projects."
+          },
+          {
+            "name": "program",
+            "type": "string",
+            "description": "PROGRAM heading (upper case in the bill), if any."
+          },
+          {
+            "name": "sub_program",
+            "type": "string",
+            "description": "SUB-PROGRAM heading, if any."
+          },
+          {
+            "name": "pap",
+            "type": "string",
+            "description": "Activity or project name (the PAP: program/activity/project line)."
+          },
+          {
+            "name": "sub_pap",
+            "type": "string",
+            "description": "Deeper activity levels below `pap`, joined with \" > \", if any."
+          },
+          {
+            "name": "funding_source",
+            "type": "string",
+            "description": "For foreign-assisted projects: Loan Proceeds or GOP Counterpart (Philippine government share). Blank otherwise."
+          },
+          {
+            "name": "region_printed",
+            "type": "string",
+            "description": "Region heading as printed above this row (blank = no region printed: a national lump sum)."
+          },
+          {
+            "name": "region_code",
+            "type": "string",
+            "description": "2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv."
+          },
+          {
+            "name": "operating_unit",
+            "type": "string",
+            "description": "Office the money is released to, as printed (Central Office, Regional Office, DPWH District Engineering Office, DepEd Division, hospital, campus...)."
+          },
+          {
+            "name": "sub_unit",
+            "type": "string",
+            "description": "Units printed below the operating unit (e.g. a school under a DepEd Division), joined with \" > \"."
+          },
+          {
+            "name": "geo_level",
+            "type": "string",
+            "description": "Finest place the money can honestly be attributed to: national (no region printed), central_office (agency HQ: printed under NCR but NOT Metro Manila spending - keep off maps), region, province, city, municipality, district (legislative district, DPWH), barangay (drill-downs only)."
+          },
+          {
+            "name": "psgc_code",
+            "type": "string",
+            "description": "PSA PSGC 10-digit code of that place (PSGC 2Q-2026). Region-level rows carry the region code; blank for national and central_office. See localities.csv / regions.csv."
+          },
+          {
+            "name": "province_psgc",
+            "type": "string",
+            "description": "PSGC code of the province (or independent city) containing the place, for province-level maps."
+          },
+          {
+            "name": "district_id",
+            "type": "string",
+            "description": "Legislative district id (districts.csv), for DPWH District Engineering Office rows mapped to exactly one district."
+          },
+          {
+            "name": "geo_basis",
+            "type": "string",
+            "description": "Which rule placed this row (e.g. \"DEO map\", \"office prefix (Division/PENRO/CENRO/PARO)\", \"place name in office name\", \"regional office\", \"no region printed\"). Filter on it to keep only placements you trust."
+          },
+          {
+            "name": "drilldown_group_id",
+            "type": "string",
+            "description": "Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "description": "This row's own printed text."
+          },
+          {
+            "name": "ps",
+            "type": "integer",
+            "description": "Personnel Services, pesos (blank = none printed)."
+          },
+          {
+            "name": "mooe",
+            "type": "integer",
+            "description": "Maintenance and Other Operating Expenses, pesos."
+          },
+          {
+            "name": "finex",
+            "type": "integer",
+            "description": "Financial Expenses, pesos."
+          },
+          {
+            "name": "co",
+            "type": "integer",
+            "description": "Capital Outlays, pesos."
+          },
+          {
+            "name": "amount",
+            "type": "integer",
+            "description": "Total appropriation of the row, pesos (= ps + mooe + finex + co)."
+          },
+          {
+            "name": "prexc_fpap_id",
+            "type": "string",
+            "description": "UACS PREXC program/activity/project code of the matching NEP 2027 line (BetterGov `prexc_fpap_id`). Join key to BetterGov nep-2027 / gaa."
+          },
+          {
+            "name": "nep_description",
+            "type": "string",
+            "description": "Activity description of the matching NEP line (BetterGov `dsc`)."
+          },
+          {
+            "name": "nep_operunit",
+            "type": "string",
+            "description": "UACS operating unit code of the matching NEP line (BetterGov `operunit`)."
+          },
+          {
+            "name": "nep_operunit_name",
+            "type": "string",
+            "description": "UACS operating unit name (BetterGov `uacs_oper_dsc`), or \"N operating units not itemized in the bill\" for residual matches."
+          },
+          {
+            "name": "nep_fund_type",
+            "type": "string",
+            "description": "Fund of the matching NEP line: regular, loan_proceeds, gop_counterpart, or mixed."
+          },
+          {
+            "name": "nep_match",
+            "type": "string",
+            "description": "How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd \"Division Office - Proper\"), none, no_filed_counterpart (GAB_3R line with no GAB_FILED twin: added or relabelled)."
+          },
+          {
+            "name": "pdf_page",
+            "type": "integer",
+            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+          },
+          {
+            "name": "path_printed",
+            "type": "string",
+            "description": "The printed hierarchy above this row, \" > \"-joined, exactly as in the bill (for audit)."
+          },
+          {
+            "name": "source_row_id",
+            "type": "string",
+            "description": "Row id in the parser output (pipeline/data), for tracing a value back to its parse."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "appropriation_id",
+          "stage"
+        ],
+        "foreignKeys": [
+          {
+            "fields": "agency_id",
+            "reference": {
+              "resource": "agencies",
+              "fields": "agency_id"
+            }
+          },
+          {
+            "fields": "dept_id",
+            "reference": {
+              "resource": "departments",
+              "fields": "dept_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "appropriations_compared",
+      "title": "Appropriations compared across stages",
+      "description": "Every appropriation line with GAB_FILED (_A) and GAB_3R (_B) side by side. Lines pair on appropriation_id, so an agency printed under a different department in GAB_3R (NAPC, PCUP) pairs with itself.",
+      "path": "appropriations_compared.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "appropriation_id",
+            "type": "string",
+            "description": "Stable id of one appropriation line, the same in every stage: hash of UACS agency + the printed hierarchy (normalised) + label + occurrence. Join key across stages and to appropriations_compared."
+          },
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+          },
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+          },
+          {
+            "name": "dept_printed_A",
+            "type": "string",
+            "description": "Department printed above the line in GAB_FILED."
+          },
+          {
+            "name": "dept_printed_B",
+            "type": "string",
+            "description": "Department printed above the line in GAB_3R."
+          },
+          {
+            "name": "moved_department",
+            "type": "integer",
+            "description": "1 if the agency is printed under a different department in GAB_3R."
+          },
+          {
+            "name": "agency_printed",
+            "type": "string",
+            "description": "Agency name as printed in the bill's Table of Contents."
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "description": "Top tier of the agency's program table: General Administration and Support, Support to Operations, Operations, Locally-Funded Projects, Foreign-Assisted Projects."
+          },
+          {
+            "name": "program",
+            "type": "string",
+            "description": "PROGRAM heading (upper case in the bill), if any."
+          },
+          {
+            "name": "sub_program",
+            "type": "string",
+            "description": "SUB-PROGRAM heading, if any."
+          },
+          {
+            "name": "pap",
+            "type": "string",
+            "description": "Activity or project name (the PAP: program/activity/project line)."
+          },
+          {
+            "name": "sub_pap",
+            "type": "string",
+            "description": "Deeper activity levels below `pap`, joined with \" > \", if any."
+          },
+          {
+            "name": "funding_source",
+            "type": "string",
+            "description": "For foreign-assisted projects: Loan Proceeds or GOP Counterpart (Philippine government share). Blank otherwise."
+          },
+          {
+            "name": "region_printed",
+            "type": "string",
+            "description": "Region heading as printed above this row (blank = no region printed: a national lump sum)."
+          },
+          {
+            "name": "region_code",
+            "type": "string",
+            "description": "2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv."
+          },
+          {
+            "name": "operating_unit",
+            "type": "string",
+            "description": "Office the money is released to, as printed (Central Office, Regional Office, DPWH District Engineering Office, DepEd Division, hospital, campus...)."
+          },
+          {
+            "name": "sub_unit",
+            "type": "string",
+            "description": "Units printed below the operating unit (e.g. a school under a DepEd Division), joined with \" > \"."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "description": "This row's own printed text."
+          },
+          {
+            "name": "geo_level",
+            "type": "string",
+            "description": "Finest place the money can honestly be attributed to: national (no region printed), central_office (agency HQ: printed under NCR but NOT Metro Manila spending - keep off maps), region, province, city, municipality, district (legislative district, DPWH), barangay (drill-downs only)."
+          },
+          {
+            "name": "psgc_code",
+            "type": "string",
+            "description": "PSA PSGC 10-digit code of that place (PSGC 2Q-2026). Region-level rows carry the region code; blank for national and central_office. See localities.csv / regions.csv."
+          },
+          {
+            "name": "province_psgc",
+            "type": "string",
+            "description": "PSGC code of the province (or independent city) containing the place, for province-level maps."
+          },
+          {
+            "name": "district_id",
+            "type": "string",
+            "description": "Legislative district id (districts.csv), for DPWH District Engineering Office rows mapped to exactly one district."
+          },
+          {
+            "name": "prexc_fpap_id",
+            "type": "string",
+            "description": "UACS PREXC program/activity/project code of the matching NEP 2027 line (BetterGov `prexc_fpap_id`). Join key to BetterGov nep-2027 / gaa."
+          },
+          {
+            "name": "nep_match",
+            "type": "string",
+            "description": "How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd \"Division Office - Proper\"), none, no_filed_counterpart (GAB_3R line with no GAB_FILED twin: added or relabelled)."
+          },
+          {
+            "name": "drilldown_group_id",
+            "type": "string",
+            "description": "Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows."
+          },
+          {
+            "name": "ps_A",
+            "type": "integer",
+            "description": "Personnel Services, GAB_FILED (blank = line absent in that stage)."
+          },
+          {
+            "name": "mooe_A",
+            "type": "integer",
+            "description": "Maintenance and Other Operating Expenses, GAB_FILED (blank = line absent in that stage)."
+          },
+          {
+            "name": "finex_A",
+            "type": "integer",
+            "description": "Financial Expenses, GAB_FILED (blank = line absent in that stage)."
+          },
+          {
+            "name": "co_A",
+            "type": "integer",
+            "description": "Capital Outlays, GAB_FILED (blank = line absent in that stage)."
+          },
+          {
+            "name": "amount_A",
+            "type": "integer",
+            "description": "Total appropriation of the row, GAB_FILED (blank = line absent in that stage)."
+          },
+          {
+            "name": "ps_B",
+            "type": "integer",
+            "description": "Personnel Services, GAB_3R (blank = line absent in that stage)."
+          },
+          {
+            "name": "mooe_B",
+            "type": "integer",
+            "description": "Maintenance and Other Operating Expenses, GAB_3R (blank = line absent in that stage)."
+          },
+          {
+            "name": "finex_B",
+            "type": "integer",
+            "description": "Financial Expenses, GAB_3R (blank = line absent in that stage)."
+          },
+          {
+            "name": "co_B",
+            "type": "integer",
+            "description": "Capital Outlays, GAB_3R (blank = line absent in that stage)."
+          },
+          {
+            "name": "amount_B",
+            "type": "integer",
+            "description": "Total appropriation of the row, GAB_3R (blank = line absent in that stage)."
+          },
+          {
+            "name": "delta",
+            "type": "integer",
+            "description": "amount_B - amount_A, pesos (absent side counts as 0)."
+          },
+          {
+            "name": "pct_change",
+            "type": "number",
+            "description": "delta / amount_A; -1 = removed, 1 = added."
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "unchanged | amount_changed | added (GAB_3R only) | removed (GAB_FILED only)."
+          },
+          {
+            "name": "flag",
+            "type": "string",
+            "description": "new_line, removed_line, new_amount (0 -> positive), big_increase / big_decrease (>= 20% and >= P50M; a starting threshold, not an editorial standard)."
+          },
+          {
+            "name": "possible_relabel",
+            "type": "string",
+            "description": "For an added/removed line with a same-amount counterpart in the same agency: moved (same label, other parent), same_parent (renamed), same_amount (>= P1M, unique). Read these as one line, not a cut plus an insertion, until checked."
+          },
+          {
+            "name": "relabel_counterpart_id",
+            "type": "string",
+            "description": "appropriation_id of the paired line."
+          },
+          {
+            "name": "relabel_counterpart_label",
+            "type": "string",
+            "description": "Label of the paired line."
+          },
+          {
+            "name": "pdf_page_A",
+            "type": "integer",
+            "description": "Page in CR00638.pdf, GAB_FILED."
+          },
+          {
+            "name": "pdf_page_B",
+            "type": "integer",
+            "description": "Page in CR00638.pdf, GAB_3R."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "appropriation_id"
+        ],
+        "foreignKeys": [
+          {
+            "fields": "agency_id",
+            "reference": {
+              "resource": "agencies",
+              "fields": "agency_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "declared_totals",
+      "title": "Declared totals",
+      "description": "Every total the bill prints (group headings with amounts, sub-totals, table totals, the agency lead line), with the sum of the leaves beneath it, so each printed claim can be checked. Tables: detail (program table), summary (by program), object (by object of expenditure, printed in thousands, converted to pesos), lead.",
+      "path": "declared_totals.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "declared_id",
+            "type": "string",
+            "description": "Stable id of the printed total (hash of agency + table + printed chain + occurrence)."
+          },
+          {
+            "name": "stage",
+            "type": "string",
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+          },
+          {
+            "name": "fiscal_year",
+            "type": "integer",
+            "description": "Fiscal year of the appropriation (2027)."
+          },
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+          },
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+          },
+          {
+            "name": "dept_printed",
+            "type": "string",
+            "description": "Department name as printed in the bill (the department this row is printed under in this stage)."
+          },
+          {
+            "name": "agency_printed",
+            "type": "string",
+            "description": "Agency name as printed in the bill's Table of Contents."
+          },
+          {
+            "name": "table",
+            "type": "string",
+            "description": "detail | summary | object | lead."
+          },
+          {
+            "name": "role",
+            "type": "string",
+            "description": "group | subtotal | total | lead (as the parser read the row)."
+          },
+          {
+            "name": "level",
+            "type": "integer",
+            "description": "Depth in the printed tree (0 = table total)."
+          },
+          {
+            "name": "label",
+            "type": "string",
+            "description": "This row's own printed text."
+          },
+          {
+            "name": "category",
+            "type": "string",
+            "description": "Top tier of the agency's program table: General Administration and Support, Support to Operations, Operations, Locally-Funded Projects, Foreign-Assisted Projects."
+          },
+          {
+            "name": "program",
+            "type": "string",
+            "description": "PROGRAM heading (upper case in the bill), if any."
+          },
+          {
+            "name": "sub_program",
+            "type": "string",
+            "description": "SUB-PROGRAM heading, if any."
+          },
+          {
+            "name": "pap",
+            "type": "string",
+            "description": "Activity or project name (the PAP: program/activity/project line)."
+          },
+          {
+            "name": "sub_pap",
+            "type": "string",
+            "description": "Deeper activity levels below `pap`, joined with \" > \", if any."
+          },
+          {
+            "name": "funding_source",
+            "type": "string",
+            "description": "For foreign-assisted projects: Loan Proceeds or GOP Counterpart (Philippine government share). Blank otherwise."
+          },
+          {
+            "name": "region_printed",
+            "type": "string",
+            "description": "Region heading as printed above this row (blank = no region printed: a national lump sum)."
+          },
+          {
+            "name": "operating_unit",
+            "type": "string",
+            "description": "Office the money is released to, as printed (Central Office, Regional Office, DPWH District Engineering Office, DepEd Division, hospital, campus...)."
+          },
+          {
+            "name": "sub_unit",
+            "type": "string",
+            "description": "Units printed below the operating unit (e.g. a school under a DepEd Division), joined with \" > \"."
+          },
+          {
+            "name": "ps",
+            "type": "integer",
+            "description": "Personnel Services, pesos (blank = none printed)."
+          },
+          {
+            "name": "mooe",
+            "type": "integer",
+            "description": "Maintenance and Other Operating Expenses, pesos."
+          },
+          {
+            "name": "finex",
+            "type": "integer",
+            "description": "Financial Expenses, pesos."
+          },
+          {
+            "name": "co",
+            "type": "integer",
+            "description": "Capital Outlays, pesos."
+          },
+          {
+            "name": "declared_amount",
+            "type": "integer",
+            "description": "The total as printed, pesos."
+          },
+          {
+            "name": "leaf_sum",
+            "type": "integer",
+            "description": "Sum of the leaves beneath it, pesos (blank = nothing to compare)."
+          },
+          {
+            "name": "difference",
+            "type": "integer",
+            "description": "leaf_sum - declared_amount."
+          },
+          {
+            "name": "ties",
+            "type": "integer",
+            "description": "1 = the printed total equals its leaves, 0 = it does not."
+          },
+          {
+            "name": "known_bill_error",
+            "type": "string",
+            "description": "Page-checked explanation when the mismatch is a misprint in the bill (scripts/curated/known_bill_errors.csv)."
+          },
+          {
+            "name": "pdf_page",
+            "type": "integer",
+            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+          },
+          {
+            "name": "path_printed",
+            "type": "string",
+            "description": "The printed hierarchy above this row, \" > \"-joined, exactly as in the bill (for audit)."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "declared_id",
+          "stage"
+        ],
+        "foreignKeys": [
+          {
+            "fields": "agency_id",
+            "reference": {
+              "resource": "agencies",
+              "fields": "agency_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "object_of_expenditure",
+      "title": "Object of expenditure",
+      "description": "The same money cut by object of expenditure (Basic Salary, Travel, ...): one row per printed object line x stage. Printed in thousands of pesos; converted to pesos here. A different cut of appropriations - do not add the two.",
+      "path": "object_of_expenditure.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "stage",
+            "type": "string",
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+          },
+          {
+            "name": "fiscal_year",
+            "type": "integer",
+            "description": "Fiscal year of the appropriation (2027)."
+          },
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+          },
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+          },
+          {
+            "name": "dept_printed",
+            "type": "string",
+            "description": "Department name as printed in the bill (the department this row is printed under in this stage)."
+          },
+          {
+            "name": "agency_printed",
+            "type": "string",
+            "description": "Agency name as printed in the bill's Table of Contents."
+          },
+          {
+            "name": "expense_class",
+            "type": "string",
+            "description": "Personnel Services, Maintenance and Other Operating Expenses, Financial Expenses, Capital Outlays."
+          },
+          {
+            "name": "object_group",
+            "type": "string",
+            "description": "Printed group within the class (e.g. Other Compensation Common to All)."
+          },
+          {
+            "name": "object",
+            "type": "string",
+            "description": "Object of expenditure as printed."
+          },
+          {
+            "name": "amount",
+            "type": "integer",
+            "description": "Pesos (printed value x 1,000)."
+          },
+          {
+            "name": "pdf_page",
+            "type": "integer",
+            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+          },
+          {
+            "name": "path_printed",
+            "type": "string",
+            "description": "The printed hierarchy above this row, \" > \"-joined, exactly as in the bill (for audit)."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "foreignKeys": [
+          {
+            "fields": "agency_id",
+            "reference": {
+              "resource": "agencies",
+              "fields": "agency_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "drilldown_items",
+      "title": "Drill-down items",
+      "description": "Finer lists the bill prints for some appropriations: DPWH Vol I-C projects (dpwh_vol_ic) and its locally-funded list (dpwh_tail), DA farm-to-market roads (fmr), DOH Health Facilities Enhancement (hfep), NIA irrigation (nia), DILG Support to Barangay Development barangays (sbdp, no amounts). Never sum together with appropriations.",
+      "path": "drilldown_items.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "item_id",
+            "type": "string",
+            "description": "Stable id of the item (hash of source + parser row id)."
+          },
+          {
+            "name": "stage",
+            "type": "string",
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "dpwh_vol_ic | dpwh_tail | fmr | hfep | nia | sbdp."
+          },
+          {
+            "name": "drilldown_group_id",
+            "type": "string",
+            "description": "Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows."
+          },
+          {
+            "name": "section",
+            "type": "string",
+            "description": "Program / annex section the item is printed under."
+          },
+          {
+            "name": "region_printed",
+            "type": "string",
+            "description": "Region heading as printed above this row (blank = no region printed: a national lump sum)."
+          },
+          {
+            "name": "region_code",
+            "type": "string",
+            "description": "2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv."
+          },
+          {
+            "name": "office",
+            "type": "string",
+            "description": "DPWH District Engineering Office, if printed."
+          },
+          {
+            "name": "province_printed",
+            "type": "string",
+            "description": "Province as printed (annexes)."
+          },
+          {
+            "name": "municipality_printed",
+            "type": "string",
+            "description": "Municipality as printed (annexes)."
+          },
+          {
+            "name": "barangay_printed",
+            "type": "string",
+            "description": "Barangay as printed (SBDP)."
+          },
+          {
+            "name": "item",
+            "type": "string",
+            "description": "Project / item description as printed."
+          },
+          {
+            "name": "amount",
+            "type": "integer",
+            "description": "Pesos (blank for SBDP, which prints no amounts)."
+          },
+          {
+            "name": "geo_level",
+            "type": "string",
+            "description": "Finest place the money can honestly be attributed to: national (no region printed), central_office (agency HQ: printed under NCR but NOT Metro Manila spending - keep off maps), region, province, city, municipality, district (legislative district, DPWH), barangay (drill-downs only)."
+          },
+          {
+            "name": "psgc_code",
+            "type": "string",
+            "description": "PSA PSGC 10-digit code of that place (PSGC 2Q-2026). Region-level rows carry the region code; blank for national and central_office. See localities.csv / regions.csv."
+          },
+          {
+            "name": "province_psgc",
+            "type": "string",
+            "description": "PSGC code of the province (or independent city) containing the place, for province-level maps."
+          },
+          {
+            "name": "district_id",
+            "type": "string",
+            "description": "Legislative district id (districts.csv), for DPWH District Engineering Office rows mapped to exactly one district."
+          },
+          {
+            "name": "geo_basis",
+            "type": "string",
+            "description": "Which rule placed this row (e.g. \"DEO map\", \"office prefix (Division/PENRO/CENRO/PARO)\", \"place name in office name\", \"regional office\", \"no region printed\"). Filter on it to keep only placements you trust."
+          },
+          {
+            "name": "pdf_page",
+            "type": "integer",
+            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+          },
+          {
+            "name": "source_row_id",
+            "type": "string",
+            "description": "Row id in the parser output (pipeline/data), for tracing a value back to its parse."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "item_id"
+        ]
+      }
+    },
+    {
+      "name": "drilldown_coverage",
+      "title": "Drill-down coverage",
+      "description": "Per drill-down group and stage: the appropriations it itemizes vs the sum of its items. DPWH compares per program and HFEP / the DPWH tail nationally because the program tables print much of that money as Central Office lumps; FMR compares per region.",
+      "path": "drilldown_coverage.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "drilldown_group_id",
+            "type": "string",
+            "description": "Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows."
+          },
+          {
+            "name": "stage",
+            "type": "string",
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "description": "Drill-down source (see drilldown_items.source)."
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "Program / section (and region) of the group."
+          },
+          {
+            "name": "parent_rows",
+            "type": "integer",
+            "description": "Number of appropriations in the group."
+          },
+          {
+            "name": "parent_amount",
+            "type": "integer",
+            "description": "Their total, pesos."
+          },
+          {
+            "name": "items",
+            "type": "integer",
+            "description": "Number of drill-down items."
+          },
+          {
+            "name": "drilldown_amount",
+            "type": "integer",
+            "description": "Their total, pesos."
+          },
+          {
+            "name": "coverage",
+            "type": "number",
+            "description": "drilldown_amount / parent_amount."
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "complete | partial | exceeds_parent | no_items | no_parent_line | parent_not_parsed (parent is in back matter not parsed yet) | no_amounts."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "drilldown_group_id",
+          "stage"
+        ]
+      }
+    },
+    {
+      "name": "special_provisions",
+      "title": "Special Provisions",
+      "description": "The legal conditions printed with each agency's appropriation (earmarks, release rules, reporting duties, use of income), one row per provision x stage, full text. Also kept for back-matter funds (Unprogrammed Appropriations, Pension and Gratuity Fund, ...) whose tables are not parsed yet. No amounts are summed from here.",
+      "path": "special_provisions.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "provision_id",
+            "type": "string",
+            "description": "Stable id of the provision, the same in both stages: hash of agency (or scope:department) + normalised title + occurrence."
+          },
+          {
+            "name": "stage",
+            "type": "string",
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+          },
+          {
+            "name": "fiscal_year",
+            "type": "integer",
+            "description": "Fiscal year of the appropriation (2027)."
+          },
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. Blank for back-matter funds."
+          },
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. Blank for back-matter funds."
+          },
+          {
+            "name": "dept_printed",
+            "type": "string",
+            "description": "Department heading printed above the provision."
+          },
+          {
+            "name": "agency_printed",
+            "type": "string",
+            "description": "Agency name (Table of Contents form where matched, else the heading as printed)."
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "description": "agency | back_matter (a fund whose tables are not parsed yet; no UACS code)."
+          },
+          {
+            "name": "attribution",
+            "type": "string",
+            "description": "How the agency was found: heading (printed above), single-agency department, page range (printed before the agency heading, inside that agency's pages)."
+          },
+          {
+            "name": "provision_no",
+            "type": "integer",
+            "description": "Number as printed (the bill sometimes skips one; listed in CHECKS.md)."
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "description": "Provision title as printed (text up to the first period)."
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "description": "Full text after the title, as printed; paragraph breaks kept as newlines where the print indents."
+          },
+          {
+            "name": "pdf_page_start",
+            "type": "integer",
+            "description": "First page in CR00638.pdf."
+          },
+          {
+            "name": "pdf_page_end",
+            "type": "integer",
+            "description": "Last page in CR00638.pdf."
+          },
+          {
+            "name": "lines",
+            "type": "integer",
+            "description": "Printed lines."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "provision_id",
+          "stage"
+        ],
+        "foreignKeys": [
+          {
+            "fields": "agency_id",
+            "reference": {
+              "resource": "agencies",
+              "fields": "agency_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "special_provisions_compared",
+      "title": "Special Provisions compared across stages",
+      "description": "Each provision with its GAB_FILED and GAB_3R text side by side. Pairs on agency + title, so a renumbered provision is still matched; a retitled one shows as removed + added.",
+      "path": "special_provisions_compared.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "provision_id",
+            "type": "string",
+            "description": "See special_provisions.provision_id."
+          },
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (blank for back matter)."
+          },
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS agency code (blank for back matter)."
+          },
+          {
+            "name": "dept_printed",
+            "type": "string",
+            "description": "Department as printed."
+          },
+          {
+            "name": "agency_printed",
+            "type": "string",
+            "description": "Agency name."
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "description": "agency | back_matter."
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "description": "Provision title."
+          },
+          {
+            "name": "provision_no_A",
+            "type": "integer",
+            "description": "Number in GAB_FILED."
+          },
+          {
+            "name": "provision_no_B",
+            "type": "integer",
+            "description": "Number in GAB_3R."
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "description": "unchanged | renumbered (same text, other number) | text_changed | added (GAB_3R only) | removed (GAB_FILED only)."
+          },
+          {
+            "name": "words_added",
+            "type": "integer",
+            "description": "Words in GAB_3R not in GAB_FILED (word-level diff; whole text for an added provision)."
+          },
+          {
+            "name": "words_removed",
+            "type": "integer",
+            "description": "Words in GAB_FILED not in GAB_3R."
+          },
+          {
+            "name": "text_A",
+            "type": "string",
+            "description": "Text in GAB_FILED."
+          },
+          {
+            "name": "text_B",
+            "type": "string",
+            "description": "Text in GAB_3R."
+          },
+          {
+            "name": "pdf_page_A",
+            "type": "integer",
+            "description": "First page, GAB_FILED."
+          },
+          {
+            "name": "pdf_page_B",
+            "type": "integer",
+            "description": "First page, GAB_3R."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "provision_id"
+        ],
+        "foreignKeys": [
+          {
+            "fields": "agency_id",
+            "reference": {
+              "resource": "agencies",
+              "fields": "agency_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "departments",
+      "title": "Departments",
+      "description": "One row per UACS department in the release.",
+      "path": "departments.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+          },
+          {
+            "name": "gab_dept_code",
+            "type": "string",
+            "description": "Roman-numeral department code in the bill (I = Congress ...)."
+          },
+          {
+            "name": "name_printed",
+            "type": "string",
+            "description": "Name as printed in the bill."
+          },
+          {
+            "name": "name_official",
+            "type": "string",
+            "description": "UACS name (DBM), without the acronym."
+          },
+          {
+            "name": "acronym",
+            "type": "string",
+            "description": "Official acronym."
+          },
+          {
+            "name": "acronym_source",
+            "type": "string",
+            "description": "Where the acronym comes from: UACS name (BetterGov NEP 2027) or the bill text."
+          },
+          {
+            "name": "acronym_source_page",
+            "type": "integer",
+            "description": "CR00638.pdf page, when the source is the bill text."
+          },
+          {
+            "name": "agencies",
+            "type": "integer",
+            "description": "Number of agencies in the release."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "dept_id"
+        ]
+      }
+    },
+    {
+      "name": "agencies",
+      "title": "Agencies",
+      "description": "One row per UACS agency. Each state university or college is its own agency (UACS department 08).",
+      "path": "agencies.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+          },
+          {
+            "name": "dept_id",
+            "type": "string",
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+          },
+          {
+            "name": "gab_dept_code",
+            "type": "string",
+            "description": "Roman-numeral department code in the bill."
+          },
+          {
+            "name": "gab_agency_code",
+            "type": "string",
+            "description": "Agency letter (code) in the bill."
+          },
+          {
+            "name": "suc_region_group_code",
+            "type": "string",
+            "description": "SUCs only: the bill's regional group letter (A-S)."
+          },
+          {
+            "name": "suc_region_group",
+            "type": "string",
+            "description": "SUCs only: the regional group name."
+          },
+          {
+            "name": "name_printed",
+            "type": "string",
+            "description": "Name in the bill's Table of Contents."
+          },
+          {
+            "name": "name_official",
+            "type": "string",
+            "description": "UACS name (DBM), without the acronym."
+          },
+          {
+            "name": "acronym",
+            "type": "string",
+            "description": "Official acronym; blank when no official source gives one (never invented)."
+          },
+          {
+            "name": "acronym_source",
+            "type": "string",
+            "description": "UACS name (BetterGov NEP 2027) | bill text (HB 10858, CR 638)."
+          },
+          {
+            "name": "acronym_source_page",
+            "type": "integer",
+            "description": "CR00638.pdf page of the first definition, for bill text."
+          },
+          {
+            "name": "stages",
+            "type": "string",
+            "description": "Stages the agency appears in."
+          },
+          {
+            "name": "dept_printed",
+            "type": "string",
+            "description": "Department printed above the agency, per stage."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "agency_id"
+        ],
+        "foreignKeys": [
+          {
+            "fields": "dept_id",
+            "reference": {
+              "resource": "departments",
+              "fields": "dept_id"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "regions",
+      "title": "Regions",
+      "description": "The 18 regions (PSGC 2Q-2026).",
+      "path": "regions.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "region_code",
+            "type": "string",
+            "description": "2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv."
+          },
+          {
+            "name": "psgc_code",
+            "type": "string",
+            "description": "PSGC 10-digit code."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "PSGC name."
+          },
+          {
+            "name": "short_name",
+            "type": "string",
+            "description": "Short id used in ph-pork-graph (NCR, IV-A, ...)."
+          },
+          {
+            "name": "population_2024",
+            "type": "integer",
+            "description": "2024 population (PSGC file)."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "region_code"
+        ]
+      }
+    },
+    {
+      "name": "localities",
+      "title": "Localities",
+      "description": "Provinces, cities, municipalities and sub-municipalities (PSGC 2Q-2026); barangays are not included.",
+      "path": "localities.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "psgc_code",
+            "type": "string",
+            "description": "PSGC 10-digit code."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "PSGC name."
+          },
+          {
+            "name": "geo_level",
+            "type": "string",
+            "description": "province | city | municipality | sub_municipality."
+          },
+          {
+            "name": "city_class",
+            "type": "string",
+            "description": "HUC, ICC or CC (cities)."
+          },
+          {
+            "name": "income_class",
+            "type": "string",
+            "description": "Income classification (PSGC file)."
+          },
+          {
+            "name": "region_code",
+            "type": "string",
+            "description": "2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv."
+          },
+          {
+            "name": "province_psgc",
+            "type": "string",
+            "description": "PSGC code of the province (or independent city) containing the place, for province-level maps."
+          },
+          {
+            "name": "population_2024",
+            "type": "integer",
+            "description": "2024 population (PSGC file)."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "psgc_code"
+        ],
+        "foreignKeys": [
+          {
+            "fields": "region_code",
+            "reference": {
+              "resource": "regions",
+              "fields": "region_code"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "districts",
+      "title": "Legislative districts",
+      "description": "House legislative districts (from ph-pork-graph), with the PSGC code of the province/city they belong to.",
+      "path": "districts.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "district_id",
+            "type": "string",
+            "description": "District id (e.g. cebu-3, abra-lone)."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "District name."
+          },
+          {
+            "name": "district_no",
+            "type": "integer",
+            "description": "District number (0 = lone district)."
+          },
+          {
+            "name": "psgc_code",
+            "type": "string",
+            "description": "PSGC of its province or city (blank for Taguig-Pateros, which spans a city and a municipality)."
+          },
+          {
+            "name": "region_code",
+            "type": "string",
+            "description": "2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "primaryKey": [
+          "district_id"
+        ]
+      }
+    },
+    {
+      "name": "operating_units",
+      "title": "Operating units",
+      "description": "One row per agency x region x printed operating unit, with the place it was attributed to and the rule used.",
+      "path": "operating_units.csv",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8-sig",
+      "schema": {
+        "fields": [
+          {
+            "name": "agency_id",
+            "type": "string",
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+          },
+          {
+            "name": "agency_printed",
+            "type": "string",
+            "description": "Agency name as printed in the bill's Table of Contents."
+          },
+          {
+            "name": "region_code",
+            "type": "string",
+            "description": "2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv."
+          },
+          {
+            "name": "region_printed",
+            "type": "string",
+            "description": "Region heading as printed above this row (blank = no region printed: a national lump sum)."
+          },
+          {
+            "name": "operating_unit",
+            "type": "string",
+            "description": "Office the money is released to, as printed (Central Office, Regional Office, DPWH District Engineering Office, DepEd Division, hospital, campus...)."
+          },
+          {
+            "name": "geo_level",
+            "type": "string",
+            "description": "Finest place the money can honestly be attributed to: national (no region printed), central_office (agency HQ: printed under NCR but NOT Metro Manila spending - keep off maps), region, province, city, municipality, district (legislative district, DPWH), barangay (drill-downs only)."
+          },
+          {
+            "name": "psgc_code",
+            "type": "string",
+            "description": "PSA PSGC 10-digit code of that place (PSGC 2Q-2026). Region-level rows carry the region code; blank for national and central_office. See localities.csv / regions.csv."
+          },
+          {
+            "name": "province_psgc",
+            "type": "string",
+            "description": "PSGC code of the province (or independent city) containing the place, for province-level maps."
+          },
+          {
+            "name": "district_id",
+            "type": "string",
+            "description": "Legislative district id (districts.csv), for DPWH District Engineering Office rows mapped to exactly one district."
+          },
+          {
+            "name": "geo_basis",
+            "type": "string",
+            "description": "Which rule placed this row (e.g. \"DEO map\", \"office prefix (Division/PENRO/CENRO/PARO)\", \"place name in office name\", \"regional office\", \"no region printed\"). Filter on it to keep only placements you trust."
+          },
+          {
+            "name": "rows",
+            "type": "integer",
+            "description": "Appropriation rows (both stages) under this unit."
+          }
+        ],
+        "missingValues": [
+          ""
+        ],
+        "foreignKeys": [
+          {
+            "fields": "agency_id",
+            "reference": {
+              "resource": "agencies",
+              "fields": "agency_id"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

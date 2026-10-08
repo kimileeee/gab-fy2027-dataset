@@ -1,0 +1,255 @@
+id,name,district_no,locality_id
+abra-lone,Abra Lone,0,abra
+agusan-del-norte-lone,Agusan del Norte Lone,0,agusan-del-norte
+agusan-del-sur-1,Agusan del Sur 1,1,agusan-del-sur
+agusan-del-sur-2,Agusan del Sur 2,2,agusan-del-sur
+aklan-1,Aklan 1,1,aklan
+aklan-2,Aklan 2,2,aklan
+albay-1,Albay 1,1,albay
+albay-2,Albay 2,2,albay
+albay-3,Albay 3,3,albay
+antipolo-1,Antipolo 1,1,antipolo
+antipolo-2,Antipolo 2,2,antipolo
+antique-lone,Antique Lone,0,antique
+apayao-lone,Apayao Lone,0,apayao
+aurora-lone,Aurora Lone,0,aurora
+bacolod-lone,Bacolod Lone,0,bacolod
+baguio-lone,Baguio Lone,0,baguio
+basilan-lone,Basilan Lone,0,basilan
+bataan-1,Bataan 1,1,bataan
+bataan-2,Bataan 2,2,bataan
+bataan-3,Bataan 3,3,bataan
+batanes-lone,Batanes Lone,0,batanes
+batangas-1,Batangas 1,1,batangas
+batangas-2,Batangas 2,2,batangas
+batangas-3,Batangas 3,3,batangas
+batangas-4,Batangas 4,4,batangas
+batangas-5,Batangas 5,5,batangas
+batangas-6,Batangas 6,6,batangas
+benguet-lone,Benguet Lone,0,benguet
+biliran-lone,Biliran Lone,0,biliran
+binan-lone,Biñan Lone,0,binan
+bohol-1,Bohol 1,1,bohol
+bohol-2,Bohol 2,2,bohol
+bohol-3,Bohol 3,3,bohol
+bukidnon-1,Bukidnon 1,1,bukidnon
+bukidnon-2,Bukidnon 2,2,bukidnon
+bukidnon-3,Bukidnon 3,3,bukidnon
+bukidnon-4,Bukidnon 4,4,bukidnon
+bulacan-1,Bulacan 1,1,bulacan
+bulacan-2,Bulacan 2,2,bulacan
+bulacan-3,Bulacan 3,3,bulacan
+bulacan-4,Bulacan 4,4,bulacan
+bulacan-5,Bulacan 5,5,bulacan
+bulacan-6,Bulacan 6,6,bulacan
+butuan-lone,Butuan Lone,0,butuan
+cagayan-1,Cagayan 1,1,cagayan
+cagayan-2,Cagayan 2,2,cagayan
+cagayan-3,Cagayan 3,3,cagayan
+cagayan-de-oro-1,Cagayan de Oro 1,1,cagayan-de-oro
+cagayan-de-oro-2,Cagayan de Oro 2,2,cagayan-de-oro
+calamba-lone,Calamba Lone,0,calamba
+caloocan-1,Caloocan 1,1,caloocan
+caloocan-2,Caloocan 2,2,caloocan
+caloocan-3,Caloocan 3,3,caloocan
+camarines-norte-1,Camarines Norte 1,1,camarines-norte
+camarines-norte-2,Camarines Norte 2,2,camarines-norte
+camarines-sur-1,Camarines Sur 1,1,camarines-sur
+camarines-sur-2,Camarines Sur 2,2,camarines-sur
+camarines-sur-3,Camarines Sur 3,3,camarines-sur
+camarines-sur-4,Camarines Sur 4,4,camarines-sur
+camarines-sur-5,Camarines Sur 5,5,camarines-sur
+camiguin-lone,Camiguin Lone,0,camiguin
+capiz-1,Capiz 1,1,capiz
+capiz-2,Capiz 2,2,capiz
+catanduanes-lone,Catanduanes Lone,0,catanduanes
+cavite-1,Cavite 1,1,cavite
+cavite-2,Cavite 2,2,cavite
+cavite-3,Cavite 3,3,cavite
+cavite-4,Cavite 4,4,cavite
+cavite-5,Cavite 5,5,cavite
+cavite-6,Cavite 6,6,cavite
+cavite-7,Cavite 7,7,cavite
+cavite-8,Cavite 8,8,cavite
+cebu-1,Cebu 1,1,cebu
+cebu-2,Cebu 2,2,cebu
+cebu-3,Cebu 3,3,cebu
+cebu-4,Cebu 4,4,cebu
+cebu-5,Cebu 5,5,cebu
+cebu-6,Cebu 6,6,cebu
+cebu-7,Cebu 7,7,cebu
+cebu-city-1,Cebu City 1,1,cebu-city
+cebu-city-2,Cebu City 2,2,cebu-city
+cotabato-1,Cotabato 1,1,cotabato
+cotabato-2,Cotabato 2,2,cotabato
+cotabato-3,Cotabato 3,3,cotabato
+davao-city-1,Davao City 1,1,davao-city
+davao-city-2,Davao City 2,2,davao-city
+davao-city-3,Davao City 3,3,davao-city
+davao-de-oro-1,Davao de Oro 1,1,davao-de-oro
+davao-de-oro-2,Davao de Oro 2,2,davao-de-oro
+davao-del-norte-1,Davao del Norte 1,1,davao-del-norte
+davao-del-norte-2,Davao del Norte 2,2,davao-del-norte
+davao-del-sur-lone,Davao del Sur Lone,0,davao-del-sur
+davao-occidental-lone,Davao Occidental Lone,0,davao-occidental
+davao-oriental-1,Davao Oriental 1,1,davao-oriental
+davao-oriental-2,Davao Oriental 2,2,davao-oriental
+dinagat-islands-lone,Dinagat Islands Lone,0,dinagat-islands
+eastern-samar-lone,Eastern Samar Lone,0,eastern-samar
+general-santos-lone,General Santos Lone,0,general-santos
+guimaras-lone,Guimaras Lone,0,guimaras
+ifugao-lone,Ifugao Lone,0,ifugao
+iligan-lone,Iligan Lone,0,iligan
+ilocos-norte-1,Ilocos Norte 1,1,ilocos-norte
+ilocos-norte-2,Ilocos Norte 2,2,ilocos-norte
+ilocos-sur-1,Ilocos Sur 1,1,ilocos-sur
+ilocos-sur-2,Ilocos Sur 2,2,ilocos-sur
+iloilo-1,Iloilo 1,1,iloilo
+iloilo-2,Iloilo 2,2,iloilo
+iloilo-3,Iloilo 3,3,iloilo
+iloilo-4,Iloilo 4,4,iloilo
+iloilo-5,Iloilo 5,5,iloilo
+iloilo-city-lone,Iloilo City Lone,0,iloilo-city
+isabela-1,Isabela 1,1,isabela
+isabela-2,Isabela 2,2,isabela
+isabela-3,Isabela 3,3,isabela
+isabela-4,Isabela 4,4,isabela
+isabela-5,Isabela 5,5,isabela
+isabela-6,Isabela 6,6,isabela
+kalinga-lone,Kalinga Lone,0,kalinga
+la-union-1,La Union 1,1,la-union
+la-union-2,La Union 2,2,la-union
+laguna-1,Laguna 1,1,laguna
+laguna-2,Laguna 2,2,laguna
+laguna-3,Laguna 3,3,laguna
+laguna-4,Laguna 4,4,laguna
+lanao-del-norte-1,Lanao del Norte 1,1,lanao-del-norte
+lanao-del-norte-2,Lanao del Norte 2,2,lanao-del-norte
+lanao-del-sur-1,Lanao del Sur 1,1,lanao-del-sur
+lanao-del-sur-2,Lanao del Sur 2,2,lanao-del-sur
+lapu-lapu-city-lone,Lapu-Lapu City Lone,0,lapu-lapu-city
+las-pinas-lone,Las Piñas Lone,0,las-pinas
+leyte-1,Leyte 1,1,leyte
+leyte-2,Leyte 2,2,leyte
+leyte-3,Leyte 3,3,leyte
+leyte-4,Leyte 4,4,leyte
+leyte-5,Leyte 5,5,leyte
+maguindanao-del-norte-lone,Maguindanao del Norte Lone,0,maguindanao-del-norte
+maguindanao-del-sur-lone,Maguindanao del Sur Lone,0,maguindanao-del-sur
+makati-1,Makati 1,1,makati
+makati-2,Makati 2,2,makati
+malabon-lone,Malabon Lone,0,malabon
+mandaluyong-lone,Mandaluyong Lone,0,mandaluyong
+mandaue-lone,Mandaue Lone,0,mandaue
+manila-1,Manila 1,1,manila
+manila-2,Manila 2,2,manila
+manila-3,Manila 3,3,manila
+manila-4,Manila 4,4,manila
+manila-5,Manila 5,5,manila
+manila-6,Manila 6,6,manila
+marikina-1,Marikina 1,1,marikina
+marikina-2,Marikina 2,2,marikina
+marinduque-lone,Marinduque Lone,0,marinduque
+masbate-1,Masbate 1,1,masbate
+masbate-2,Masbate 2,2,masbate
+masbate-3,Masbate 3,3,masbate
+misamis-occidental-1,Misamis Occidental 1,1,misamis-occidental
+misamis-occidental-2,Misamis Occidental 2,2,misamis-occidental
+misamis-oriental-1,Misamis Oriental 1,1,misamis-oriental
+misamis-oriental-2,Misamis Oriental 2,2,misamis-oriental
+mountain-province-lone,Mountain Province Lone,0,mountain-province
+muntinlupa-lone,Muntinlupa Lone,0,muntinlupa
+navotas-lone,Navotas Lone,0,navotas
+negros-occidental-1,Negros Occidental 1,1,negros-occidental
+negros-occidental-2,Negros Occidental 2,2,negros-occidental
+negros-occidental-3,Negros Occidental 3,3,negros-occidental
+negros-occidental-4,Negros Occidental 4,4,negros-occidental
+negros-occidental-5,Negros Occidental 5,5,negros-occidental
+negros-occidental-6,Negros Occidental 6,6,negros-occidental
+negros-oriental-1,Negros Oriental 1,1,negros-oriental
+negros-oriental-2,Negros Oriental 2,2,negros-oriental
+negros-oriental-3,Negros Oriental 3,3,negros-oriental
+northern-samar-1,Northern Samar 1,1,northern-samar
+northern-samar-2,Northern Samar 2,2,northern-samar
+nueva-ecija-1,Nueva Ecija 1,1,nueva-ecija
+nueva-ecija-2,Nueva Ecija 2,2,nueva-ecija
+nueva-ecija-3,Nueva Ecija 3,3,nueva-ecija
+nueva-ecija-4,Nueva Ecija 4,4,nueva-ecija
+nueva-vizcaya-lone,Nueva Vizcaya Lone,0,nueva-vizcaya
+occidental-mindoro-lone,Occidental Mindoro Lone,0,occidental-mindoro
+oriental-mindoro-1,Oriental Mindoro 1,1,oriental-mindoro
+oriental-mindoro-2,Oriental Mindoro 2,2,oriental-mindoro
+palawan-1,Palawan 1,1,palawan
+palawan-2,Palawan 2,2,palawan
+palawan-3,Palawan 3,3,palawan
+pampanga-1,Pampanga 1,1,pampanga
+pampanga-2,Pampanga 2,2,pampanga
+pampanga-3,Pampanga 3,3,pampanga
+pampanga-4,Pampanga 4,4,pampanga
+pangasinan-1,Pangasinan 1,1,pangasinan
+pangasinan-2,Pangasinan 2,2,pangasinan
+pangasinan-3,Pangasinan 3,3,pangasinan
+pangasinan-4,Pangasinan 4,4,pangasinan
+pangasinan-5,Pangasinan 5,5,pangasinan
+pangasinan-6,Pangasinan 6,6,pangasinan
+paranaque-1,Parañaque 1,1,paranaque
+paranaque-2,Parañaque 2,2,paranaque
+pasay-lone,Pasay Lone,0,pasay
+pasig-lone,Pasig Lone,0,pasig
+quezon-1,Quezon 1,1,quezon
+quezon-2,Quezon 2,2,quezon
+quezon-3,Quezon 3,3,quezon
+quezon-4,Quezon 4,4,quezon
+quezon-city-1,Quezon City 1,1,quezon-city
+quezon-city-2,Quezon City 2,2,quezon-city
+quezon-city-3,Quezon City 3,3,quezon-city
+quezon-city-4,Quezon City 4,4,quezon-city
+quezon-city-5,Quezon City 5,5,quezon-city
+quezon-city-6,Quezon City 6,6,quezon-city
+quirino-lone,Quirino Lone,0,quirino
+rizal-1,Rizal 1,1,rizal
+rizal-2,Rizal 2,2,rizal
+rizal-3,Rizal 3,3,rizal
+rizal-4,Rizal 4,4,rizal
+romblon-lone,Romblon Lone,0,romblon
+samar-1,Samar 1,1,samar
+samar-2,Samar 2,2,samar
+san-jose-del-monte-lone,San Jose del Monte Lone,0,san-jose-del-monte
+san-juan-lone,San Juan Lone,0,san-juan
+santa-rosa-lone,Santa Rosa Lone,0,santa-rosa
+sarangani-lone,Sarangani Lone,0,sarangani
+siquijor-lone,Siquijor Lone,0,siquijor
+sorsogon-1,Sorsogon 1,1,sorsogon
+sorsogon-2,Sorsogon 2,2,sorsogon
+south-cotabato-1,South Cotabato 1,1,south-cotabato
+south-cotabato-2,South Cotabato 2,2,south-cotabato
+south-cotabato-3,South Cotabato 3,3,south-cotabato
+southern-leyte-1,Southern Leyte 1,1,southern-leyte
+southern-leyte-2,Southern Leyte 2,2,southern-leyte
+sultan-kudarat-1,Sultan Kudarat 1,1,sultan-kudarat
+sultan-kudarat-2,Sultan Kudarat 2,2,sultan-kudarat
+sulu-1,Sulu 1,1,sulu
+sulu-2,Sulu 2,2,sulu
+surigao-del-norte-1,Surigao del Norte 1,1,surigao-del-norte
+surigao-del-norte-2,Surigao del Norte 2,2,surigao-del-norte
+surigao-del-sur-1,Surigao del Sur 1,1,surigao-del-sur
+surigao-del-sur-2,Surigao del Sur 2,2,surigao-del-sur
+taguigpateros-1,Taguig–Pateros 1,1,taguigpateros
+taguigpateros-2,Taguig–Pateros 2,2,taguigpateros
+tarlac-1,Tarlac 1,1,tarlac
+tarlac-2,Tarlac 2,2,tarlac
+tarlac-3,Tarlac 3,3,tarlac
+tawi-tawi-lone,Tawi-Tawi Lone,0,tawi-tawi
+valenzuela-1,Valenzuela 1,1,valenzuela
+valenzuela-2,Valenzuela 2,2,valenzuela
+zambales-1,Zambales 1,1,zambales
+zambales-2,Zambales 2,2,zambales
+zamboanga-city-1,Zamboanga City 1,1,zamboanga-city
+zamboanga-city-2,Zamboanga City 2,2,zamboanga-city
+zamboanga-del-norte-1,Zamboanga del Norte 1,1,zamboanga-del-norte
+zamboanga-del-norte-2,Zamboanga del Norte 2,2,zamboanga-del-norte
+zamboanga-del-norte-3,Zamboanga del Norte 3,3,zamboanga-del-norte
+zamboanga-del-sur-1,Zamboanga del Sur 1,1,zamboanga-del-sur
+zamboanga-del-sur-2,Zamboanga del Sur 2,2,zamboanga-del-sur
+zamboanga-sibugay-1,Zamboanga Sibugay 1,1,zamboanga-sibugay
+zamboanga-sibugay-2,Zamboanga Sibugay 2,2,zamboanga-sibugay

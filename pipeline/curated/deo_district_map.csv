@@ -1,0 +1,221 @@
+office,district_id,locality_id,confidence
+Abra District Engineering Office,abra-lone,abra,exact
+Agusan del Norte District Engineering Office,agusan-del-norte-lone,agusan-del-norte,exact
+Agusan del Sur 1st District Engineering Office,agusan-del-sur-1,agusan-del-sur,exact
+Agusan del Sur 2nd District Engineering Office,agusan-del-sur-2,agusan-del-sur,exact
+Aklan District Engineering Office,,aklan,locality
+Albay 1st District Engineering Office,albay-1,albay,exact
+Albay 2nd District Engineering Office,albay-2,albay,exact
+Albay 3rd District Engineering Office,albay-3,albay,exact
+Antique District Engineering Office,antique-lone,antique,exact
+Apayao 1st District Engineering Office,,apayao,locality
+Apayao 2nd District Engineering Office,,apayao,locality
+Aurora District Engineering Office,aurora-lone,aurora,exact
+Bacolod City District Engineering Office,bacolod-lone,bacolod,exact
+Baguio City District Engineering Office,baguio-lone,baguio,exact
+Bataan 1st District Engineering Office,bataan-1,bataan,exact
+Bataan 2nd District Engineering Office,bataan-2,bataan,exact
+Bataan 3rd District Engineering Office,bataan-3,bataan,exact
+Batanes District Engineering Office,batanes-lone,batanes,exact
+Batangas 1st District Engineering Office,batangas-1,batangas,exact
+Batangas 2nd District Engineering Office,batangas-2,batangas,exact
+Batangas 3rd District Engineering Office,batangas-3,batangas,exact
+Batangas 4th District Engineering Office,batangas-4,batangas,exact
+Benguet 1st District Engineering Office,,benguet,locality
+Benguet 2nd District Engineering Office,,benguet,locality
+Biliran District Engineering Office,biliran-lone,biliran,exact
+Bohol 1st District Engineering Office,bohol-1,bohol,exact
+Bohol 2nd District Engineering Office,bohol-2,bohol,exact
+Bohol 3rd District Engineering Office,bohol-3,bohol,exact
+Bukidnon 1st District Engineering Office,bukidnon-1,bukidnon,exact
+Bukidnon 2nd District Engineering Office,bukidnon-2,bukidnon,exact
+Bukidnon 3rd District Engineering Office,bukidnon-3,bukidnon,exact
+Bukidnon 4th District Engineering Office,bukidnon-4,bukidnon,exact
+Bulacan 1st District Engineering Office,bulacan-1,bulacan,exact
+Bulacan 2nd District Engineering Office,bulacan-2,bulacan,exact
+Bulacan 3rd District Engineering Office,bulacan-3,bulacan,exact
+Butuan City District Engineering Office,butuan-lone,butuan,exact
+Cagayan 1st District Engineering Office,cagayan-1,cagayan,exact
+Cagayan 2nd District Engineering Office,cagayan-2,cagayan,exact
+Cagayan 3rd District Engineering Office,cagayan-3,cagayan,exact
+Cagayan de Oro City 1st District Engineering Office,cagayan-de-oro-1,cagayan-de-oro,exact
+Cagayan de Oro City 2nd District Engineering Office,cagayan-de-oro-2,cagayan-de-oro,exact
+Camarines Norte District Engineering Office,,camarines-norte,locality
+Camarines Norte Sub District Engineering Office,,,unmatched
+Camarines Sur 1st District Engineering Office,camarines-sur-1,camarines-sur,exact
+Camarines Sur 2nd District Engineering Office,camarines-sur-2,camarines-sur,exact
+Camarines Sur 3rd District Engineering Office,camarines-sur-3,camarines-sur,exact
+Camarines Sur 4th District Engineering Office,camarines-sur-4,camarines-sur,exact
+Camarines Sur 5th District Engineering Office,camarines-sur-5,camarines-sur,exact
+Camiguin District Engineering Office,camiguin-lone,camiguin,exact
+Capiz 1st District Engineering Office,capiz-1,capiz,exact
+Capiz 2nd District Engineering Office,capiz-2,capiz,exact
+Catanduanes District Engineering Office,catanduanes-lone,catanduanes,exact
+Cavite 1st District Engineering Office,cavite-1,cavite,exact
+Cavite 2nd District Engineering Office,cavite-2,cavite,exact
+Cavite 3rd District Engineering Office,cavite-3,cavite,exact
+Cebu 1st District Engineering Office,cebu-1,cebu,exact
+Cebu 2nd District Engineering Office,cebu-2,cebu,exact
+Cebu 3rd District Engineering Office,cebu-3,cebu,exact
+Cebu 4th District Engineering Office,cebu-4,cebu,exact
+Cebu 5th District Engineering Office,cebu-5,cebu,exact
+Cebu 6th District Engineering Office,cebu-6,cebu,exact
+Cebu 7th District Engineering Office,cebu-7,cebu,exact
+Cebu City District Engineering Office,,cebu,locality
+Central Office,,,not-a-deo
+Cotabato 1st District Engineering Office,cotabato-1,cotabato,exact
+Cotabato 2nd District Engineering Office,cotabato-2,cotabato,exact
+Cotabato 3rd District Engineering Office,cotabato-3,cotabato,exact
+Davao City 2nd District Engineering Office,davao-city-2,davao-city,exact
+Davao City 3rd District Engineering Office,davao-city-3,davao-city,exact
+Davao City District Engineering Office,,davao-city,locality
+Davao Occidental District Engineering Office,davao-occidental-lone,davao-occidental,exact
+Davao Oriental 1st District Engineering Office,davao-oriental-1,davao-oriental,exact
+Davao Oriental 2nd District Engineering Office,davao-oriental-2,davao-oriental,exact
+Davao de Oro 1st District Engineering Office,davao-de-oro-1,davao-de-oro,exact
+Davao de Oro 2nd District Engineering Office,davao-de-oro-2,davao-de-oro,exact
+Davao del Norte 2nd District Engineering Office,davao-del-norte-2,davao-del-norte,exact
+Davao del Norte District Engineering Office,,davao-del-norte,locality
+Davao del Sur District Engineering Office,davao-del-sur-lone,davao-del-sur,exact
+Dinagat Islands District Engineering Office,dinagat-islands-lone,dinagat-islands,exact
+Eastern Samar District Engineering Office,eastern-samar-lone,eastern-samar,exact
+Guimaras District Engineering Office,guimaras-lone,guimaras,exact
+Ifugao 1st District Engineering Office,,ifugao,locality
+Ifugao 2nd District Engineering Office,,ifugao,locality
+Iligan City District Engineering Office,iligan-lone,iligan,exact
+Ilocos Norte 1st District Engineering Office,ilocos-norte-1,ilocos-norte,exact
+Ilocos Norte 2nd District Engineering Office,ilocos-norte-2,ilocos-norte,exact
+Ilocos Sur 1st District Engineering Office,ilocos-sur-1,ilocos-sur,exact
+Ilocos Sur 2nd District Engineering Office,ilocos-sur-2,ilocos-sur,exact
+Iloilo 1st District Engineering Office,iloilo-1,iloilo,exact
+Iloilo 2nd District Engineering Office,iloilo-2,iloilo,exact
+Iloilo 3rd District Engineering Office,iloilo-3,iloilo,exact
+Iloilo 4th District Engineering Office,iloilo-4,iloilo,exact
+Iloilo 6th District Engineering Office,,iloilo,locality
+Iloilo City District Engineering Office,,iloilo,locality
+Isabela 1st District Engineering Office,isabela-1,isabela,exact
+Isabela 2nd District Engineering Office,isabela-2,isabela,exact
+Isabela 3rd District Engineering Office,isabela-3,isabela,exact
+Isabela 4th District Engineering Office,isabela-4,isabela,exact
+Isabela City District Engineering Office,,isabela,locality
+La Union 1st District Engineering Office,la-union-1,la-union,exact
+La Union 2nd District Engineering Office,la-union-2,la-union,exact
+Laguna 1st District Engineering Office,laguna-1,laguna,exact
+Laguna 2nd District Engineering Office,laguna-2,laguna,exact
+Laguna 3rd District Engineering Office,laguna-3,laguna,exact
+Lanao del Norte 1st District Engineering Office,lanao-del-norte-1,lanao-del-norte,exact
+Lanao del Norte 2nd District Engineering Office,lanao-del-norte-2,lanao-del-norte,exact
+Las Piñas Muntinlupa District Engineering Office,,,unmatched
+Leyte 1st District Engineering Office,leyte-1,leyte,exact
+Leyte 2nd District Engineering Office,leyte-2,leyte,exact
+Leyte 3rd District Engineering Office,leyte-3,leyte,exact
+Leyte 4th District Engineering Office,leyte-4,leyte,exact
+Leyte 5th District Engineering Office,leyte-5,leyte,exact
+Lower Kalinga District Engineering Office,,,unmatched
+Malabon Navotas District Engineering Office,,,unmatched
+Marinduque District Engineering Office,marinduque-lone,marinduque,exact
+Masbate 1st District Engineering Office,masbate-1,masbate,exact
+Masbate 2nd District Engineering Office,masbate-2,masbate,exact
+Masbate 3rd District Engineering Office,masbate-3,masbate,exact
+Metro Manila 1st District Engineering Office,,,unmatched
+Metro Manila 2nd District Engineering Office,,,unmatched
+Metro Manila 3rd District Engineering Office,,,unmatched
+Mindoro Occidental District Engineering Office,occidental-mindoro-lone,occidental-mindoro,exact
+Mindoro Oriental District Engineering Office,,oriental-mindoro,locality
+Misamis Occidental 1st District Engineering Office,misamis-occidental-1,misamis-occidental,exact
+Misamis Occidental 2nd District Engineering Office,misamis-occidental-2,misamis-occidental,exact
+Misamis Oriental 1st District Engineering Office,misamis-oriental-1,misamis-oriental,exact
+Misamis Oriental 2nd District Engineering Office,misamis-oriental-2,misamis-oriental,exact
+Mountain Province 1st District Engineering Office,,mountain-province,locality
+Mountain Province 2nd District Engineering Office,,mountain-province,locality
+Negros Occidental 1st District Engineering Office,negros-occidental-1,negros-occidental,exact
+Negros Occidental 2nd District Engineering Office,negros-occidental-2,negros-occidental,exact
+Negros Occidental 3rd District Engineering Office,negros-occidental-3,negros-occidental,exact
+Negros Occidental 4th District Engineering Office,negros-occidental-4,negros-occidental,exact
+Negros Occidental 5th District Engineering Office,negros-occidental-5,negros-occidental,exact
+Negros Oriental 1st District Engineering Office,negros-oriental-1,negros-oriental,exact
+Negros Oriental 2nd District Engineering Office,negros-oriental-2,negros-oriental,exact
+Negros Oriental 3rd District Engineering Office,negros-oriental-3,negros-oriental,exact
+North Manila District Engineering Office,,,unmatched
+Northern Samar 1st District Engineering Office,northern-samar-1,northern-samar,exact
+Northern Samar 2nd District Engineering Office,northern-samar-2,northern-samar,exact
+Nueva Ecija 1st District Engineering Office,nueva-ecija-1,nueva-ecija,exact
+Nueva Ecija 2nd District Engineering Office,nueva-ecija-2,nueva-ecija,exact
+Nueva Vizcaya 2nd District Engineering Office,,nueva-vizcaya,locality
+Nueva Vizcaya District Engineering Office,nueva-vizcaya-lone,nueva-vizcaya,exact
+Palawan 1st District Engineering Office,palawan-1,palawan,exact
+Palawan 2nd District Engineering Office,palawan-2,palawan,exact
+Palawan 3rd District Engineering Office,palawan-3,palawan,exact
+Pampanga 1st District Engineering Office,pampanga-1,pampanga,exact
+Pampanga 2nd District Engineering Office,pampanga-2,pampanga,exact
+Pampanga 3rd District Engineering Office,pampanga-3,pampanga,exact
+Pangasinan 1st District Engineering Office,pangasinan-1,pangasinan,exact
+Pangasinan 2nd District Engineering Office,pangasinan-2,pangasinan,exact
+Pangasinan 3rd District Engineering Office,pangasinan-3,pangasinan,exact
+Pangasinan 4th District Engineering Office,pangasinan-4,pangasinan,exact
+Quezon 1st District Engineering Office,quezon-1,quezon,exact
+Quezon 2nd District Engineering Office,quezon-2,quezon,exact
+Quezon 3rd District Engineering Office,quezon-3,quezon,exact
+Quezon 4th District Engineering Office,quezon-4,quezon,exact
+Quezon City 1st District Engineering Office,quezon-city-1,quezon-city,exact
+Quezon City 2nd District Engineering Office,quezon-city-2,quezon-city,exact
+Quirino District Engineering Office,quirino-lone,quirino,exact
+Regional Office CAR,,,not-a-deo
+Regional Office I,,,not-a-deo
+Regional Office II,,,not-a-deo
+Regional Office III,,,not-a-deo
+Regional Office IVA,,,not-a-deo
+Regional Office IX,,,not-a-deo
+Regional Office IX BARMM,,,not-a-deo
+Regional Office MIMAROPA,,,not-a-deo
+Regional Office NCR,,,not-a-deo
+Regional Office NIR,,,not-a-deo
+Regional Office V,,,not-a-deo
+Regional Office VI,,,not-a-deo
+Regional Office VII,,,not-a-deo
+Regional Office VIII,,,not-a-deo
+Regional Office X,,,not-a-deo
+Regional Office X BARMM,,,not-a-deo
+Regional Office XI,,,not-a-deo
+Regional Office XII,,,not-a-deo
+Regional Office XII BARMM,,,not-a-deo
+Regional Office XIII,,,not-a-deo
+Rizal 1st District Engineering Office,rizal-1,rizal,exact
+Rizal 2nd District Engineering Office,rizal-2,rizal,exact
+Romblon District Engineering Office,romblon-lone,romblon,exact
+Samar 1st District Engineering Office,samar-1,samar,exact
+Samar 2nd District Engineering Office,samar-2,samar,exact
+Sarangani District Engineering Office,sarangani-lone,sarangani,exact
+Siquijor District Engineering Office,siquijor-lone,siquijor,exact
+Sorsogon 2nd District Engineering Office,sorsogon-2,sorsogon,exact
+Sorsogon District Engineering Office,,sorsogon,locality
+South Cotabato 1st District Engineering Office,south-cotabato-1,south-cotabato,exact
+South Cotabato 2nd District Engineering Office,south-cotabato-2,south-cotabato,exact
+South Manila District Engineering Office,,,unmatched
+Southern Leyte 1st District Engineering Office,southern-leyte-1,southern-leyte,exact
+Southern Leyte 2nd District Engineering Office,southern-leyte-2,southern-leyte,exact
+Southern Mindoro District Engineering Office,,,unmatched
+Sultan Kudarat 1st District Engineering Office,sultan-kudarat-1,sultan-kudarat,exact
+Sultan Kudarat 2nd District Engineering Office,sultan-kudarat-2,sultan-kudarat,exact
+Sulu 1st District Engineering Office,sulu-1,sulu,exact
+Sulu 2nd District Engineering Office,sulu-2,sulu,exact
+Surigao del Norte 1st District Engineering Office,surigao-del-norte-1,surigao-del-norte,exact
+Surigao del Norte 2nd District Engineering Office,surigao-del-norte-2,surigao-del-norte,exact
+Surigao del Sur 1st District Engineering Office,surigao-del-sur-1,surigao-del-sur,exact
+Surigao del Sur 2nd District Engineering Office,surigao-del-sur-2,surigao-del-sur,exact
+Tacloban City District Engineering Office,,,unmatched
+Tarlac 2nd District Engineering Office,tarlac-2,tarlac,exact
+Tarlac District Engineering Office,,tarlac,locality
+Upper Kalinga District Engineering Office,,,unmatched
+Zambales 1st District Engineering Office,zambales-1,zambales,exact
+Zambales 2nd District Engineering Office,zambales-2,zambales,exact
+Zamboanga City 1st District Engineering Office,zamboanga-city-1,zamboanga-city,exact
+Zamboanga City 2nd District Engineering Office,zamboanga-city-2,zamboanga-city,exact
+Zamboanga Sibugay 1st District Engineering Office,zamboanga-sibugay-1,zamboanga-sibugay,exact
+Zamboanga Sibugay 2nd District Engineering Office,zamboanga-sibugay-2,zamboanga-sibugay,exact
+Zamboanga del Norte 1st District Engineering Office,zamboanga-del-norte-1,zamboanga-del-norte,exact
+Zamboanga del Norte 2nd District Engineering Office,zamboanga-del-norte-2,zamboanga-del-norte,exact
+Zamboanga del Norte 3rd District Engineering Office,zamboanga-del-norte-3,zamboanga-del-norte,exact
+Zamboanga del Norte 4th District Engineering Office,,zamboanga-del-norte,locality
+Zamboanga del Sur 1st District Engineering Office,zamboanga-del-sur-1,zamboanga-del-sur,exact
+Zamboanga del Sur 2nd District Engineering Office,zamboanga-del-sur-2,zamboanga-del-sur,exact

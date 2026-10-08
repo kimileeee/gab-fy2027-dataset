@@ -1,0 +1,3 @@
+# Store every file byte-for-byte: no line-ending conversion. Release CSVs keep LF line breaks inside quoted
+# Special Provision texts, and rebuilds are checked byte-identical, so checkout must not rewrite them.
+* -text

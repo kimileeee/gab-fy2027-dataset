@@ -1,0 +1,91 @@
+﻿drilldown_group_id,stage,source,description,parent_rows,parent_amount,items,drilldown_amount,coverage,status
+9af477e31c3e,GAB_3R,dpwh_tail,Buildings and Other Structures - Multipurpose / Facilities - National Building Program,54,13875943000,210,13875943000,1.0,complete
+0f2b4c6e03f6,GAB_3R,dpwh_vol_ic,CONVERGENCE AND SPECIAL SUPPORT PROGRAM,462,231382287000,10857,229502587000,0.9919,partial
+22e287bd8ce7,GAB_3R,dpwh_vol_ic,ASSET PRESERVATION PROGRAM,390,79720290000,1553,79720290000,1.0,complete
+34f717e250be,GAB_3R,dpwh_vol_ic,FLOOD MANAGEMENT PROGRAM,142,87187778000,1456,87187778000,1.0,complete
+f3f5150f4a6b,GAB_3R,dpwh_vol_ic,NETWORK DEVELOPMENT PROGRAM,183,92435879000,1052,92435879000,1.0,complete
+f55430f14298,GAB_3R,dpwh_vol_ic,BRIDGE PROGRAM,200,37590473000,836,37590473000,1.0,complete
+1d83231b580b,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region XII - SOCCSKSARGEN,1,425000000,28,425000000,1.0,complete
+29820ced09ac,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region IX - Zamboanga Peninsula,1,580000000,32,580000000,1.0,complete
+2d4df02dd65e,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region VIII - Eastern Visayas,1,996800000,52,996800000,1.0,complete
+36f7326a75f1,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region V - Bicol,1,1391200000,77,1391200000,1.0,complete
+3a58e7e5f659,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region III - Central Luzon,1,3418800000,173,3418800000,1.0,complete
+47e034cc4f94,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region I - Ilocos,1,1590000000,96,1590000000,1.0,complete
+599149fbf63a,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region IVA - CALABARZON,1,2403400000,133,2403400000,1.0,complete
+9410d3ff7478,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region IVB - MIMAROPA,1,1005350000,44,1005350000,1.0,complete
+98f4eccd0a95,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region VI - Western Visayas,1,1042750000,50,1042750000,1.0,complete
+b21db933f7e8,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region X - Northern Mindanao,1,683400000,33,683400000,1.0,complete
+b40bc4f28717,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region XIII - Caraga,1,938200000,51,938200000,1.0,complete
+bc64129a5a65,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region II - Cagayan Valley,1,2133200000,99,2133200000,1.0,complete
+dafdac12914d,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region VII - Central Visayas,1,315000000,19,315000000,1.0,complete
+f0f61722490c,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Cordillera Administrative Region (CAR),1,1565000000,22,1565000000,1.0,complete
+f80c1ea1b074,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Negros Island Region (NIR),1,665000000,35,665000000,1.0,complete
+f94e38d6219e,GAB_3R,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region XI - Davao,1,475000000,20,475000000,1.0,complete
+d9ef8eafedfe,GAB_3R,hfep,LOCAL HEALTH SYSTEM SUPPORT PROGRAM,1,10088832000,512,10001659000,0.9914,partial
+10a8ec7e51f9,GAB_3R,nia,Other Irrigation System Sub-Program,0,,5,460000000,,parent_not_parsed
+310f2245fbd2,GAB_3R,nia,Special Irrigation Sub-Program,0,,26,158100000,,parent_not_parsed
+426685073034,GAB_3R,nia,Communal Irrigation System Sub-Program,0,,215,3243000000,,parent_not_parsed
+5013de1fff1f,GAB_3R,nia,Establishment of Pump Irrigation Sub-Program,0,,354,8466950000,,parent_not_parsed
+82ec7f832f33,GAB_3R,nia,Extension/Expansion of Existing Irrigation System Sub-Program,0,,11,200000000,,parent_not_parsed
+b2c5d9c9da5a,GAB_3R,nia,National Irrigation System Sub-Program,0,,217,5471255000,,parent_not_parsed
+0033290fabe4,GAB_3R,sbdp,Support to Barangay Development Program | Region XIII,0,,30,,,no_amounts
+056907316972,GAB_3R,sbdp,Support to Barangay Development Program | Region VIII,0,,175,,,no_amounts
+16118d6f4c4e,GAB_3R,sbdp,Support to Barangay Development Program | Region V,0,,184,,,no_amounts
+259188c75bee,GAB_3R,sbdp,Support to Barangay Development Program | Region I,0,,184,,,no_amounts
+2c0149e0bc74,GAB_3R,sbdp,Support to Barangay Development Program | Region X,0,,89,,,no_amounts
+366f51d1ea05,GAB_3R,sbdp,Support to Barangay Development Program | CAR,0,,119,,,no_amounts
+3bcf7b2dbb22,GAB_3R,sbdp,Support to Barangay Development Program | Region II,0,,70,,,no_amounts
+571556c9bc0b,GAB_3R,sbdp,Support to Barangay Development Program | NIR,0,,72,,,no_amounts
+a408083aa751,GAB_3R,sbdp,Support to Barangay Development Program | Region III,0,,273,,,no_amounts
+aeb904338d46,GAB_3R,sbdp,Support to Barangay Development Program | Region XII,0,,63,,,no_amounts
+aeedeea1dad4,GAB_3R,sbdp,Support to Barangay Development Program | Region VII,0,,69,,,no_amounts
+c5cd367fbbbf,GAB_3R,sbdp,Support to Barangay Development Program | Region IX,0,,238,,,no_amounts
+d8f3f09bc2e9,GAB_3R,sbdp,Support to Barangay Development Program | Region IV-A,0,,166,,,no_amounts
+ef14205f78a6,GAB_3R,sbdp,Support to Barangay Development Program | Region XI,0,,74,,,no_amounts
+f7e3c5f950a2,GAB_3R,sbdp,Support to Barangay Development Program | Region VI,0,,45,,,no_amounts
+f8f49acc10fe,GAB_3R,sbdp,Support to Barangay Development Program | Region IV-B,0,,97,,,no_amounts
+9af477e31c3e,GAB_FILED,dpwh_tail,Buildings and Other Structures - Multipurpose / Facilities - National Building Program,47,14433675000,204,14433675000,1.0,complete
+0f2b4c6e03f6,GAB_FILED,dpwh_vol_ic,CONVERGENCE AND SPECIAL SUPPORT PROGRAM,429,157308648000,6527,155901648000,0.9911,partial
+22e287bd8ce7,GAB_FILED,dpwh_vol_ic,ASSET PRESERVATION PROGRAM,346,68418283000,1331,68418283000,1.0,complete
+34f717e250be,GAB_FILED,dpwh_vol_ic,FLOOD MANAGEMENT PROGRAM,126,83846944000,1255,83846944000,1.0,complete
+f3f5150f4a6b,GAB_FILED,dpwh_vol_ic,NETWORK DEVELOPMENT PROGRAM,155,92179924000,978,92179924000,1.0,complete
+f55430f14298,GAB_FILED,dpwh_vol_ic,BRIDGE PROGRAM,194,38987589000,847,38987589000,1.0,complete
+1d83231b580b,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region XII - SOCCSKSARGEN,1,240000000,16,240000000,1.0,complete
+29820ced09ac,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region IX - Zamboanga Peninsula,1,445000000,26,445000000,1.0,complete
+2d4df02dd65e,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region VIII - Eastern Visayas,1,535000000,28,535000000,1.0,complete
+36f7326a75f1,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region V - Bicol,1,915000000,51,915000000,1.0,complete
+3a58e7e5f659,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region III - Central Luzon,1,3025000000,131,3025000000,1.0,complete
+47e034cc4f94,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region I - Ilocos,1,1630000000,90,1630000000,1.0,complete
+599149fbf63a,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region IVA - CALABARZON,1,1627000000,79,1627000000,1.0,complete
+9410d3ff7478,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region IVB - MIMAROPA,1,795000000,34,795000000,1.0,complete
+98f4eccd0a95,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region VI - Western Visayas,1,500000000,28,500000000,1.0,complete
+b21db933f7e8,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region X - Northern Mindanao,1,455000000,21,455000000,1.0,complete
+b40bc4f28717,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region XIII - Caraga,1,1208000000,50,1208000000,1.0,complete
+bc64129a5a65,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region II - Cagayan Valley,1,1865000000,77,1865000000,1.0,complete
+dafdac12914d,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region VII - Central Visayas,1,225000000,14,225000000,1.0,complete
+f0f61722490c,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Cordillera Administrative Region (CAR),1,1540000000,21,1540000000,1.0,complete
+f80c1ea1b074,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Negros Island Region (NIR),1,460000000,24,460000000,1.0,complete
+f94e38d6219e,GAB_FILED,fmr,Repair/Rehabilitation and Construction of Farm-to-Market Roads in Designated Key Production Areas | Region XI - Davao,1,535000000,14,535000000,1.0,complete
+d9ef8eafedfe,GAB_FILED,hfep,LOCAL HEALTH SYSTEM SUPPORT PROGRAM,1,14539832000,464,14472519000,0.9954,partial
+10a8ec7e51f9,GAB_FILED,nia,Other Irrigation System Sub-Program,0,,13,3000000000,,parent_not_parsed
+310f2245fbd2,GAB_FILED,nia,Special Irrigation Sub-Program,0,,29,200000000,,parent_not_parsed
+426685073034,GAB_FILED,nia,Communal Irrigation System Sub-Program,0,,192,1620000000,,parent_not_parsed
+5013de1fff1f,GAB_FILED,nia,Establishment of Pump Irrigation Sub-Program,0,,330,7915950000,,parent_not_parsed
+82ec7f832f33,GAB_FILED,nia,Extension/Expansion of Existing Irrigation System Sub-Program,0,,11,200000000,,parent_not_parsed
+b2c5d9c9da5a,GAB_FILED,nia,National Irrigation System Sub-Program,0,,216,4662231000,,parent_not_parsed
+0033290fabe4,GAB_FILED,sbdp,Support to Barangay Development Program | Region XIII,0,,30,,,no_amounts
+056907316972,GAB_FILED,sbdp,Support to Barangay Development Program | Region VIII,0,,175,,,no_amounts
+16118d6f4c4e,GAB_FILED,sbdp,Support to Barangay Development Program | Region V,0,,184,,,no_amounts
+259188c75bee,GAB_FILED,sbdp,Support to Barangay Development Program | Region I,0,,184,,,no_amounts
+2c0149e0bc74,GAB_FILED,sbdp,Support to Barangay Development Program | Region X,0,,89,,,no_amounts
+366f51d1ea05,GAB_FILED,sbdp,Support to Barangay Development Program | CAR,0,,119,,,no_amounts
+3bcf7b2dbb22,GAB_FILED,sbdp,Support to Barangay Development Program | Region II,0,,70,,,no_amounts
+571556c9bc0b,GAB_FILED,sbdp,Support to Barangay Development Program | NIR,0,,72,,,no_amounts
+a408083aa751,GAB_FILED,sbdp,Support to Barangay Development Program | Region III,0,,273,,,no_amounts
+aeb904338d46,GAB_FILED,sbdp,Support to Barangay Development Program | Region XII,0,,63,,,no_amounts
+aeedeea1dad4,GAB_FILED,sbdp,Support to Barangay Development Program | Region VII,0,,69,,,no_amounts
+c5cd367fbbbf,GAB_FILED,sbdp,Support to Barangay Development Program | Region IX,0,,238,,,no_amounts
+d8f3f09bc2e9,GAB_FILED,sbdp,Support to Barangay Development Program | Region IV-A,0,,166,,,no_amounts
+ef14205f78a6,GAB_FILED,sbdp,Support to Barangay Development Program | Region XI,0,,74,,,no_amounts
+f7e3c5f950a2,GAB_FILED,sbdp,Support to Barangay Development Program | Region VI,0,,45,,,no_amounts
+f8f49acc10fe,GAB_FILED,sbdp,Support to Barangay Development Program | Region IV-B,0,,97,,,no_amounts

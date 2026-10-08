@@ -1,0 +1,4 @@
+# tested versions; PyMuPDF text extraction can change between releases, so pin before re-parsing
+duckdb==1.5.6
+openpyxl==3.1.5
+pymupdf==1.28.2
