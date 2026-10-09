@@ -18,11 +18,12 @@ The enacted budget law after bicam ratification and presidential signature/veto.
 _Avoid_: budget law, enacted GAB
 
 **Stage**:
-Which point in the budget process a figure comes from: `NEP` → `GAB_FILED` → `GAB_3R` → (Senate, bicam, `GAA`).
+Which point in the budget process a figure comes from: `NEP` → `GAB_FILED` → `GAB_2R` → `GAB_3R` → (Senate, bicam, `GAA`).
 _Avoid_: version, copy (outside parser internals)
 
-**Copy A / Copy B**:
-Parser-internal names for the two bills printed inside CR 638: A = `GAB_FILED` (as filed), B = `GAB_3R` (3rd reading).
+**Copy A / B / C**:
+Parser-internal names for the three printings: A = `GAB_FILED` (CR 638 first half, as filed), B = `GAB_2R` (CR 638 second half,
+2nd reading — its print stamp says [3RD READING]), C = `GAB_3R` (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026).
 _Avoid_: using A/B in published tables — use the stage name
 
 ## Budget structure

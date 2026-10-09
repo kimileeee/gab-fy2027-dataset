@@ -4,22 +4,24 @@
 
 | stage | rows | total (₱) |
 |---|---:|---:|
-| GAB_3R | 18,987 | 3,876,048,999,000 |
-| GAB_FILED | 18,810 | 3,858,184,415,000 |
+| GAB_2R | 18,998 | 4,313,334,209,000 |
+| GAB_3R | 18,998 | 4,313,334,209,000 |
+| GAB_FILED | 18,821 | 4,314,969,625,000 |
 
-Agency crosswalk: 318 agency folders, 318 matched to a UACS agency via NEP 2027.
+Agency crosswalk: 324 agency folders, 323 matched to a UACS agency via NEP 2027 + Unprogrammed Appropriations (XLIII-001, not in the NEP).
 - every agency matched
 
 ## Tie-out: declared totals vs the leaves beneath them
 
-28,923 tie, 10 do not (10 explained by `known_bill_errors.csv`, **0 unexpected**), 0 have nothing to compare.
+43,561 tie, 11 do not (11 explained by `known_bill_errors.csv`, **0 unexpected**), 18 have nothing to compare.
 
-Agency leaf sum = lead line: 631 / 632 agency × stage.
+Agency leaf sum = lead line: 965 / 966 agency × stage.
 
 
 ### Explained by known bill errors
 
-- GAB_3R National Library of the Philippines (summary): Same misprint as copy A p1750.
+- GAB_2R National Library of the Philippines (summary): Same misprint as copy A p1750 (CR00638.pdf p5278).
+- GAB_3R National Library of the Philippines (summary): Same misprint as copy A p1750; the 3rd-reading volume page (HB10858_3R_VOL_I-B.pdf p404) has the same text as CR00638.pdf p5278.
 - GAB_FILED National Library of the Philippines (summary): Summary table prints 136,783,000 (= the Operations line) while General Administration 105,601,000 + Support 20,258,000 + Operations 136,783,000 = the 262,642,000 grand total. Detail table ties.
 - GAB_FILED Philippine Information Agency (detail): Bill prints the activity as 20,318,000 but its Central Office line as 20,319,000 (1,000 off); every total above it inherits the gap.
 - GAB_FILED Philippine Information Agency (lead): Bill prints the activity as 20,318,000 but its Central Office line as 20,319,000 (1,000 off); every total above it inherits the gap.
@@ -36,23 +38,31 @@ Agency leaf sum = lead line: 631 / 632 agency × stage.
 ## Hierarchy columns
 
 - leaves with neither program nor PAP: 0
-- leaves with a region: 34,299 / 37,797
-- leaves with an operating unit: 34,299
-- category values: {'General Administration and Support': 4085, 'Support to Operations': 2916, 'Operations': 29022, 'Locally-Funded Projects': 1562, 'Foreign-Assisted Projects': 212}
+- leaves with a region: 51,529 / 56,817
+- leaves with an operating unit: 51,529
+- category values: {'General Administration and Support': 6128, 'Support to Operations': 4374, 'Operations': 43595, 'Locally-Funded Projects': 2367, 'Foreign-Assisted Projects': 320, '(none)': 33}
 
 ## NEP 2027 match (phase 3)
 
 | stage | match | rows | ₱ |
 |---|---|---:|---:|
+| GAB_2R | disambiguated | 4,019 | 85,699,763,000 |
+| GAB_2R | no_filed_counterpart | 271 | 32,650,938,000 |
+| GAB_2R | none | 15 | 7,202,325,000 |
+| GAB_2R | not_in_nep | 4 | 111,984,494,000 |
+| GAB_2R | residual | 426 | 147,862,239,000 |
+| GAB_2R | unique | 14,263 | 3,927,934,450,000 |
 | GAB_3R | disambiguated | 4,019 | 85,699,763,000 |
-| GAB_3R | no_filed_counterpart | 271 | 32,650,938,000 |
+| GAB_3R | no_filed_counterpart | 272 | 80,854,792,000 |
 | GAB_3R | none | 15 | 7,202,325,000 |
+| GAB_3R | not_in_nep | 4 | 111,984,494,000 |
 | GAB_3R | residual | 426 | 147,862,239,000 |
-| GAB_3R | unique | 14,256 | 3,602,633,734,000 |
+| GAB_3R | unique | 14,262 | 3,879,730,596,000 |
 | GAB_FILED | disambiguated | 4,069 | 63,377,279,000 |
 | GAB_FILED | none | 15 | 7,202,326,000 |
+| GAB_FILED | not_in_nep | 4 | 111,984,494,000 |
 | GAB_FILED | residual | 426 | 147,824,629,000 |
-| GAB_FILED | unique | 14,300 | 3,639,780,181,000 |
+| GAB_FILED | unique | 14,307 | 3,984,580,897,000 |
 
 Region agreement (matched GAB_FILED rows with a printed region): 16,628 / 16,628
 
@@ -62,22 +72,29 @@ Unmatched GAB_FILED rows by agency (top 15): Office of the Secretary 11, Philipp
 
 | stage | geo_level | rows | ₱ | share |
 |---|---|---:|---:|---:|
-| GAB_FILED | province | 6,246 | 495,969,344,000 | 12.9% |
-| GAB_FILED | region | 6,073 | 755,922,768,000 | 19.6% |
-| GAB_FILED | city | 2,629 | 241,839,867,000 | 6.3% |
-| GAB_FILED | national | 1,741 | 565,218,903,000 | 14.6% |
-| GAB_FILED | district | 1,204 | 104,183,537,000 | 2.7% |
-| GAB_FILED | central_office | 879 | 1,693,170,734,000 | 43.9% |
+| GAB_FILED | province | 6,246 | 495,969,344,000 | 11.5% |
+| GAB_FILED | region | 6,073 | 755,922,768,000 | 17.5% |
+| GAB_FILED | city | 2,629 | 241,839,867,000 | 5.6% |
+| GAB_FILED | national | 1,752 | 1,022,004,113,000 | 23.7% |
+| GAB_FILED | district | 1,204 | 104,183,537,000 | 2.4% |
+| GAB_FILED | central_office | 879 | 1,693,170,734,000 | 39.2% |
 | GAB_FILED | municipality | 38 | 1,879,262,000 | 0.0% |
-| GAB_3R | province | 6,265 | 501,528,818,000 | 12.9% |
-| GAB_3R | region | 6,095 | 760,597,964,000 | 19.6% |
-| GAB_3R | city | 2,629 | 241,851,814,000 | 6.2% |
-| GAB_3R | national | 1,757 | 571,898,613,000 | 14.8% |
-| GAB_3R | district | 1,310 | 150,818,272,000 | 3.9% |
-| GAB_3R | central_office | 893 | 1,647,474,256,000 | 42.5% |
+| GAB_2R | province | 6,265 | 501,528,818,000 | 11.6% |
+| GAB_2R | region | 6,095 | 760,597,964,000 | 17.6% |
+| GAB_2R | city | 2,629 | 241,851,814,000 | 5.6% |
+| GAB_2R | national | 1,768 | 1,009,183,823,000 | 23.4% |
+| GAB_2R | district | 1,310 | 150,818,272,000 | 3.5% |
+| GAB_2R | central_office | 893 | 1,647,474,256,000 | 38.2% |
+| GAB_2R | municipality | 38 | 1,879,262,000 | 0.0% |
+| GAB_3R | province | 6,265 | 501,528,818,000 | 11.6% |
+| GAB_3R | region | 6,095 | 760,731,964,000 | 17.6% |
+| GAB_3R | city | 2,629 | 241,851,814,000 | 5.6% |
+| GAB_3R | national | 1,768 | 1,009,183,823,000 | 23.4% |
+| GAB_3R | district | 1,310 | 150,818,272,000 | 3.5% |
+| GAB_3R | central_office | 893 | 1,647,340,256,000 | 38.2% |
 | GAB_3R | municipality | 38 | 1,879,262,000 | 0.0% |
 
-geo_basis (GAB_3R): office prefix (Division/PENRO/CENRO/PARO) 8,643, regional office 4,996, no region printed 1,757, DEO map 1,456, office not placeable below region 1,014, Central Office (national HQ) 893, place name in office name 96, DEO not in map 85, DEO name (district not mapped) 47
+geo_basis (GAB_3R): office prefix (Division/PENRO/CENRO/PARO) 8,643, regional office 4,996, no region printed 1,768, DEO map 1,456, office not placeable below region 1,014, Central Office (national HQ) 893, place name in office name 96, DEO not in map 85, DEO name (district not mapped) 47
 - central_office / national rows carrying a place code: 0 (must be 0)
 - largest offices left at region level (candidates for a curated office -> place table): Philippine Navy ₱53.9B; General Headquarters - Proper ₱23.3B; Bureau of Animal Industry ₱20.9B; Philippine Marine Corps ₱16.6B; New Bilibid Prison/Correctional Institute for Women ₱9.7B; Southern Philippines Medical Center ₱7.2B; Vicente Sotto Memorial Medical Center ₱5.2B; Division of Taguig and Pateros ₱4.8B; East Avenue Medical Center ₱4.6B; Bicol Medical Center ₱4.5B; Baguio General Hospital and Medical Center ₱4.1B; Jose B. Lingad Memorial General Hospital ₱4.0B
 
@@ -85,8 +102,14 @@ geo_basis (GAB_3R): office prefix (Division/PENRO/CENRO/PARO) 8,643, regional of
 
 | stage | source | groups | items | parent ₱ | drill-down ₱ | coverage | group status |
 |---|---|---:|---:|---:|---:|---:|---|
+| GAB_2R | dpwh_tail | 1 | 210 | 13,875,943,000 | 13,875,943,000 | 1.0000 | {'complete': 1} |
+| GAB_2R | dpwh_vol_ic | 5 | 15,754 | 528,316,707,000 | 526,437,007,000 | 0.9964 | {'partial': 1, 'complete': 4} |
+| GAB_2R | fmr | 16 | 964 | 19,628,100,000 | 19,628,100,000 | 1.0000 | {'complete': 16} |
+| GAB_2R | hfep | 1 | 512 | 10,088,832,000 | 10,001,659,000 | 0.9914 | {'partial': 1} |
+| GAB_2R | nia | 6 | 828 | – | 17,999,305,000 | – | {'parent_not_parsed': 6} |
+| GAB_2R | sbdp | 16 | 1,948 | – | 0 | – | {'no_amounts': 16} |
 | GAB_3R | dpwh_tail | 1 | 210 | 13,875,943,000 | 13,875,943,000 | 1.0000 | {'complete': 1} |
-| GAB_3R | dpwh_vol_ic | 5 | 15,754 | 528,316,707,000 | 526,437,007,000 | 0.9964 | {'partial': 1, 'complete': 4} |
+| GAB_3R | dpwh_vol_ic | 5 | 15,759 | 528,450,707,000 | 526,571,007,000 | 0.9964 | {'partial': 1, 'complete': 4} |
 | GAB_3R | fmr | 16 | 964 | 19,628,100,000 | 19,628,100,000 | 1.0000 | {'complete': 16} |
 | GAB_3R | hfep | 1 | 512 | 10,088,832,000 | 10,001,659,000 | 0.9914 | {'partial': 1} |
 | GAB_3R | nia | 6 | 828 | – | 17,999,305,000 | – | {'parent_not_parsed': 6} |
@@ -98,32 +121,52 @@ geo_basis (GAB_3R): office prefix (Division/PENRO/CENRO/PARO) 8,643, regional of
 | GAB_FILED | nia | 6 | 791 | – | 17,598,181,000 | – | {'parent_not_parsed': 6} |
 | GAB_FILED | sbdp | 16 | 1,948 | – | 0 | – | {'no_amounts': 16} |
 
-Item placement (GAB_3R): district 10,726, region 4,162, barangay 1,864, province 1,586, (none) 828, municipality 796, city 144, central_office 110
+Item placement (GAB_3R): district 10,726, region 4,167, barangay 1,864, province 1,586, (none) 828, municipality 796, city 144, central_office 110
 
 ## Stage comparison (phase 6): appropriations_compared.csv
 
-- 19,081 lines: unchanged 17,837, amount_changed 879, added 271, removed 94
-- flags: new_line 271, big_increase 262, removed_line 94, big_decrease 90
+### GAB_FILED → GAB_2R
+
+- 19,092 lines: unchanged 17,845, amount_changed 882, added 271, removed 94
+- flags: new_line 271, big_increase 262, removed_line 94, big_decrease 91
 - relabel pairs (rows, both sides counted): moved 54, same_parent 18, same_amount 6
 - unpaired: added 232 (₱30,633,472,000), removed 55 (₱2,207,930,000)
-- net change GAB_FILED → GAB_3R: ₱17,864,584,000
+- net change: ₱-1,635,416,000
+- agencies printed under a different department (paired as the same lines): National Anti-Poverty Commission: DEPARTMENT OF SOCIAL WELFARE AND DEVELOPMENT → OTHER EXECUTIVE OFFICES, 4 lines, ₱359,919,000 → ₱459,919,000; Presidential Commission for the Urban Poor: DEPARTMENT OF SOCIAL WELFARE AND DEVELOPMENT → OTHER EXECUTIVE OFFICES, 3 lines, ₱233,433,000 → ₱233,433,000
 
-Agencies printed under a different department in GAB_3R (paired as the same lines, not removed + added):
+### GAB_2R → GAB_3R
 
-- National Anti-Poverty Commission: DEPARTMENT OF SOCIAL WELFARE AND DEVELOPMENT → OTHER EXECUTIVE OFFICES, 4 lines, ₱359,919,000 → ₱459,919,000 (change ₱100,000,000)
-- Presidential Commission for the Urban Poor: DEPARTMENT OF SOCIAL WELFARE AND DEVELOPMENT → OTHER EXECUTIVE OFFICES, 3 lines, ₱233,433,000 → ₱233,433,000 (change ₱0)
+- 18,999 lines: unchanged 18,994, amount_changed 3, removed 1, added 1
+- flags: removed_line 1, new_line 1
+- relabel pairs (rows, both sides counted): moved 2
+- unpaired: added 0 (₱0), removed 0 (₱0)
+- net change: ₱0
+- agencies printed under a different department (paired as the same lines): none
+
+### GAB_FILED → GAB_3R
+
+- 19,093 lines: unchanged 17,845, amount_changed 881, added 272, removed 95
+- flags: new_line 272, big_increase 261, removed_line 95, big_decrease 91
+- relabel pairs (rows, both sides counted): moved 54, same_parent 18, same_amount 6
+- unpaired: added 233 (₱78,837,326,000), removed 56 (₱26,446,008,000)
+- net change: ₱-1,635,416,000
+- agencies printed under a different department (paired as the same lines): National Anti-Poverty Commission: DEPARTMENT OF SOCIAL WELFARE AND DEVELOPMENT → OTHER EXECUTIVE OFFICES, 4 lines, ₱359,919,000 → ₱459,919,000; Presidential Commission for the Urban Poor: DEPARTMENT OF SOCIAL WELFARE AND DEVELOPMENT → OTHER EXECUTIVE OFFICES, 3 lines, ₱233,433,000 → ₱233,433,000
 
 ## Departments and agencies (phase 7, D12)
 
-- departments: 35, with acronym 35; agencies: 316, with acronym 163 ({'(none)': 153, 'UACS name (BetterGov NEP 2027)': 9, 'bill text (HB 10858, CR 638)': 154})
-- agencies without an official acronym found, by department: 08 112, 01 5, 17 4, 29 4, 06 2, 16 2, 19 2, 26 2, 02 1, 04 1, 05 1, 07 1, 09 1, 10 1, 11 1, 12 1, 14 1, 15 1, 18 1, 20 1, 21 1, 24 1, 25 1, 33 1, 37 1, 38 1, 39 1, 40 1
+- departments: 36, with acronym 35; agencies: 322, with acronym 163 ({'(none)': 159, 'UACS name (BetterGov NEP 2027)': 9, 'bill text (HB 10858, CR 638)': 154})
+- agencies without an official acronym found, by department: 08 112, 01 10, 17 4, 29 4, 06 2, 16 2, 19 2, 26 2, 02 1, 04 1, 05 1, 07 1, 09 1, 10 1, 11 1, 12 1, 14 1, 15 1, 18 1, 20 1, 21 1, 24 1, 25 1, 33 1, 37 1, 38 1, 39 1, 40 1, XLIII 1
 
 ## Special Provisions (phase 2b)
 
-- provisions: GAB_3R agency 753, GAB_3R back_matter 124, GAB_FILED agency 736, GAB_FILED back_matter 121
-- agencies with provisions: GAB_FILED 202, GAB_3R 202; untitled: 2
-- compared: unchanged 625, text_changed 183, renumbered 45, added 24, removed 4
-- largest rewrites (words added / removed): Office of the Secretary — Medical Assistance to Indigent and Financially-Inc (+231 / -58); Office of the Secretary — Government Assistance and Subsidies (+165 / -116); Office of the Secretary — Implementation of Early Warning Systems for Water  (+81 / -12); Supreme Court of the Philippines and the Lower Courts — Reporting and Posting Requirements (+42 / -43); Court of Tax Appeals — Reporting and Posting Requirements (+35 / -43); Court of Appeals — Reporting and Posting Requirements (+36 / -40); Presidential Electoral Tribunal — Reporting and Posting Requirements (+33 / -33); Sandiganbayan — Reporting and Posting Requirements (+33 / -32); Office of the Secretary — Identification, Assessment, and Monitoring of Vuln (+40 / -23); Office of the Secretary — Basic Education Facilities (+54 / -8)
+- provisions: GAB_2R agency 770, GAB_2R back_matter 107, GAB_3R agency 770, GAB_3R back_matter 108, GAB_FILED agency 752, GAB_FILED back_matter 105
+- agencies with provisions: GAB_FILED 207, GAB_2R 207, GAB_3R 207; untitled: 2
+- compared GAB_FILED → GAB_2R: unchanged 625, text_changed 183, renumbered 45, added 24, removed 4
+  - largest changes (words added / removed): Office of the Secretary — Service Contracting Program for Public Transport ( (added, +407 / -0); Office of the Secretary — Medical Assistance to Indigent and Financially-Inc (text_changed, +231 / -58); Office of the Secretary — Government Assistance and Subsidies (text_changed, +165 / -116); Office of the Secretary — Protective Services Program for Individuals and Fa (added, +229 / -0); Office of the Secretary — Fuel Subsidy to Transport Sector Affected by Risin (added, +173 / -0); Office of the Secretary — Project Modification (added, +166 / -0); NATIONAL IRRIGATION ADMINISTRATION — Project Modification (added, +164 / -0); Office of the Secretary — Project Modification (added, +163 / -0); Commission on Higher Education — Use of Higher Education Development Fund for the P (added, +132 / -0); Supreme Court of the Philippines and the Lower Courts — Special Allowance of Justices and Judges (added, +126 / -0)
+- compared GAB_2R → GAB_3R: unchanged 872, renumbered 3, added 2, removed 1, text_changed 1
+  - largest changes (words added / removed): Office of the Secretary — Medical Assistance to Indigent and Financially-Inc (removed, +0 / -552); Office of the Secretary — Medical Assistance Program (added, +531 / -0); NATIONAL ELECTRIFICATION ADMINISTRATION — Expanded Sitio Electrification Activities (added, +78 / -0); Office of the Secretary — Service Contracting Program for Public Transport ( (text_changed, +23 / -0)
+- compared GAB_FILED → GAB_3R: unchanged 622, text_changed 182, renumbered 48, added 26, removed 5
+  - largest changes (words added / removed): Office of the Secretary — Medical Assistance Program (added, +531 / -0); Office of the Secretary — Service Contracting Program for Public Transport ( (added, +430 / -0); Office of the Secretary — Medical Assistance to Indigent and Financially-Inc (removed, +0 / -379); Office of the Secretary — Government Assistance and Subsidies (text_changed, +165 / -116); Office of the Secretary — Protective Services Program for Individuals and Fa (added, +229 / -0); Office of the Secretary — Fuel Subsidy to Transport Sector Affected by Risin (added, +173 / -0); Office of the Secretary — Project Modification (added, +166 / -0); NATIONAL IRRIGATION ADMINISTRATION — Project Modification (added, +164 / -0); Office of the Secretary — Project Modification (added, +163 / -0); Commission on Higher Education — Use of Higher Education Development Fund for the P (added, +132 / -0)
 - numbering gaps (checked against the page text: the missing number is not printed):
   - GAB_FILED 11-002: numbered [1, 2, 3, 5, 6, 7, 8] as printed
   - GAB_FILED 16-009: numbered [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13] as printed
@@ -133,10 +176,15 @@ Agencies printed under a different department in GAB_3R (paired as the same line
   - GAB_FILED 26-019: numbered [1, 3] as printed
   - GAB_FILED back_matter:budgetary-support-to-government-corporations: numbered [1, 2, 3, 1, 2, 1, 2, 3, 1, 2, 1, 2, 1, 2, 1, 2, 3, 1, 1, 1, 2, 3, 4, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 3, 4, 5, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 1, 1, 1, 1, 2, 1] as printed
   - GAB_FILED back_matter:allocations-to-local-government-units: numbered [1, 2, 3, 4, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4] as printed
+  - GAB_2R 26-014: numbered [1, 3] as printed
+  - GAB_2R 26-050: numbered [1, 3] as printed
+  - GAB_2R 26-019: numbered [1, 3] as printed
+  - GAB_2R back_matter:budgetary-support-to-government-corporations: numbered [1, 2, 3, 1, 2, 1, 2, 3, 1, 2, 1, 2, 1, 2, 1, 2, 3, 1, 1, 1, 2, 3, 4, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 3, 4, 5, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 1, 1, 1, 1, 2, 1] as printed
+  - GAB_2R back_matter:allocations-to-local-government-units: numbered [1, 2, 3, 4, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4] as printed
   - GAB_3R 26-014: numbered [1, 3] as printed
   - GAB_3R 26-050: numbered [1, 3] as printed
   - GAB_3R 26-019: numbered [1, 3] as printed
-  - GAB_3R back_matter:budgetary-support-to-government-corporations: numbered [1, 2, 3, 1, 2, 1, 2, 3, 1, 2, 1, 2, 1, 2, 1, 2, 3, 1, 1, 1, 2, 3, 4, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 3, 4, 5, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 1, 1, 1, 1, 2, 1] as printed
+  - GAB_3R back_matter:budgetary-support-to-government-corporations: numbered [1, 2, 3, 1, 2, 1, 2, 3, 1, 2, 1, 2, 1, 2, 1, 2, 3, 1, 1, 1, 2, 3, 4, 5, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 3, 4, 5, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 1, 1, 1, 1, 2, 1] as printed
   - GAB_3R back_matter:allocations-to-local-government-units: numbered [1, 2, 3, 4, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 1, 1, 2, 3, 4] as printed
 
 ## Parser id collisions (handled: rows are keyed by table + id)
@@ -146,8 +194,8 @@ Agencies printed under a different department in GAB_3R (paired as the same line
 ## Keys
 
 - duplicate (stage, appropriation_id): 0
-- ids present in both stages: 18,716
+- ids present in all three stages: 18,726
 
 ## Object of expenditure
 
-- 23,803 rows; without an expense class: 0
+- 35,822 rows; without an expense class: 0

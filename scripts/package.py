@@ -13,7 +13,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REL = os.path.join(HERE, '..', 'release')
 SQL_TYPE = {'string': 'VARCHAR', 'integer': 'BIGINT', 'number': 'DOUBLE'}
 SOURCES = [
-    dict(title='House of Representatives, Committee Report No. 638 on House Bill No. 10858 (FY2027 General Appropriations Bill): copy A as filed, copy B 3rd reading; CR00638.pdf, SHA-256 3242a248d1436be5d15c2bd81628c1c9691e0b796fc4a58552d063f18177b6b0'),
+    dict(title='House of Representatives, Committee Report No. 638 on House Bill No. 10858 (FY2027 General Appropriations Bill): copy A as filed (GAB_FILED), copy B 2nd reading (GAB_2R); CR00638.pdf, SHA-256 3242a248d1436be5d15c2bd81628c1c9691e0b796fc4a58552d063f18177b6b0'),
+    dict(title='House of Representatives, HB 10858 FOR 3RD READING, Volumes I-A, I-B, I-C and II (8 Oct 2026; GAB_3R); SHA-256 in inputs/SOURCES.md', path='https://drive.google.com/drive/folders/1gs7q6NIw3E13JsWt190MLZmqzwvRxHB0'),
     dict(title='BetterGov.ph, NEP 2027 (bettergovph/nep-2027, CC0): agency, program and operating-unit codes', path='https://huggingface.co/datasets/bettergovph/nep-2027'),
     dict(title='Philippine Statistics Authority, PSGC 2nd Quarter 2026 publication datafile', path='https://psa.gov.ph/classification/psgc'),
 ]
@@ -28,7 +29,7 @@ left join regions r on r.region_code = a.region_code
 left join localities l on l.psgc_code = a.psgc_code
 left join localities p on p.psgc_code = a.province_psgc
 left join districts di on di.district_id = a.district_id
-order by a.stage, a.agency_id, a.pdf_page, a.appropriation_id"""
+order by a.stage, a.agency_id, a.pdf_file, a.pdf_page, a.appropriation_id"""
 
 def csv_path(t): return os.path.join(REL, f'{t}.csv').replace(os.sep, '/')
 

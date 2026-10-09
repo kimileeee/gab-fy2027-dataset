@@ -283,7 +283,7 @@ def tree(E):
 def outside(e):
     """A row outside every table: the agency lead line, or Special Provision text, whose numbers (provision numbers, years, allocation
     lists like DA p109's GOCC shares) are not lines of the appropriation tree - text rows carry no amounts."""
-    e.update(parent=None, role='lead' if LEAD.search(e['label']) else 'text', child_sum='', sum_ok='', level=0, path='')
+    e.update(parent=None, role='lead' if LEAD.search(e['label']) or e.get('lead') else 'text', child_sum='', sum_ok='', level=0, path='')   # 'lead' flag: set by parse_gab_backmatter.py
     if e['role'] == 'text': e.update(total='', ps=None, mooe=None, fin=None, co=None)
 
 def link_ids(copy, rows):
@@ -301,8 +301,9 @@ def link_ids(copy, rows):
 
 COLS = ['id', 'copy', 'page', 'table', 'level', 'role', 'label', 'path', 'total', 'ps', 'mooe', 'fin', 'co', 'parent_id', 'child_sum', 'sum_ok', 'rx']
 
-def run(dept, copy):
-    E = events(copy, dept); rows = [e for e in E if e['kind'] == 'A']
+def run(dept, copy, E=None):
+    """E: events already adjusted by a caller (parse_gab_backmatter.py); default = events(copy, dept)."""
+    E = events(copy, dept) if E is None else E; rows = [e for e in E if e['kind'] == 'A']
     link_ids(copy, rows)
     segs = collections.defaultdict(list); order = []
     for e in E:     # a table = consecutive events with the same (agency, table); rows outside tables are lead/text
@@ -352,4 +353,4 @@ def report(copy, out):
 
 if __name__ == '__main__':
     dept = sys.argv[1] if len(sys.argv) > 1 else 'DEPARTMENT OF HEALTH'
-    for c in sys.argv[2:] or ['A', 'B']: report(c, run(dept, c))
+    for c in sys.argv[2:] or ['A', 'B', 'C']: report(c, run(dept, c))

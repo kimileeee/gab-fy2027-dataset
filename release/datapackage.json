@@ -14,7 +14,11 @@
   ],
   "sources": [
     {
-      "title": "House of Representatives, Committee Report No. 638 on House Bill No. 10858 (FY2027 General Appropriations Bill): copy A as filed, copy B 3rd reading; CR00638.pdf, SHA-256 3242a248d1436be5d15c2bd81628c1c9691e0b796fc4a58552d063f18177b6b0"
+      "title": "House of Representatives, Committee Report No. 638 on House Bill No. 10858 (FY2027 General Appropriations Bill): copy A as filed (GAB_FILED), copy B 2nd reading (GAB_2R); CR00638.pdf, SHA-256 3242a248d1436be5d15c2bd81628c1c9691e0b796fc4a58552d063f18177b6b0"
+    },
+    {
+      "title": "House of Representatives, HB 10858 FOR 3RD READING, Volumes I-A, I-B, I-C and II (8 Oct 2026; GAB_3R); SHA-256 in inputs/SOURCES.md",
+      "path": "https://drive.google.com/drive/folders/1gs7q6NIw3E13JsWt190MLZmqzwvRxHB0"
     },
     {
       "title": "BetterGov.ph, NEP 2027 (bettergovph/nep-2027, CC0): agency, program and operating-unit codes",
@@ -45,7 +49,7 @@
           {
             "name": "stage",
             "type": "string",
-            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026)."
           },
           {
             "name": "fiscal_year",
@@ -55,12 +59,12 @@
           {
             "name": "dept_id",
             "type": "string",
-            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description \"New General Appropriations\"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv."
           },
           {
             "name": "agency_id",
             "type": "string",
-            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv."
           },
           {
             "name": "dept_printed",
@@ -183,6 +187,11 @@
             "description": "Total appropriation of the row, pesos (= ps + mooe + finex + co)."
           },
           {
+            "name": "unprogrammed",
+            "type": "integer",
+            "description": "1 = Unprogrammed Appropriations (XLIII): standby authority, released only if revenues exceed targets or for specific loans; not part of the NEP's new appropriations. Filter it out (unprogrammed = 0) when comparing with the NEP or summing programmed spending. 0 otherwise."
+          },
+          {
             "name": "prexc_fpap_id",
             "type": "string",
             "description": "UACS PREXC program/activity/project code of the matching NEP 2027 line (BetterGov `prexc_fpap_id`). Join key to BetterGov nep-2027 / gaa."
@@ -210,12 +219,17 @@
           {
             "name": "nep_match",
             "type": "string",
-            "description": "How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd \"Division Office - Proper\"), none, no_filed_counterpart (GAB_3R line with no GAB_FILED twin: added or relabelled)."
+            "description": "How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd \"Division Office - Proper\"), none, not_in_nep (Unprogrammed Appropriations), no_filed_counterpart (GAB_2R / GAB_3R line with no GAB_FILED twin: added or relabelled)."
+          },
+          {
+            "name": "pdf_file",
+            "type": "string",
+            "description": "PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md."
           },
           {
             "name": "pdf_page",
             "type": "integer",
-            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+            "description": "Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number)."
           },
           {
             "name": "path_printed",
@@ -256,7 +270,7 @@
     {
       "name": "appropriations_compared",
       "title": "Appropriations compared across stages",
-      "description": "Every appropriation line with GAB_FILED (_A) and GAB_3R (_B) side by side. Lines pair on appropriation_id, so an agency printed under a different department in GAB_3R (NAPC, PCUP) pairs with itself.",
+      "description": "Every appropriation line in two stages side by side, one row per line x comparison (GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, GAB_FILED_to_GAB_3R) - filter on `comparison`. Lines pair on appropriation_id, so an agency printed under a different department in a later stage (NAPC, PCUP) pairs with itself.",
       "path": "appropriations_compared.csv",
       "profile": "tabular-data-resource",
       "format": "csv",
@@ -265,6 +279,21 @@
       "schema": {
         "fields": [
           {
+            "name": "comparison",
+            "type": "string",
+            "description": "Which two stages the row compares: GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, or GAB_FILED_to_GAB_3R (filed to final). Filter on one."
+          },
+          {
+            "name": "stage_from",
+            "type": "string",
+            "description": "Earlier stage of the comparison (columns ending _from)."
+          },
+          {
+            "name": "stage_to",
+            "type": "string",
+            "description": "Later stage of the comparison (columns ending _to)."
+          },
+          {
             "name": "appropriation_id",
             "type": "string",
             "description": "Stable id of one appropriation line, the same in every stage: hash of UACS agency + the printed hierarchy (normalised) + label + occurrence. Join key across stages and to appropriations_compared."
@@ -272,27 +301,27 @@
           {
             "name": "dept_id",
             "type": "string",
-            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description \"New General Appropriations\"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv."
           },
           {
             "name": "agency_id",
             "type": "string",
-            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv."
           },
           {
-            "name": "dept_printed_A",
+            "name": "dept_printed_from",
             "type": "string",
-            "description": "Department printed above the line in GAB_FILED."
+            "description": "Department printed above the line in stage_from."
           },
           {
-            "name": "dept_printed_B",
+            "name": "dept_printed_to",
             "type": "string",
-            "description": "Department printed above the line in GAB_3R."
+            "description": "Department printed above the line in stage_to."
           },
           {
             "name": "moved_department",
             "type": "integer",
-            "description": "1 if the agency is printed under a different department in GAB_3R."
+            "description": "1 if the agency is printed under a different department in stage_to."
           },
           {
             "name": "agency_printed",
@@ -382,7 +411,7 @@
           {
             "name": "nep_match",
             "type": "string",
-            "description": "How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd \"Division Office - Proper\"), none, no_filed_counterpart (GAB_3R line with no GAB_FILED twin: added or relabelled)."
+            "description": "How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd \"Division Office - Proper\"), none, not_in_nep (Unprogrammed Appropriations), no_filed_counterpart (GAB_2R / GAB_3R line with no GAB_FILED twin: added or relabelled)."
           },
           {
             "name": "drilldown_group_id",
@@ -390,69 +419,74 @@
             "description": "Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows."
           },
           {
-            "name": "ps_A",
+            "name": "unprogrammed",
             "type": "integer",
-            "description": "Personnel Services, GAB_FILED (blank = line absent in that stage)."
+            "description": "1 = Unprogrammed Appropriations (XLIII): standby authority, released only if revenues exceed targets or for specific loans; not part of the NEP's new appropriations. Filter it out (unprogrammed = 0) when comparing with the NEP or summing programmed spending. 0 otherwise."
           },
           {
-            "name": "mooe_A",
+            "name": "ps_from",
             "type": "integer",
-            "description": "Maintenance and Other Operating Expenses, GAB_FILED (blank = line absent in that stage)."
+            "description": "Personnel Services, in stage_from (blank = line absent in that stage)."
           },
           {
-            "name": "finex_A",
+            "name": "mooe_from",
             "type": "integer",
-            "description": "Financial Expenses, GAB_FILED (blank = line absent in that stage)."
+            "description": "Maintenance and Other Operating Expenses, in stage_from (blank = line absent in that stage)."
           },
           {
-            "name": "co_A",
+            "name": "finex_from",
             "type": "integer",
-            "description": "Capital Outlays, GAB_FILED (blank = line absent in that stage)."
+            "description": "Financial Expenses, in stage_from (blank = line absent in that stage)."
           },
           {
-            "name": "amount_A",
+            "name": "co_from",
             "type": "integer",
-            "description": "Total appropriation of the row, GAB_FILED (blank = line absent in that stage)."
+            "description": "Capital Outlays, in stage_from (blank = line absent in that stage)."
           },
           {
-            "name": "ps_B",
+            "name": "amount_from",
             "type": "integer",
-            "description": "Personnel Services, GAB_3R (blank = line absent in that stage)."
+            "description": "Total appropriation of the row, in stage_from (blank = line absent in that stage)."
           },
           {
-            "name": "mooe_B",
+            "name": "ps_to",
             "type": "integer",
-            "description": "Maintenance and Other Operating Expenses, GAB_3R (blank = line absent in that stage)."
+            "description": "Personnel Services, in stage_to (blank = line absent in that stage)."
           },
           {
-            "name": "finex_B",
+            "name": "mooe_to",
             "type": "integer",
-            "description": "Financial Expenses, GAB_3R (blank = line absent in that stage)."
+            "description": "Maintenance and Other Operating Expenses, in stage_to (blank = line absent in that stage)."
           },
           {
-            "name": "co_B",
+            "name": "finex_to",
             "type": "integer",
-            "description": "Capital Outlays, GAB_3R (blank = line absent in that stage)."
+            "description": "Financial Expenses, in stage_to (blank = line absent in that stage)."
           },
           {
-            "name": "amount_B",
+            "name": "co_to",
             "type": "integer",
-            "description": "Total appropriation of the row, GAB_3R (blank = line absent in that stage)."
+            "description": "Capital Outlays, in stage_to (blank = line absent in that stage)."
+          },
+          {
+            "name": "amount_to",
+            "type": "integer",
+            "description": "Total appropriation of the row, in stage_to (blank = line absent in that stage)."
           },
           {
             "name": "delta",
             "type": "integer",
-            "description": "amount_B - amount_A, pesos (absent side counts as 0)."
+            "description": "amount_to - amount_from, pesos (absent side counts as 0)."
           },
           {
             "name": "pct_change",
             "type": "number",
-            "description": "delta / amount_A; -1 = removed, 1 = added."
+            "description": "delta / amount_from; -1 = removed, 1 = added."
           },
           {
             "name": "status",
             "type": "string",
-            "description": "unchanged | amount_changed | added (GAB_3R only) | removed (GAB_FILED only)."
+            "description": "unchanged | amount_changed | added (stage_to only) | removed (stage_from only)."
           },
           {
             "name": "flag",
@@ -475,21 +509,32 @@
             "description": "Label of the paired line."
           },
           {
-            "name": "pdf_page_A",
-            "type": "integer",
-            "description": "Page in CR00638.pdf, GAB_FILED."
+            "name": "pdf_file_from",
+            "type": "string",
+            "description": "PDF of stage_from."
           },
           {
-            "name": "pdf_page_B",
+            "name": "pdf_page_from",
             "type": "integer",
-            "description": "Page in CR00638.pdf, GAB_3R."
+            "description": "Page in pdf_file_from."
+          },
+          {
+            "name": "pdf_file_to",
+            "type": "string",
+            "description": "PDF of stage_to."
+          },
+          {
+            "name": "pdf_page_to",
+            "type": "integer",
+            "description": "Page in pdf_file_to."
           }
         ],
         "missingValues": [
           ""
         ],
         "primaryKey": [
-          "appropriation_id"
+          "appropriation_id",
+          "comparison"
         ],
         "foreignKeys": [
           {
@@ -521,7 +566,7 @@
           {
             "name": "stage",
             "type": "string",
-            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026)."
           },
           {
             "name": "fiscal_year",
@@ -531,12 +576,12 @@
           {
             "name": "dept_id",
             "type": "string",
-            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description \"New General Appropriations\"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv."
           },
           {
             "name": "agency_id",
             "type": "string",
-            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv."
           },
           {
             "name": "dept_printed",
@@ -659,9 +704,14 @@
             "description": "Page-checked explanation when the mismatch is a misprint in the bill (scripts/curated/known_bill_errors.csv)."
           },
           {
+            "name": "pdf_file",
+            "type": "string",
+            "description": "PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md."
+          },
+          {
             "name": "pdf_page",
             "type": "integer",
-            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+            "description": "Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number)."
           },
           {
             "name": "path_printed",
@@ -701,7 +751,7 @@
           {
             "name": "stage",
             "type": "string",
-            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026)."
           },
           {
             "name": "fiscal_year",
@@ -711,12 +761,12 @@
           {
             "name": "dept_id",
             "type": "string",
-            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description \"New General Appropriations\"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv."
           },
           {
             "name": "agency_id",
             "type": "string",
-            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv."
           },
           {
             "name": "dept_printed",
@@ -749,9 +799,14 @@
             "description": "Pesos (printed value x 1,000)."
           },
           {
+            "name": "pdf_file",
+            "type": "string",
+            "description": "PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md."
+          },
+          {
             "name": "pdf_page",
             "type": "integer",
-            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+            "description": "Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number)."
           },
           {
             "name": "path_printed",
@@ -792,7 +847,7 @@
           {
             "name": "stage",
             "type": "string",
-            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026)."
           },
           {
             "name": "source",
@@ -875,9 +930,14 @@
             "description": "Which rule placed this row (e.g. \"DEO map\", \"office prefix (Division/PENRO/CENRO/PARO)\", \"place name in office name\", \"regional office\", \"no region printed\"). Filter on it to keep only placements you trust."
           },
           {
+            "name": "pdf_file",
+            "type": "string",
+            "description": "PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md."
+          },
+          {
             "name": "pdf_page",
             "type": "integer",
-            "description": "Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number)."
+            "description": "Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number)."
           },
           {
             "name": "source_row_id",
@@ -912,7 +972,7 @@
           {
             "name": "stage",
             "type": "string",
-            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026)."
           },
           {
             "name": "source",
@@ -983,7 +1043,7 @@
           {
             "name": "stage",
             "type": "string",
-            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B)."
+            "description": "Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026)."
           },
           {
             "name": "fiscal_year",
@@ -993,12 +1053,12 @@
           {
             "name": "dept_id",
             "type": "string",
-            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. Blank for back-matter funds."
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description \"New General Appropriations\"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. Blank for back-matter funds."
           },
           {
             "name": "agency_id",
             "type": "string",
-            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. Blank for back-matter funds."
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. Blank for back-matter funds."
           },
           {
             "name": "dept_printed",
@@ -1036,14 +1096,19 @@
             "description": "Full text after the title, as printed; paragraph breaks kept as newlines where the print indents."
           },
           {
+            "name": "pdf_file",
+            "type": "string",
+            "description": "PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md."
+          },
+          {
             "name": "pdf_page_start",
             "type": "integer",
-            "description": "First page in CR00638.pdf."
+            "description": "First page in pdf_file."
           },
           {
             "name": "pdf_page_end",
             "type": "integer",
-            "description": "Last page in CR00638.pdf."
+            "description": "Last page in pdf_file."
           },
           {
             "name": "lines",
@@ -1072,7 +1137,7 @@
     {
       "name": "special_provisions_compared",
       "title": "Special Provisions compared across stages",
-      "description": "Each provision with its GAB_FILED and GAB_3R text side by side. Pairs on agency + title, so a renumbered provision is still matched; a retitled one shows as removed + added.",
+      "description": "Each provision in two stages side by side, one row per provision x comparison (GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, GAB_FILED_to_GAB_3R) - filter on `comparison`. Pairs on agency + title, so a renumbered provision is still matched; a retitled one shows as removed + added.",
       "path": "special_provisions_compared.csv",
       "profile": "tabular-data-resource",
       "format": "csv",
@@ -1080,6 +1145,21 @@
       "encoding": "utf-8-sig",
       "schema": {
         "fields": [
+          {
+            "name": "comparison",
+            "type": "string",
+            "description": "Which two stages the row compares: GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, or GAB_FILED_to_GAB_3R (filed to final). Filter on one."
+          },
+          {
+            "name": "stage_from",
+            "type": "string",
+            "description": "Earlier stage of the comparison (columns ending _from)."
+          },
+          {
+            "name": "stage_to",
+            "type": "string",
+            "description": "Later stage of the comparison (columns ending _to)."
+          },
           {
             "name": "provision_id",
             "type": "string",
@@ -1116,56 +1196,67 @@
             "description": "Provision title."
           },
           {
-            "name": "provision_no_A",
+            "name": "provision_no_from",
             "type": "integer",
-            "description": "Number in GAB_FILED."
+            "description": "Number in stage_from."
           },
           {
-            "name": "provision_no_B",
+            "name": "provision_no_to",
             "type": "integer",
-            "description": "Number in GAB_3R."
+            "description": "Number in stage_to."
           },
           {
             "name": "status",
             "type": "string",
-            "description": "unchanged | renumbered (same text, other number) | text_changed | added (GAB_3R only) | removed (GAB_FILED only)."
+            "description": "unchanged | renumbered (same text, other number) | text_changed | added (stage_to only) | removed (stage_from only)."
           },
           {
             "name": "words_added",
             "type": "integer",
-            "description": "Words in GAB_3R not in GAB_FILED (word-level diff; whole text for an added provision)."
+            "description": "Words in stage_to not in stage_from (word-level diff; whole text for an added provision)."
           },
           {
             "name": "words_removed",
             "type": "integer",
-            "description": "Words in GAB_FILED not in GAB_3R."
+            "description": "Words in stage_from not in stage_to."
           },
           {
-            "name": "text_A",
+            "name": "text_from",
             "type": "string",
-            "description": "Text in GAB_FILED."
+            "description": "Text in stage_from."
           },
           {
-            "name": "text_B",
+            "name": "text_to",
             "type": "string",
-            "description": "Text in GAB_3R."
+            "description": "Text in stage_to."
           },
           {
-            "name": "pdf_page_A",
-            "type": "integer",
-            "description": "First page, GAB_FILED."
+            "name": "pdf_file_from",
+            "type": "string",
+            "description": "PDF of stage_from."
           },
           {
-            "name": "pdf_page_B",
+            "name": "pdf_page_from",
             "type": "integer",
-            "description": "First page, GAB_3R."
+            "description": "First page, stage_from."
+          },
+          {
+            "name": "pdf_file_to",
+            "type": "string",
+            "description": "PDF of stage_to."
+          },
+          {
+            "name": "pdf_page_to",
+            "type": "integer",
+            "description": "First page, stage_to."
           }
         ],
         "missingValues": [
           ""
         ],
         "primaryKey": [
-          "provision_id"
+          "provision_id",
+          "comparison"
         ],
         "foreignKeys": [
           {
@@ -1192,7 +1283,7 @@
           {
             "name": "dept_id",
             "type": "string",
-            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description \"New General Appropriations\"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv."
           },
           {
             "name": "gab_dept_code",
@@ -1252,12 +1343,12 @@
           {
             "name": "agency_id",
             "type": "string",
-            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv."
           },
           {
             "name": "dept_id",
             "type": "string",
-            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv."
+            "description": "UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description \"New General Appropriations\"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv."
           },
           {
             "name": "gab_dept_code",
@@ -1505,7 +1596,7 @@
           {
             "name": "agency_id",
             "type": "string",
-            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv."
+            "description": "UACS department + agency code, \"DD-AAA\" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv."
           },
           {
             "name": "agency_printed",

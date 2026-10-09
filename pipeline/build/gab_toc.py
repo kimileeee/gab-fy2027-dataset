@@ -11,9 +11,9 @@ funds after the real departments (XXXVIII CONTINGENT FUND, etc.) still count as 
 read with sort=True, which puts 'CODE  Title ......  page' on one line; a title that wraps leaves its first line(s) without the dot
 leader, and the code sits on the first of them. Run from build/."""
 import csv, re, os, pymupdf
-from parse_gab_annex import PDF
+from gab_pdf import open_bill, with_c, COPIES
 
-STARTS = {'A': (15, 1358, 2932), 'B': (3538, 4877, 6803)}
+STARTS = with_c({'A': (15, 1358, 2932), 'B': (3538, 4877, 6803)})
 CODE = re.compile(r'^(?:([IVXLC]+)\.?|([A-Z]{1,2})\.(\d+)?)(?=\s|$)\s*')   # 'XXII.', 'A.', 'A.1' (no trailing dot on the sub-code,
 ROW = re.compile(r'^(.*?)\s*\.{3,}\s*(\d+)\s*$')                            # and none on the bill's 'XXXVIII' / 'XXXIX')
 ROMAN = dict(I=1, V=5, X=10, L=50, C=100)
@@ -39,7 +39,7 @@ def block(d, start):
 
 
 def toc(copy):
-    d = pymupdf.open(PDF)
+    d = open_bill()
     out = []
     for start in STARTS[copy]:
         vol, pages = block(d, start)
@@ -83,7 +83,7 @@ def toc(copy):
 
 if __name__ == '__main__':
     os.makedirs('../data/gab', exist_ok=True)
-    for c in 'AB':
+    for c in COPIES:
         R = toc(c)
         with open(f'../data/gab/toc_{c}.csv', 'w', newline='', encoding='utf8') as f:
             w = csv.DictWriter(f, fieldnames=list(R[0])); w.writeheader(); w.writerows(R)

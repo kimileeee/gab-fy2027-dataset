@@ -1,4 +1,4 @@
-"""Special Provisions for every agency in CR00638.pdf, copy A (as filed) and B ([3RD READING]).
+"""Special Provisions for every agency in the bill, copies A/B/C (see gab_pdf.py).
 
 Each agency prints its Special Provision(s) between its summary table ('New Appropriations, by Programs/Projects') and its detail
 table ('New Appropriations, by Programs/Activities/Projects'). In the PDF's text stream that text comes out of order (after the
@@ -10,7 +10,7 @@ can't switch the agency. Output ../data/gab_provisions_{A,B}.csv (id,copy,dept,a
 Run from build/."""
 import csv, hashlib, re, sys
 import pymupdf
-from parse_gab_annex import PDF
+from gab_pdf import open_bill
 from parse_gab_pap import PAGES, DEPT, AGENCY
 
 START = re.compile(r'^Special Provisions?(?:\s*\(s\))?$', re.I)
@@ -44,7 +44,7 @@ def page_lines(page):
     return out
 
 def parse(copy):
-    lo, hi = PAGES[copy]; d = pymupdf.open(PDF); depts = toc_depts(copy)
+    lo, hi = PAGES[copy]; d = open_bill(); depts = toc_depts(copy)
     dept = agency = ''; inside = False; cur = None; out = []; left = None
     def close():
         nonlocal cur
@@ -83,7 +83,7 @@ def parse(copy):
     return out
 
 if __name__ == '__main__':
-    for c in sys.argv[1:] or ['A', 'B']:
+    for c in sys.argv[1:] or ['A', 'B', 'C']:
         rows = parse(c)
         with open(f'../data/gab_provisions_{c}.csv', 'w', newline='', encoding='utf8') as f:
             w = csv.DictWriter(f, fieldnames=['id', 'copy', 'dept', 'agency', 'no', 'title', 'text', 'page_start', 'page_end', 'lines'])

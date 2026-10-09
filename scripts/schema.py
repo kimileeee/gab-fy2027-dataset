@@ -4,10 +4,15 @@ release/datapackage.json (Frictionless Data Package) and release/DATA_DICTIONARY
 # Columns that mean the same thing in every table they appear in: (type, description)
 F = {
     'appropriation_id': ('string', 'Stable id of one appropriation line, the same in every stage: hash of UACS agency + the printed hierarchy (normalised) + label + occurrence. Join key across stages and to appropriations_compared.'),
-    'stage': ('string', 'Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B).'),
+    'stage': ('string', 'Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026).'),
+    'comparison': ('string', 'Which two stages the row compares: GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, or GAB_FILED_to_GAB_3R (filed to final). Filter on one.'),
+    'stage_from': ('string', 'Earlier stage of the comparison (columns ending _from).'),
+    'stage_to': ('string', 'Later stage of the comparison (columns ending _to).'),
+
     'fiscal_year': ('integer', 'Fiscal year of the appropriation (2027).'),
-    'dept_id': ('string', 'UACS department code (2 digits), the same as `department` in BetterGov\'s gaa / nep-2027 datasets. See departments.csv.'),
-    'agency_id': ('string', 'UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency\'s exact appropriation. See agencies.csv.'),
+    'dept_id': ('string', 'UACS department code (2 digits), the same as `department` in BetterGov\'s gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill\'s own numeral is used). See departments.csv.'),
+    'unprogrammed': ('integer', '1 = Unprogrammed Appropriations (XLIII): standby authority, released only if revenues exceed targets or for specific loans; not part of the NEP\'s new appropriations. Filter it out (unprogrammed = 0) when comparing with the NEP or summing programmed spending. 0 otherwise.'),
+    'agency_id': ('string', 'UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency\'s exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv.'),
     'dept_printed': ('string', 'Department name as printed in the bill (the department this row is printed under in this stage).'),
     'agency_printed': ('string', 'Agency name as printed in the bill\'s Table of Contents.'),
     'category': ('string', 'Top tier of the agency\'s program table: General Administration and Support, Support to Operations, Operations, Locally-Funded Projects, Foreign-Assisted Projects.'),
@@ -33,8 +38,9 @@ F = {
     'co': ('integer', 'Capital Outlays, pesos.'),
     'amount': ('integer', 'Total appropriation of the row, pesos (= ps + mooe + finex + co).'),
     'prexc_fpap_id': ('string', 'UACS PREXC program/activity/project code of the matching NEP 2027 line (BetterGov `prexc_fpap_id`). Join key to BetterGov nep-2027 / gaa.'),
-    'nep_match': ('string', 'How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd "Division Office - Proper"), none, no_filed_counterpart (GAB_3R line with no GAB_FILED twin: added or relabelled).'),
-    'pdf_page': ('integer', 'Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill\'s printed page number).'),
+    'nep_match': ('string', 'How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd "Division Office - Proper"), none, not_in_nep (Unprogrammed Appropriations), no_filed_counterpart (GAB_2R / GAB_3R line with no GAB_FILED twin: added or relabelled).'),
+    'pdf_file': ('string', 'PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md.'),
+    'pdf_page': ('integer', 'Page of pdf_file the row is printed on (1-based PDF page, not the bill\'s printed page number).'),
     'path_printed': ('string', 'The printed hierarchy above this row, " > "-joined, exactly as in the bill (for audit).'),
     'source_row_id': ('string', 'Row id in the parser output (pipeline/data), for tracing a value back to its parse.'),
 }
@@ -51,34 +57,35 @@ TABLES = {
         fields=cols('appropriation_id', 'stage', 'fiscal_year', 'dept_id', 'agency_id', 'dept_printed', 'agency_printed', 'category', 'program',
                     'sub_program', 'pap', 'sub_pap', 'funding_source', 'region_printed', 'region_code', 'operating_unit', 'sub_unit', 'geo_level',
                     'psgc_code', 'province_psgc', 'district_id', 'geo_basis', 'drilldown_group_id', 'label', 'ps', 'mooe', 'finex', 'co', 'amount',
-                    'prexc_fpap_id')
+                    'unprogrammed', 'prexc_fpap_id')
                + [('nep_description', 'string', 'Activity description of the matching NEP line (BetterGov `dsc`).'),
                   ('nep_operunit', 'string', 'UACS operating unit code of the matching NEP line (BetterGov `operunit`).'),
                   ('nep_operunit_name', 'string', 'UACS operating unit name (BetterGov `uacs_oper_dsc`), or "N operating units not itemized in the bill" for residual matches.'),
                   ('nep_fund_type', 'string', 'Fund of the matching NEP line: regular, loan_proceeds, gop_counterpart, or mixed.')]
-               + cols('nep_match', 'pdf_page', 'path_printed', 'source_row_id')),
+               + cols('nep_match', 'pdf_file', 'pdf_page', 'path_printed', 'source_row_id')),
     'appropriations_compared': dict(
         title='Appropriations compared across stages',
-        description='Every appropriation line with GAB_FILED (_A) and GAB_3R (_B) side by side. Lines pair on appropriation_id, so an agency printed under a different department in GAB_3R (NAPC, PCUP) pairs with itself.',
-        primary_key=['appropriation_id'],
+        description='Every appropriation line in two stages side by side, one row per line x comparison (GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, GAB_FILED_to_GAB_3R) - filter on `comparison`. Lines pair on appropriation_id, so an agency printed under a different department in a later stage (NAPC, PCUP) pairs with itself.',
+        primary_key=['appropriation_id', 'comparison'],
         foreign_keys=[('agency_id', 'agencies', 'agency_id')],
-        fields=cols('appropriation_id', 'dept_id', 'agency_id')
-               + [('dept_printed_A', 'string', 'Department printed above the line in GAB_FILED.'),
-                  ('dept_printed_B', 'string', 'Department printed above the line in GAB_3R.'),
-                  ('moved_department', 'integer', '1 if the agency is printed under a different department in GAB_3R.')]
+        fields=cols('comparison', 'stage_from', 'stage_to', 'appropriation_id', 'dept_id', 'agency_id')
+               + [('dept_printed_from', 'string', 'Department printed above the line in stage_from.'),
+                  ('dept_printed_to', 'string', 'Department printed above the line in stage_to.'),
+                  ('moved_department', 'integer', '1 if the agency is printed under a different department in stage_to.')]
                + cols('agency_printed', 'category', 'program', 'sub_program', 'pap', 'sub_pap', 'funding_source', 'region_printed', 'region_code',
                       'operating_unit', 'sub_unit', 'label', 'geo_level', 'psgc_code', 'province_psgc', 'district_id', 'prexc_fpap_id', 'nep_match',
-                      'drilldown_group_id')
-               + [(f'{k}_{s}', 'integer', f'{F[k][1].split(",")[0]}, {"GAB_FILED" if s == "A" else "GAB_3R"} (blank = line absent in that stage).')
-                  for s in 'AB' for k in ('ps', 'mooe', 'finex', 'co', 'amount')]
-               + [('delta', 'integer', 'amount_B - amount_A, pesos (absent side counts as 0).'),
-                  ('pct_change', 'number', 'delta / amount_A; -1 = removed, 1 = added.'),
-                  ('status', 'string', 'unchanged | amount_changed | added (GAB_3R only) | removed (GAB_FILED only).'),
+                      'drilldown_group_id', 'unprogrammed')
+               + [(f'{k}_{s}', 'integer', f'{F[k][1].split(",")[0]}, in stage_{s} (blank = line absent in that stage).')
+                  for s in ('from', 'to') for k in ('ps', 'mooe', 'finex', 'co', 'amount')]
+               + [('delta', 'integer', 'amount_to - amount_from, pesos (absent side counts as 0).'),
+                  ('pct_change', 'number', 'delta / amount_from; -1 = removed, 1 = added.'),
+                  ('status', 'string', 'unchanged | amount_changed | added (stage_to only) | removed (stage_from only).'),
                   ('flag', 'string', 'new_line, removed_line, new_amount (0 -> positive), big_increase / big_decrease (>= 20% and >= P50M; a starting threshold, not an editorial standard).'),
                   ('possible_relabel', 'string', 'For an added/removed line with a same-amount counterpart in the same agency: moved (same label, other parent), same_parent (renamed), same_amount (>= P1M, unique). Read these as one line, not a cut plus an insertion, until checked.'),
                   ('relabel_counterpart_id', 'string', 'appropriation_id of the paired line.'),
                   ('relabel_counterpart_label', 'string', 'Label of the paired line.'),
-                  ('pdf_page_A', 'integer', 'Page in CR00638.pdf, GAB_FILED.'), ('pdf_page_B', 'integer', 'Page in CR00638.pdf, GAB_3R.')]),
+                  ('pdf_file_from', 'string', 'PDF of stage_from.'), ('pdf_page_from', 'integer', 'Page in pdf_file_from.'),
+                  ('pdf_file_to', 'string', 'PDF of stage_to.'), ('pdf_page_to', 'integer', 'Page in pdf_file_to.')]),
     'declared_totals': dict(
         title='Declared totals',
         description='Every total the bill prints (group headings with amounts, sub-totals, table totals, the agency lead line), with the sum of the leaves beneath it, so each printed claim can be checked. Tables: detail (program table), summary (by program), object (by object of expenditure, printed in thousands, converted to pesos), lead.',
@@ -96,7 +103,7 @@ TABLES = {
                   ('difference', 'integer', 'leaf_sum - declared_amount.'),
                   ('ties', 'integer', '1 = the printed total equals its leaves, 0 = it does not.'),
                   ('known_bill_error', 'string', 'Page-checked explanation when the mismatch is a misprint in the bill (scripts/curated/known_bill_errors.csv).')]
-               + cols('pdf_page', 'path_printed')),
+               + cols('pdf_file', 'pdf_page', 'path_printed')),
     'object_of_expenditure': dict(
         title='Object of expenditure',
         description='The same money cut by object of expenditure (Basic Salary, Travel, ...): one row per printed object line x stage. Printed in thousands of pesos; converted to pesos here. A different cut of appropriations - do not add the two.',
@@ -106,7 +113,7 @@ TABLES = {
                   ('object_group', 'string', 'Printed group within the class (e.g. Other Compensation Common to All).'),
                   ('object', 'string', 'Object of expenditure as printed.'),
                   ('amount', 'integer', 'Pesos (printed value x 1,000).')]
-               + cols('pdf_page', 'path_printed')),
+               + cols('pdf_file', 'pdf_page', 'path_printed')),
     'drilldown_items': dict(
         title='Drill-down items',
         description='Finer lists the bill prints for some appropriations: DPWH Vol I-C projects (dpwh_vol_ic) and its locally-funded list (dpwh_tail), DA farm-to-market roads (fmr), DOH Health Facilities Enhancement (hfep), NIA irrigation (nia), DILG Support to Barangay Development barangays (sbdp, no amounts). Never sum together with appropriations.',
@@ -120,7 +127,7 @@ TABLES = {
                   ('province_printed', 'string', 'Province as printed (annexes).'), ('municipality_printed', 'string', 'Municipality as printed (annexes).'),
                   ('barangay_printed', 'string', 'Barangay as printed (SBDP).'), ('item', 'string', 'Project / item description as printed.'),
                   ('amount', 'integer', 'Pesos (blank for SBDP, which prints no amounts).')]
-               + cols('geo_level', 'psgc_code', 'province_psgc', 'district_id', 'geo_basis', 'pdf_page', 'source_row_id')),
+               + cols('geo_level', 'psgc_code', 'province_psgc', 'district_id', 'geo_basis', 'pdf_file', 'pdf_page', 'source_row_id')),
     'drilldown_coverage': dict(
         title='Drill-down coverage',
         description='Per drill-down group and stage: the appropriations it itemizes vs the sum of its items. DPWH compares per program and HFEP / the DPWH tail nationally because the program tables print much of that money as Central Office lumps; FMR compares per region.',
@@ -144,21 +151,22 @@ TABLES = {
                   ('provision_no', 'integer', 'Number as printed (the bill sometimes skips one; listed in CHECKS.md).'),
                   ('title', 'string', 'Provision title as printed (text up to the first period).'),
                   ('text', 'string', 'Full text after the title, as printed; paragraph breaks kept as newlines where the print indents.'),
-                  ('pdf_page_start', 'integer', 'First page in CR00638.pdf.'), ('pdf_page_end', 'integer', 'Last page in CR00638.pdf.'),
+                  ('pdf_file', 'string', F['pdf_file'][1]), ('pdf_page_start', 'integer', 'First page in pdf_file.'), ('pdf_page_end', 'integer', 'Last page in pdf_file.'),
                   ('lines', 'integer', 'Printed lines.')]),
     'special_provisions_compared': dict(
         title='Special Provisions compared across stages',
-        description='Each provision with its GAB_FILED and GAB_3R text side by side. Pairs on agency + title, so a renumbered provision is still matched; a retitled one shows as removed + added.',
-        primary_key=['provision_id'], foreign_keys=[('agency_id', 'agencies', 'agency_id')],
-        fields=[('provision_id', 'string', 'See special_provisions.provision_id.'), ('dept_id', 'string', 'UACS department code (blank for back matter).'),
+        description='Each provision in two stages side by side, one row per provision x comparison (GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, GAB_FILED_to_GAB_3R) - filter on `comparison`. Pairs on agency + title, so a renumbered provision is still matched; a retitled one shows as removed + added.',
+        primary_key=['provision_id', 'comparison'], foreign_keys=[('agency_id', 'agencies', 'agency_id')],
+        fields=cols('comparison', 'stage_from', 'stage_to') + [('provision_id', 'string', 'See special_provisions.provision_id.'), ('dept_id', 'string', 'UACS department code (blank for back matter).'),
                 ('agency_id', 'string', 'UACS agency code (blank for back matter).'), ('dept_printed', 'string', 'Department as printed.'),
                 ('agency_printed', 'string', 'Agency name.'), ('scope', 'string', 'agency | back_matter.'), ('title', 'string', 'Provision title.'),
-                ('provision_no_A', 'integer', 'Number in GAB_FILED.'), ('provision_no_B', 'integer', 'Number in GAB_3R.'),
-                ('status', 'string', 'unchanged | renumbered (same text, other number) | text_changed | added (GAB_3R only) | removed (GAB_FILED only).'),
-                ('words_added', 'integer', 'Words in GAB_3R not in GAB_FILED (word-level diff; whole text for an added provision).'),
-                ('words_removed', 'integer', 'Words in GAB_FILED not in GAB_3R.'),
-                ('text_A', 'string', 'Text in GAB_FILED.'), ('text_B', 'string', 'Text in GAB_3R.'),
-                ('pdf_page_A', 'integer', 'First page, GAB_FILED.'), ('pdf_page_B', 'integer', 'First page, GAB_3R.')]),
+                ('provision_no_from', 'integer', 'Number in stage_from.'), ('provision_no_to', 'integer', 'Number in stage_to.'),
+                ('status', 'string', 'unchanged | renumbered (same text, other number) | text_changed | added (stage_to only) | removed (stage_from only).'),
+                ('words_added', 'integer', 'Words in stage_to not in stage_from (word-level diff; whole text for an added provision).'),
+                ('words_removed', 'integer', 'Words in stage_from not in stage_to.'),
+                ('text_from', 'string', 'Text in stage_from.'), ('text_to', 'string', 'Text in stage_to.'),
+                ('pdf_file_from', 'string', 'PDF of stage_from.'), ('pdf_page_from', 'integer', 'First page, stage_from.'),
+                ('pdf_file_to', 'string', 'PDF of stage_to.'), ('pdf_page_to', 'integer', 'First page, stage_to.')]),
     'departments': dict(
         title='Departments', description='One row per UACS department in the release.', primary_key=['dept_id'], foreign_keys=[],
         fields=cols('dept_id') + [('gab_dept_code', 'string', 'Roman-numeral department code in the bill (I = Congress ...).'),

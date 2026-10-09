@@ -1,11 +1,12 @@
 """In-body project lines ("Locally-Funded Project(s)" / "Foreign-Assisted Project(s)" blocks) for every agency except DPWH,
-from CR00638.pdf copy A (as filed) and B ([3RD READING]). Complements parse_gab_pap.py, which flattens these blocks and mis-tags the agency.
+from the bill, copies A/B/C (see gab_pdf.py). Complements parse_gab_pap.py, which flattens these blocks and mis-tags the agency.
 Block layout in the detailed table: project line (+amount) -> region rows -> implementing-office rows; foreign-assisted projects add
 'Loan Proceeds' / 'GOP Counterpart' sub-lines (each with its own region rows). Blocks end at 'Total, Project(s)'.
 Outputs ../data/gab_projects_{A,B}.csv (id,copy,page,dept,agency,kind,project,amount,ps,mooe,fin,co,loan,gop,regions,rollup,parent_id) and
 gab_project_regions_{A,B}.csv (project_id,source,region,office,amount,ps,mooe,fin,co); ps/mooe/fin/co read by column position (gab_cols.py); prints parsed-vs-printed totals per (dept, kind). Run from build/."""
 import csv, re, sys, hashlib, collections, pymupdf
-from parse_gab_annex import NUM, PDF
+from parse_gab_annex import NUM
+from gab_pdf import open_bill
 from gab_cols import rows_x1, ColState
 from parse_gab_pap import PAGES, DEPT, AGENCY
 from gab_toc import roman
@@ -23,7 +24,7 @@ LEADER = re.compile(r'(\. ){3,}|as indicated hereunder', re.I)       # "For ... 
 def colcols(cv): return {k: cv.get(k) for k in ('ps', 'mooe', 'fin', 'co')}
 
 def parse(copy):
-    lo, hi = PAGES[copy]; d = pymupdf.open(PDF)
+    lo, hi = PAGES[copy]; d = open_bill()
     dept = agency = ''; kind = None; pend = []; px = None; ndept = 0
     cs = ColState(); projs = []; regs = []; printed = collections.defaultdict(int); cur = reg = None; src = ''
     for pn in range(lo, hi + 1):
@@ -100,7 +101,7 @@ def parse(copy):
     return projs, regs, printed
 
 if __name__ == '__main__':
-    for c in sys.argv[1:] or ['A', 'B']:
+    for c in sys.argv[1:] or ['A', 'B', 'C']:
         projs, regs, printed = parse(c)
         with open(f'../data/gab_projects_{c}.csv', 'w', newline='', encoding='utf8') as f:
             w = csv.DictWriter(f, fieldnames=['id', 'copy', 'page', 'dept', 'agency', 'kind', 'project', 'amount', 'ps', 'mooe', 'fin', 'co', 'loan', 'gop', 'regions', 'rollup', 'parent_id']); w.writeheader(); w.writerows(projs)

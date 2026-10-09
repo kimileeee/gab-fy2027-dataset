@@ -11,11 +11,11 @@ import collections, csv, hashlib, os, re
 import openpyxl
 import geo
 from nep_match import region_code as _rc
+from stages import STAGE, page_cols
 
-STAGE = {'A': 'GAB_FILED', 'B': 'GAB_3R'}
 ITEM_COLS = ('item_id', 'stage', 'source', 'drilldown_group_id', 'section', 'region_printed', 'region_code', 'office', 'province_printed',
              'municipality_printed', 'barangay_printed', 'item', 'amount', 'geo_level', 'psgc_code', 'province_psgc', 'district_id',
-             'geo_basis', 'pdf_page', 'source_row_id')
+             'geo_basis', 'pdf_file', 'pdf_page', 'source_row_id')
 
 def norm(s): return re.sub(r'[^a-z0-9]', '', (s or '').lower())
 def h(*p): return hashlib.sha1('|'.join(map(str, p)).encode()).hexdigest()[:12]
@@ -79,9 +79,9 @@ def build(apps, ph_data, psgc_xlsx, psgc_rows):
     def add(src, c, row, group, **kw):
         it = dict.fromkeys(ITEM_COLS, ''); it.update(kw)
         it.update(item_id=h(src, row['id']), stage=STAGE[c], source=src, drilldown_group_id=h(src, *group),
-                  pdf_page=row['page'], source_row_id=row['id'])
+                  **page_cols(row['page']), source_row_id=row['id'])
         items.append(it)
-    for c in 'AB':
+    for c in 'ABC':
         for r in read(ph_data, f'gab_dpwh_rows_{c}.csv') + [dict(x, _tail=1) for x in read(ph_data, f'gab_dpwh_tail_rows_{c}.csv')]:
             src = 'dpwh_tail' if r.get('_tail') else 'dpwh_vol_ic'
             rc = region_code(r['region'])

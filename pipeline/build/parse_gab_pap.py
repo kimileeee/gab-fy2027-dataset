@@ -1,13 +1,14 @@
-"""Program/activity (PAP) rows for every agency in CR00638.pdf, copy A (as filed) and B (House [3RD READING]).
+"""Program/activity (PAP) rows for every agency in CR00638.pdf, copies A/B/C (see gab_pdf.py).
 Rows: dept, agency, label (wrapped labels merged), PS/MOOE/CO/total as printed; total = rightmost amount, pesos. Vol I-A+I-B agency pages only.
 Output ../data/gab_pap_{A,B}.csv (id,copy,page,dept,agency,label,amounts,total,ps,mooe,fin,co,cols). ps/mooe/fin(ancial)/co are the printed
 columns read by right-edge position (gab_cols.py; `amounts` lists only the non-blank ones, so a lone column amount is ambiguous there); cols = ok / text (row outside a PS-MOOE-CO table: provision lists, PS itemization) / off (off-grid). id = sha1(PAP|copy|page|ordinal)[:12].
 `lines()` is the shared line reader (also used by gab_tree.py, which rebuilds the printed hierarchy). Run from build/."""
 import csv, re, sys, hashlib, statistics, pymupdf
-from parse_gab_annex import NUM, PDF
+from parse_gab_annex import NUM
+from gab_pdf import open_bill, with_c
 from gab_cols import rows_x1, ColState, D, TOL as COL_TOL
 from gab_toc import roman
-PAGES = {'A': (12, 1959), 'B': (3536, 5492)}
+PAGES = with_c({'A': (12, 1959), 'B': (3536, 5492)})
 DEPT = re.compile(r'^([IVXL]+)\.\s+([A-Z][A-Z\'"\-,&/() ]{3,})$')
 AGENCY = re.compile(r'^([A-Z]{1,2}(?:\.\d+)?)\.\s+([A-Z][A-Z\'"\-,&/()\. ]{3,})$')
 # the charset above covers every dept/agency/group title in the bill (checked via toc_{A,B}.csv) except the quote mark in
@@ -26,7 +27,7 @@ def lines(copy, lo=None, hi=None, small=False, keep_dash=False):
     small=True also reads comma-less amounts < 1,000 in the amount columns (object-of-expenditure tables are in thousands, e.g. 'Bank
     Transaction Fee 24'). parse() leaves it off: those rows were never in gab_pap and adding them would shift every later id.
     keep_dash=True keeps '-' inside labels ('Region I - Ilocos'); only '-' in the amount columns (blank-cell marks) is dropped."""
-    lo = lo or PAGES[copy][0]; hi = hi or PAGES[copy][1]; d = pymupdf.open(PDF); cs = ColState(); anchor = 0
+    lo = lo or PAGES[copy][0]; hi = hi or PAGES[copy][1]; d = open_bill(); cs = ColState(); anchor = 0
     for pn in range(lo, hi + 1):
         rows = rows_x1(d[pn - 1]); cs.page(rows)
         ln = [x1 for y, r in rows for x0, t, x1 in sorted(r)[:1] if re.fullmatch(r'\d{1,2}', t) and x0 < 100]
@@ -72,7 +73,7 @@ def parse(copy):
     return out
 
 if __name__ == '__main__':
-    for c in sys.argv[1:] or ['A', 'B']:
+    for c in sys.argv[1:] or ['A', 'B', 'C']:
         rows = parse(c)
         with open(f'../data/gab_pap_{c}.csv', 'w', newline='', encoding='utf8') as f:
             w = csv.DictWriter(f, fieldnames=['id', 'copy', 'page', 'dept', 'agency', 'label', 'amounts', 'total', 'ps', 'mooe', 'fin', 'co', 'cols']); w.writeheader(); w.writerows(rows)

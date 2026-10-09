@@ -2,16 +2,17 @@
 Leaf = facility row (not numbered heading / region / province row); amount = rightmost numeric (Total column), pesos.
 Output ../data/gab_annex_hfep_{A,B}.csv (same cols as parse_gab_annex.py; section = numbered heading). Prints printed-vs-parsed per heading. Run from build/."""
 import csv, re, hashlib, collections, pymupdf
-from parse_gab_annex import rows_of, NUM, PDF
+from parse_gab_annex import rows_of, NUM
+from gab_pdf import open_bill, with_c, COPIES
 grand = {}
-PAGES = {'A': (2198, 2215), 'B': (5749, 5768)}
+PAGES = with_c({'A': (2198, 2215), 'B': (5749, 5768)})
 HEAD = re.compile(r'^(\d+\.?[a-z]?\.?\d*|[IVX]+\.|[A-Z]\.)\s+\S')
 REGION = re.compile(r'^(CAR|NCR|NIR|BARMM|CARAGA|MIMAROPA|CALABARZON|National Capital Region|Region [IVX]+(-[AB])?(\s*\(.*\))?|Negros Island Region|Cordillera.*|Bangsamoro.*)$', re.I)
 FAC = re.compile(r'(Station|Hospital|Medical|Center|Centre|Clinic|Facility|Facilities|Unit|Building|Birthing|Laboratory|Ambulance|Vehicle|Equipment|BHS|RHU|Infirmary|Pharmacy|Morgue|School|Institute|Complex|Ward|Dialysis|Sanitarium)', re.I)
 PROV = re.compile(r'^[A-Za-z][A-Za-z.\-\' ]{2,32}$')
 
 def parse(copy):
-    lo, hi = PAGES[copy]; d = pymupdf.open(PDF); out = []; heads = {}; sect = ''; pend = []; reg = prov = ''
+    lo, hi = PAGES[copy]; d = open_bill(); out = []; heads = {}; sect = ''; pend = []; reg = prov = ''
     for pn in range(lo, hi + 1):
         rows = rows_of(d[pn - 1]); anc = None
         for y, r in rows:
@@ -40,7 +41,7 @@ def parse(copy):
     return out, heads
 
 if __name__ == '__main__':
-    for c in 'AB':
+    for c in COPIES:
         rows, heads = parse(c)
         with open(f'../data/gab_annex_hfep_{c}.csv', 'w', newline='', encoding='utf8') as f:
             w = csv.DictWriter(f, fieldnames=['id', 'annex', 'copy', 'page', 'section', 'region', 'province', 'project', 'amount']); w.writeheader(); w.writerows(rows)

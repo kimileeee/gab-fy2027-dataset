@@ -136,6 +136,6 @@ def report(copy, out, summary):
 
 
 if __name__ == '__main__':
-    for c in sys.argv[1:] or ['A', 'B']:
+    for c in sys.argv[1:] or ['A', 'B', 'C']:
         out, summary = run(c)
         report(c, out, summary)

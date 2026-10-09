@@ -1,13 +1,13 @@
-"""Sector annex project rows from CR00638.pdf (A = as filed pp12-3535, B = [3RD READING] pp3536-7408).
+"""Sector annex project rows from the bill (copies A/B/C, see gab_pdf.py).
 Annexes: FMR (DA Farm-to-Market Roads, B only), NIA (irrigation, A+B). Rows carry a stable id = sha1(annex|copy|page|ordinal)[:12].
 Amounts in pesos. Prints printed-heading total vs parsed total per section. Run from build/."""
 import csv, re, sys, hashlib, collections, pymupdf
 
-PDF = '../raw/hb10858/CR00638.pdf'
+from gab_pdf import PDF, open_bill, with_c
 NUM = re.compile(r'^\d{1,3}(?:,\d{3})+$')
 ANNEX = {  # annex: copy -> (first page, last page), item-start regex, label x max, amount x min
-    'FMR': dict(pages={'A': (2006, 2049), 'B': (5539, 5600)}, head=r'^(REGION|CORDILLERA|NATIONAL CAPITAL|NEGROS|BANGSAMORO|CARAGA|MIMAROPA|DESIGNATED|REPAIR)', start=r'^(Construction|Concreting|Rehabilitation|Repair|Improvement|Opening|Installation|Widening|Upgrading|Reconstruction|Maintenance|Road)\b', amt_x=490),
-    'NIA': dict(pages={'A': (2216, 2259), 'B': (5769, 5816)}, start=r'^[^:]{3,70}:\s', amt_x=500, amt_starts=True, head=r'(?!)'),
+    'FMR': dict(pages=with_c({'A': (2006, 2049), 'B': (5539, 5600)}), head=r'^(REGION|CORDILLERA|NATIONAL CAPITAL|NEGROS|BANGSAMORO|CARAGA|MIMAROPA|DESIGNATED|REPAIR)', start=r'^(Construction|Concreting|Rehabilitation|Repair|Improvement|Opening|Installation|Widening|Upgrading|Reconstruction|Maintenance|Road)\b', amt_x=490),
+    'NIA': dict(pages=with_c({'A': (2216, 2259), 'B': (5769, 5816)}), start=r'^[^:]{3,70}:\s', amt_x=500, amt_starts=True, head=r'(?!)'),
 }
 
 def rows_of(page):
@@ -19,7 +19,7 @@ def rows_of(page):
     return rows
 
 def parse(annex, copy):
-    cfg = ANNEX[annex]; lo, hi = cfg['pages'][copy]; d = pymupdf.open(PDF)
+    cfg = ANNEX[annex]; lo, hi = cfg['pages'][copy]; d = open_bill()
     start = re.compile(cfg['start']); out = []; heads = []; sect = ''; cur = None; pend = []
     def close():
         nonlocal cur

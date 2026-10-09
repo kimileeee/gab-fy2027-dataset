@@ -1,13 +1,13 @@
-"""DILG Local Government Support Fund - Support to the Barangay Development Program (SBDP) barangay list from CR00638.pdf
-(A = as filed, B = [3RD READING]). Five printed columns: No., Region, Province, City/Municipality, Barangay; no amounts.
+"""DILG Local Government Support Fund - Support to the Barangay Development Program (SBDP) barangay list from the bill
+(copies A/B/C, see gab_pdf.py). Five printed columns: No., Region, Province, City/Municipality, Barangay; no amounts.
 Columns are cut at fixed offsets from the region cell's x (the whole table shifts ~14pt between left and right pages); a line
-with no leading number continues the cells of the row above (wrapped names). Output ../data/gab_annex_sbdp_{A,B}.csv, id =
+with no leading number continues the cells of the row above (wrapped names). Output ../data/gab_annex_sbdp_{A,B,C}.csv, id =
 sha1(SBDP|copy|page|ordinal)[:12]. Prints rows vs the printed numbering. Run from build/."""
 import csv, re, sys, hashlib, pymupdf
 from parse_gab_annex import rows_of
+from gab_pdf import open_bill, with_c
 
-PDF = '../raw/hb10858/CR00638.pdf'
-PAGES = {'A': (2260, 2299), 'B': (5817, 5856)}
+PAGES = with_c({'A': (2260, 2299), 'B': (5817, 5856)})
 CUTS = (70, 180, 310)   # province / city-municipality / barangay columns start this far right of the region cell
 COLS = ('region', 'province', 'municipality', 'barangay')
 SKIP = re.compile(r'GENERAL APPROPRIATIONS|LOCAL GOVERNMENT SUPPORT|BARANGAY DEVELOPMENT|CITY/MUNICIPALITY|FISCAL YEAR')
@@ -20,7 +20,7 @@ def cells(words, rx):
     return out
 
 def parse(copy):
-    lo, hi = PAGES[copy]; d = pymupdf.open(PDF); out = []; i = 0
+    lo, hi = PAGES[copy]; d = open_bill(); out = []; i = 0
     for pn in range(lo, hi + 1):
         rx = None
         for y, ws in rows_of(d[pn - 1]):
@@ -39,7 +39,7 @@ def parse(copy):
     return out
 
 if __name__ == '__main__':
-    for c in sys.argv[1:] or ['A', 'B']:
+    for c in sys.argv[1:] or ['A', 'B', 'C']:
         rows = parse(c)
         with open(f'../data/gab_annex_sbdp_{c}.csv', 'w', newline='', encoding='utf8') as f:
             w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)

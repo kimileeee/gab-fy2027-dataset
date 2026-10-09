@@ -1,8 +1,27 @@
 """Row extraction from the House GAB PDFs (HB10858.pdf / CR00638.pdf) using word coordinates.
 pdftotext -layout scrambles label/amount alignment on these files; the PDF's own y-coordinates are clean.
 Page rows -> [(x_label, y, label_text, amount_or_None)], continuation lines folded into their parent row.
-Run from build/. PDFs live in ../raw/hb10858/ (gitignored)."""
+Run from build/. PDFs live in ../raw/hb10858/ and ../raw/hb10858_3r/ (gitignored).
+
+Copies of the bill: A = CR00638 pp 12-3535 (as filed), B = CR00638 pp 3536-7408 (2nd reading; its print slug says '[3RD READING]'),
+C = the four 'HB 10858 FOR 3RD READING' volumes (3rd reading). open_bill() appends the volumes after CR00638's 7,408 pages, so copy C's
+page numbers are copy B's + C_OFFSET: the volumes paginate exactly like copy B (3,233 of 3,873 pages have identical text)."""
 import re, pymupdf
+
+PDF = '../raw/hb10858/CR00638.pdf'
+VOLS_3R = [f'../raw/hb10858_3r/HB10858_3R_VOL_{v}.pdf' for v in ('I-A', 'I-B', 'I-C', 'II')]
+C_OFFSET = 3873        # pages in copy B = pages in the four volumes
+COPIES = 'ABC'
+
+def open_bill():
+    """CR00638 + the 3rd-reading volumes as one document (0.9 s, in memory)."""
+    d = pymupdf.open(PDF)
+    for v in VOLS_3R: d.insert_pdf(pymupdf.open(v))
+    return d
+
+def with_c(pages):
+    """{'A': (...), 'B': (...)} -> the same plus 'C' = B's pages + C_OFFSET."""
+    return {**pages, 'C': tuple(p + C_OFFSET for p in pages['B'])}
 
 AMT = re.compile(r"^\(?-?\d{1,3}(?:,\d{3})+\)?$")
 AMT_X = 470       # amounts sit right of this x (pt) on 648pt-wide pages
@@ -55,7 +74,7 @@ def fold(rows):
 
 if __name__ == '__main__':
     import sys
-    d = pymupdf.open('../raw/hb10858/CR00638.pdf')
+    d = open_bill()
     for pn in map(int, sys.argv[1:]):
         rows, orphan = page_rows(d[pn - 1])
         print(f'=== p{pn} orphan amounts: {orphan}')

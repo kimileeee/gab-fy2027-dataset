@@ -6,7 +6,7 @@ lines split by fund, (FPAP, region, operating unit, fund type) where fund type i
 together: NSCR is ADB + JICA) / GOP counterpart. Passes: (1) signature unique in the agency; (2) ambiguous signature, best region +
 name score first, each NEP group used once; (3) residual: a bill line that aggregates every NEP operating unit of its division not
 itemized in the bill (DepEd 'Division Office - Proper' = division total minus the schools printed separately).
-GAB_3R rows inherit the codes of the same appropriation_id in GAB_FILED."""
+GAB_2R and GAB_3R rows inherit the codes of the same appropriation_id in GAB_FILED."""
 import collections, difflib, os, re
 import duckdb
 
@@ -111,10 +111,10 @@ def attach(apps, nep):
                      nep_match='residual', _nep_reg=gs[0]['reg'])
     for r in filed:
         if not r['nep_match']: r['nep_match'] = 'none'
-    # GAB_3R inherits through the shared appropriation_id
+    # GAB_2R / GAB_3R inherit through the shared appropriation_id
     by_id = {r['appropriation_id']: r for r in filed}
     for r in apps:
-        if r['stage'] != 'GAB_3R': continue
+        if r['stage'] == 'GAB_FILED': continue
         a = by_id.get(r['appropriation_id'])
         if a is None: r['nep_match'] = 'no_filed_counterpart'; continue
         for k in NEP_COLS[1:] + ('_nep_reg',): r[k] = a.get(k, '')

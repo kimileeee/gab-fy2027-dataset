@@ -8,15 +8,15 @@ Amounts are integer pesos. Blank = not printed / not applicable. Files are UTF-8
 
 One row per appropriation line x stage: the printed amount rows with nothing printed beneath them (leaves). Leaves sum to every printed total (see declared_totals.csv). Never sum this table together with drilldown_items.
 
-Rows: 37,797. Primary key: `appropriation_id, stage`. `agency_id` → `agencies.agency_id`. `dept_id` → `departments.dept_id`.
+Rows: 56,817. Primary key: `appropriation_id, stage`. `agency_id` → `agencies.agency_id`. `dept_id` → `departments.dept_id`.
 
 | column | type | description |
 |---|---|---|
 | `appropriation_id` | string | Stable id of one appropriation line, the same in every stage: hash of UACS agency + the printed hierarchy (normalised) + label + occurrence. Join key across stages and to appropriations_compared. |
-| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B). |
+| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026). |
 | `fiscal_year` | integer | Fiscal year of the appropriation (2027). |
-| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. |
-| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. |
+| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. |
+| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. |
 | `dept_printed` | string | Department name as printed in the bill (the department this row is printed under in this stage). |
 | `agency_printed` | string | Agency name as printed in the bill's Table of Contents. |
 | `category` | string | Top tier of the agency's program table: General Administration and Support, Support to Operations, Operations, Locally-Funded Projects, Foreign-Assisted Projects. |
@@ -41,30 +41,35 @@ Rows: 37,797. Primary key: `appropriation_id, stage`. `agency_id` → `agencies.
 | `finex` | integer | Financial Expenses, pesos. |
 | `co` | integer | Capital Outlays, pesos. |
 | `amount` | integer | Total appropriation of the row, pesos (= ps + mooe + finex + co). |
+| `unprogrammed` | integer | 1 = Unprogrammed Appropriations (XLIII): standby authority, released only if revenues exceed targets or for specific loans; not part of the NEP's new appropriations. Filter it out (unprogrammed = 0) when comparing with the NEP or summing programmed spending. 0 otherwise. |
 | `prexc_fpap_id` | string | UACS PREXC program/activity/project code of the matching NEP 2027 line (BetterGov `prexc_fpap_id`). Join key to BetterGov nep-2027 / gaa. |
 | `nep_description` | string | Activity description of the matching NEP line (BetterGov `dsc`). |
 | `nep_operunit` | string | UACS operating unit code of the matching NEP line (BetterGov `operunit`). |
 | `nep_operunit_name` | string | UACS operating unit name (BetterGov `uacs_oper_dsc`), or "N operating units not itemized in the bill" for residual matches. |
 | `nep_fund_type` | string | Fund of the matching NEP line: regular, loan_proceeds, gop_counterpart, or mixed. |
-| `nep_match` | string | How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd "Division Office - Proper"), none, no_filed_counterpart (GAB_3R line with no GAB_FILED twin: added or relabelled). |
-| `pdf_page` | integer | Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number). |
+| `nep_match` | string | How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd "Division Office - Proper"), none, not_in_nep (Unprogrammed Appropriations), no_filed_counterpart (GAB_2R / GAB_3R line with no GAB_FILED twin: added or relabelled). |
+| `pdf_file` | string | PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md. |
+| `pdf_page` | integer | Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number). |
 | `path_printed` | string | The printed hierarchy above this row, " > "-joined, exactly as in the bill (for audit). |
 | `source_row_id` | string | Row id in the parser output (pipeline/data), for tracing a value back to its parse. |
 
 ## `appropriations_compared.csv` — Appropriations compared across stages
 
-Every appropriation line with GAB_FILED (_A) and GAB_3R (_B) side by side. Lines pair on appropriation_id, so an agency printed under a different department in GAB_3R (NAPC, PCUP) pairs with itself.
+Every appropriation line in two stages side by side, one row per line x comparison (GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, GAB_FILED_to_GAB_3R) - filter on `comparison`. Lines pair on appropriation_id, so an agency printed under a different department in a later stage (NAPC, PCUP) pairs with itself.
 
-Rows: 19,081. Primary key: `appropriation_id`. `agency_id` → `agencies.agency_id`.
+Rows: 57,184. Primary key: `appropriation_id, comparison`. `agency_id` → `agencies.agency_id`.
 
 | column | type | description |
 |---|---|---|
+| `comparison` | string | Which two stages the row compares: GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, or GAB_FILED_to_GAB_3R (filed to final). Filter on one. |
+| `stage_from` | string | Earlier stage of the comparison (columns ending _from). |
+| `stage_to` | string | Later stage of the comparison (columns ending _to). |
 | `appropriation_id` | string | Stable id of one appropriation line, the same in every stage: hash of UACS agency + the printed hierarchy (normalised) + label + occurrence. Join key across stages and to appropriations_compared. |
-| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. |
-| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. |
-| `dept_printed_A` | string | Department printed above the line in GAB_FILED. |
-| `dept_printed_B` | string | Department printed above the line in GAB_3R. |
-| `moved_department` | integer | 1 if the agency is printed under a different department in GAB_3R. |
+| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. |
+| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. |
+| `dept_printed_from` | string | Department printed above the line in stage_from. |
+| `dept_printed_to` | string | Department printed above the line in stage_to. |
+| `moved_department` | integer | 1 if the agency is printed under a different department in stage_to. |
 | `agency_printed` | string | Agency name as printed in the bill's Table of Contents. |
 | `category` | string | Top tier of the agency's program table: General Administration and Support, Support to Operations, Operations, Locally-Funded Projects, Foreign-Assisted Projects. |
 | `program` | string | PROGRAM heading (upper case in the bill), if any. |
@@ -82,41 +87,44 @@ Rows: 19,081. Primary key: `appropriation_id`. `agency_id` → `agencies.agency_
 | `province_psgc` | string | PSGC code of the province (or independent city) containing the place, for province-level maps. |
 | `district_id` | string | Legislative district id (districts.csv), for DPWH District Engineering Office rows mapped to exactly one district. |
 | `prexc_fpap_id` | string | UACS PREXC program/activity/project code of the matching NEP 2027 line (BetterGov `prexc_fpap_id`). Join key to BetterGov nep-2027 / gaa. |
-| `nep_match` | string | How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd "Division Office - Proper"), none, no_filed_counterpart (GAB_3R line with no GAB_FILED twin: added or relabelled). |
+| `nep_match` | string | How the row matched NEP 2027: unique (amount signature unique in the agency), disambiguated (by region + names), residual (the bill line sums all NEP units it does not itemize, e.g. DepEd "Division Office - Proper"), none, not_in_nep (Unprogrammed Appropriations), no_filed_counterpart (GAB_2R / GAB_3R line with no GAB_FILED twin: added or relabelled). |
 | `drilldown_group_id` | string | Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows. |
-| `ps_A` | integer | Personnel Services, GAB_FILED (blank = line absent in that stage). |
-| `mooe_A` | integer | Maintenance and Other Operating Expenses, GAB_FILED (blank = line absent in that stage). |
-| `finex_A` | integer | Financial Expenses, GAB_FILED (blank = line absent in that stage). |
-| `co_A` | integer | Capital Outlays, GAB_FILED (blank = line absent in that stage). |
-| `amount_A` | integer | Total appropriation of the row, GAB_FILED (blank = line absent in that stage). |
-| `ps_B` | integer | Personnel Services, GAB_3R (blank = line absent in that stage). |
-| `mooe_B` | integer | Maintenance and Other Operating Expenses, GAB_3R (blank = line absent in that stage). |
-| `finex_B` | integer | Financial Expenses, GAB_3R (blank = line absent in that stage). |
-| `co_B` | integer | Capital Outlays, GAB_3R (blank = line absent in that stage). |
-| `amount_B` | integer | Total appropriation of the row, GAB_3R (blank = line absent in that stage). |
-| `delta` | integer | amount_B - amount_A, pesos (absent side counts as 0). |
-| `pct_change` | number | delta / amount_A; -1 = removed, 1 = added. |
-| `status` | string | unchanged / amount_changed / added (GAB_3R only) / removed (GAB_FILED only). |
+| `unprogrammed` | integer | 1 = Unprogrammed Appropriations (XLIII): standby authority, released only if revenues exceed targets or for specific loans; not part of the NEP's new appropriations. Filter it out (unprogrammed = 0) when comparing with the NEP or summing programmed spending. 0 otherwise. |
+| `ps_from` | integer | Personnel Services, in stage_from (blank = line absent in that stage). |
+| `mooe_from` | integer | Maintenance and Other Operating Expenses, in stage_from (blank = line absent in that stage). |
+| `finex_from` | integer | Financial Expenses, in stage_from (blank = line absent in that stage). |
+| `co_from` | integer | Capital Outlays, in stage_from (blank = line absent in that stage). |
+| `amount_from` | integer | Total appropriation of the row, in stage_from (blank = line absent in that stage). |
+| `ps_to` | integer | Personnel Services, in stage_to (blank = line absent in that stage). |
+| `mooe_to` | integer | Maintenance and Other Operating Expenses, in stage_to (blank = line absent in that stage). |
+| `finex_to` | integer | Financial Expenses, in stage_to (blank = line absent in that stage). |
+| `co_to` | integer | Capital Outlays, in stage_to (blank = line absent in that stage). |
+| `amount_to` | integer | Total appropriation of the row, in stage_to (blank = line absent in that stage). |
+| `delta` | integer | amount_to - amount_from, pesos (absent side counts as 0). |
+| `pct_change` | number | delta / amount_from; -1 = removed, 1 = added. |
+| `status` | string | unchanged / amount_changed / added (stage_to only) / removed (stage_from only). |
 | `flag` | string | new_line, removed_line, new_amount (0 -> positive), big_increase / big_decrease (>= 20% and >= P50M; a starting threshold, not an editorial standard). |
 | `possible_relabel` | string | For an added/removed line with a same-amount counterpart in the same agency: moved (same label, other parent), same_parent (renamed), same_amount (>= P1M, unique). Read these as one line, not a cut plus an insertion, until checked. |
 | `relabel_counterpart_id` | string | appropriation_id of the paired line. |
 | `relabel_counterpart_label` | string | Label of the paired line. |
-| `pdf_page_A` | integer | Page in CR00638.pdf, GAB_FILED. |
-| `pdf_page_B` | integer | Page in CR00638.pdf, GAB_3R. |
+| `pdf_file_from` | string | PDF of stage_from. |
+| `pdf_page_from` | integer | Page in pdf_file_from. |
+| `pdf_file_to` | string | PDF of stage_to. |
+| `pdf_page_to` | integer | Page in pdf_file_to. |
 
 ## `declared_totals.csv` — Declared totals
 
 Every total the bill prints (group headings with amounts, sub-totals, table totals, the agency lead line), with the sum of the leaves beneath it, so each printed claim can be checked. Tables: detail (program table), summary (by program), object (by object of expenditure, printed in thousands, converted to pesos), lead.
 
-Rows: 28,933. Primary key: `declared_id, stage`. `agency_id` → `agencies.agency_id`.
+Rows: 43,590. Primary key: `declared_id, stage`. `agency_id` → `agencies.agency_id`.
 
 | column | type | description |
 |---|---|---|
 | `declared_id` | string | Stable id of the printed total (hash of agency + table + printed chain + occurrence). |
-| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B). |
+| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026). |
 | `fiscal_year` | integer | Fiscal year of the appropriation (2027). |
-| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. |
-| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. |
+| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. |
+| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. |
 | `dept_printed` | string | Department name as printed in the bill (the department this row is printed under in this stage). |
 | `agency_printed` | string | Agency name as printed in the bill's Table of Contents. |
 | `table` | string | detail / summary / object / lead. |
@@ -141,40 +149,42 @@ Rows: 28,933. Primary key: `declared_id, stage`. `agency_id` → `agencies.agenc
 | `difference` | integer | leaf_sum - declared_amount. |
 | `ties` | integer | 1 = the printed total equals its leaves, 0 = it does not. |
 | `known_bill_error` | string | Page-checked explanation when the mismatch is a misprint in the bill (scripts/curated/known_bill_errors.csv). |
-| `pdf_page` | integer | Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number). |
+| `pdf_file` | string | PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md. |
+| `pdf_page` | integer | Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number). |
 | `path_printed` | string | The printed hierarchy above this row, " > "-joined, exactly as in the bill (for audit). |
 
 ## `object_of_expenditure.csv` — Object of expenditure
 
 The same money cut by object of expenditure (Basic Salary, Travel, ...): one row per printed object line x stage. Printed in thousands of pesos; converted to pesos here. A different cut of appropriations - do not add the two.
 
-Rows: 23,803. `agency_id` → `agencies.agency_id`.
+Rows: 35,822. `agency_id` → `agencies.agency_id`.
 
 | column | type | description |
 |---|---|---|
-| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B). |
+| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026). |
 | `fiscal_year` | integer | Fiscal year of the appropriation (2027). |
-| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. |
-| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. |
+| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. |
+| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. |
 | `dept_printed` | string | Department name as printed in the bill (the department this row is printed under in this stage). |
 | `agency_printed` | string | Agency name as printed in the bill's Table of Contents. |
 | `expense_class` | string | Personnel Services, Maintenance and Other Operating Expenses, Financial Expenses, Capital Outlays. |
 | `object_group` | string | Printed group within the class (e.g. Other Compensation Common to All). |
 | `object` | string | Object of expenditure as printed. |
 | `amount` | integer | Pesos (printed value x 1,000). |
-| `pdf_page` | integer | Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number). |
+| `pdf_file` | string | PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md. |
+| `pdf_page` | integer | Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number). |
 | `path_printed` | string | The printed hierarchy above this row, " > "-joined, exactly as in the bill (for audit). |
 
 ## `drilldown_items.csv` — Drill-down items
 
 Finer lists the bill prints for some appropriations: DPWH Vol I-C projects (dpwh_vol_ic) and its locally-funded list (dpwh_tail), DA farm-to-market roads (fmr), DOH Health Facilities Enhancement (hfep), NIA irrigation (nia), DILG Support to Barangay Development barangays (sbdp, no amounts). Never sum together with appropriations.
 
-Rows: 35,265. Primary key: `item_id`.
+Rows: 55,486. Primary key: `item_id`.
 
 | column | type | description |
 |---|---|---|
 | `item_id` | string | Stable id of the item (hash of source + parser row id). |
-| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B). |
+| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026). |
 | `source` | string | dpwh_vol_ic / dpwh_tail / fmr / hfep / nia / sbdp. |
 | `drilldown_group_id` | string | Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows. |
 | `section` | string | Program / annex section the item is printed under. |
@@ -191,19 +201,20 @@ Rows: 35,265. Primary key: `item_id`.
 | `province_psgc` | string | PSGC code of the province (or independent city) containing the place, for province-level maps. |
 | `district_id` | string | Legislative district id (districts.csv), for DPWH District Engineering Office rows mapped to exactly one district. |
 | `geo_basis` | string | Which rule placed this row (e.g. "DEO map", "office prefix (Division/PENRO/CENRO/PARO)", "place name in office name", "regional office", "no region printed"). Filter on it to keep only placements you trust. |
-| `pdf_page` | integer | Page of CR00638.pdf the row is printed on (1-based PDF page, not the bill's printed page number). |
+| `pdf_file` | string | PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md. |
+| `pdf_page` | integer | Page of pdf_file the row is printed on (1-based PDF page, not the bill's printed page number). |
 | `source_row_id` | string | Row id in the parser output (pipeline/data), for tracing a value back to its parse. |
 
 ## `drilldown_coverage.csv` — Drill-down coverage
 
 Per drill-down group and stage: the appropriations it itemizes vs the sum of its items. DPWH compares per program and HFEP / the DPWH tail nationally because the program tables print much of that money as Central Office lumps; FMR compares per region.
 
-Rows: 90. Primary key: `drilldown_group_id, stage`.
+Rows: 135. Primary key: `drilldown_group_id, stage`.
 
 | column | type | description |
 |---|---|---|
 | `drilldown_group_id` | string | Links an appropriation to the itemized list the bill prints for it elsewhere (drilldown_items.csv, drilldown_coverage.csv). Blank for most rows. |
-| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B). |
+| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026). |
 | `source` | string | Drill-down source (see drilldown_items.source). |
 | `description` | string | Program / section (and region) of the group. |
 | `parent_rows` | integer | Number of appropriations in the group. |
@@ -217,15 +228,15 @@ Rows: 90. Primary key: `drilldown_group_id, stage`.
 
 The legal conditions printed with each agency's appropriation (earmarks, release rules, reporting duties, use of income), one row per provision x stage, full text. Also kept for back-matter funds (Unprogrammed Appropriations, Pension and Gratuity Fund, ...) whose tables are not parsed yet. No amounts are summed from here.
 
-Rows: 1,734. Primary key: `provision_id, stage`. `agency_id` → `agencies.agency_id`.
+Rows: 2,612. Primary key: `provision_id, stage`. `agency_id` → `agencies.agency_id`.
 
 | column | type | description |
 |---|---|---|
 | `provision_id` | string | Stable id of the provision, the same in both stages: hash of agency (or scope:department) + normalised title + occurrence. |
-| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (copy A of Committee Report 638, identical to the NEP as submitted); GAB_3R = the House bill on 3rd reading (copy B). |
+| `stage` | string | Budget document the figure comes from: GAB_FILED = House bill HB 10858 as filed (Committee Report 638 copy A, identical to the NEP as submitted); GAB_2R = the bill on 2nd reading (Committee Report 638 copy B; its print stamp says [3RD READING]); GAB_3R = the bill for 3rd reading (the four HB 10858 FOR 3RD READING volumes, 8 Oct 2026). |
 | `fiscal_year` | integer | Fiscal year of the appropriation (2027). |
-| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. Blank for back-matter funds. |
-| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. Blank for back-matter funds. |
+| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. Blank for back-matter funds. |
+| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. Blank for back-matter funds. |
 | `dept_printed` | string | Department heading printed above the provision. |
 | `agency_printed` | string | Agency name (Table of Contents form where matched, else the heading as printed). |
 | `scope` | string | agency / back_matter (a fund whose tables are not parsed yet; no UACS code). |
@@ -233,18 +244,22 @@ Rows: 1,734. Primary key: `provision_id, stage`. `agency_id` → `agencies.agenc
 | `provision_no` | integer | Number as printed (the bill sometimes skips one; listed in CHECKS.md). |
 | `title` | string | Provision title as printed (text up to the first period). |
 | `text` | string | Full text after the title, as printed; paragraph breaks kept as newlines where the print indents. |
-| `pdf_page_start` | integer | First page in CR00638.pdf. |
-| `pdf_page_end` | integer | Last page in CR00638.pdf. |
+| `pdf_file` | string | PDF the row is printed in: CR00638.pdf (GAB_FILED, GAB_2R) or HB10858_3R_VOL_{I-A,I-B,I-C,II}.pdf (GAB_3R). See inputs/SOURCES.md. |
+| `pdf_page_start` | integer | First page in pdf_file. |
+| `pdf_page_end` | integer | Last page in pdf_file. |
 | `lines` | integer | Printed lines. |
 
 ## `special_provisions_compared.csv` — Special Provisions compared across stages
 
-Each provision with its GAB_FILED and GAB_3R text side by side. Pairs on agency + title, so a renumbered provision is still matched; a retitled one shows as removed + added.
+Each provision in two stages side by side, one row per provision x comparison (GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, GAB_FILED_to_GAB_3R) - filter on `comparison`. Pairs on agency + title, so a renumbered provision is still matched; a retitled one shows as removed + added.
 
-Rows: 881. Primary key: `provision_id`. `agency_id` → `agencies.agency_id`.
+Rows: 2,643. Primary key: `provision_id, comparison`. `agency_id` → `agencies.agency_id`.
 
 | column | type | description |
 |---|---|---|
+| `comparison` | string | Which two stages the row compares: GAB_FILED_to_GAB_2R, GAB_2R_to_GAB_3R, or GAB_FILED_to_GAB_3R (filed to final). Filter on one. |
+| `stage_from` | string | Earlier stage of the comparison (columns ending _from). |
+| `stage_to` | string | Later stage of the comparison (columns ending _to). |
 | `provision_id` | string | See special_provisions.provision_id. |
 | `dept_id` | string | UACS department code (blank for back matter). |
 | `agency_id` | string | UACS agency code (blank for back matter). |
@@ -252,25 +267,27 @@ Rows: 881. Primary key: `provision_id`. `agency_id` → `agencies.agency_id`.
 | `agency_printed` | string | Agency name. |
 | `scope` | string | agency / back_matter. |
 | `title` | string | Provision title. |
-| `provision_no_A` | integer | Number in GAB_FILED. |
-| `provision_no_B` | integer | Number in GAB_3R. |
-| `status` | string | unchanged / renumbered (same text, other number) / text_changed / added (GAB_3R only) / removed (GAB_FILED only). |
-| `words_added` | integer | Words in GAB_3R not in GAB_FILED (word-level diff; whole text for an added provision). |
-| `words_removed` | integer | Words in GAB_FILED not in GAB_3R. |
-| `text_A` | string | Text in GAB_FILED. |
-| `text_B` | string | Text in GAB_3R. |
-| `pdf_page_A` | integer | First page, GAB_FILED. |
-| `pdf_page_B` | integer | First page, GAB_3R. |
+| `provision_no_from` | integer | Number in stage_from. |
+| `provision_no_to` | integer | Number in stage_to. |
+| `status` | string | unchanged / renumbered (same text, other number) / text_changed / added (stage_to only) / removed (stage_from only). |
+| `words_added` | integer | Words in stage_to not in stage_from (word-level diff; whole text for an added provision). |
+| `words_removed` | integer | Words in stage_from not in stage_to. |
+| `text_from` | string | Text in stage_from. |
+| `text_to` | string | Text in stage_to. |
+| `pdf_file_from` | string | PDF of stage_from. |
+| `pdf_page_from` | integer | First page, stage_from. |
+| `pdf_file_to` | string | PDF of stage_to. |
+| `pdf_page_to` | integer | First page, stage_to. |
 
 ## `departments.csv` — Departments
 
 One row per UACS department in the release.
 
-Rows: 35. Primary key: `dept_id`.
+Rows: 36. Primary key: `dept_id`.
 
 | column | type | description |
 |---|---|---|
-| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. |
+| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. |
 | `gab_dept_code` | string | Roman-numeral department code in the bill (I = Congress ...). |
 | `name_printed` | string | Name as printed in the bill. |
 | `name_official` | string | UACS name (DBM), without the acronym. |
@@ -283,12 +300,12 @@ Rows: 35. Primary key: `dept_id`.
 
 One row per UACS agency. Each state university or college is its own agency (UACS department 08).
 
-Rows: 316. Primary key: `agency_id`. `dept_id` → `departments.dept_id`.
+Rows: 322. Primary key: `agency_id`. `dept_id` → `departments.dept_id`.
 
 | column | type | description |
 |---|---|---|
-| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. |
-| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. See departments.csv. |
+| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. |
+| `dept_id` | string | UACS department code (2 digits), the same as `department` in BetterGov's gaa / nep-2027 datasets. As in the NEP, 01 holds both Congress (agencies 01-001..005) and most special-purpose funds (01-4xx, NEP description "New General Appropriations"): group by gab_dept_code (agencies.csv) to separate them. Exception: XLIII = Unprogrammed Appropriations, which has no UACS code in the NEP (the bill's own numeral is used). See departments.csv. |
 | `gab_dept_code` | string | Roman-numeral department code in the bill. |
 | `gab_agency_code` | string | Agency letter (code) in the bill. |
 | `suc_region_group_code` | string | SUCs only: the bill's regional group letter (A-S). |
@@ -350,11 +367,11 @@ Rows: 254. Primary key: `district_id`.
 
 One row per agency x region x printed operating unit, with the place it was attributed to and the rule used.
 
-Rows: 1,942. `agency_id` → `agencies.agency_id`.
+Rows: 1,948. `agency_id` → `agencies.agency_id`.
 
 | column | type | description |
 |---|---|---|
-| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation. See agencies.csv. |
+| `agency_id` | string | UACS department + agency code, "DD-AAA" (BetterGov `department` + `agency`). Matched to NEP 2027 by the agency's exact appropriation; XLIII-001 = Unprogrammed Appropriations (not in the NEP). See agencies.csv. |
 | `agency_printed` | string | Agency name as printed in the bill's Table of Contents. |
 | `region_code` | string | 2-digit region code, derived from the printed region name (not its numeral, which the bill misprints at least once). Equal to the PSGC region prefix and to BetterGov's `uacs_reg_id`: 13 NCR, 14 CAR, 01-12 Regions I-XII, 16 Caraga, 17 MIMAROPA, 18 NIR, 19 BARMM. See regions.csv. |
 | `region_printed` | string | Region heading as printed above this row (blank = no region printed: a national lump sum). |
